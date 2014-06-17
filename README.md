@@ -16,6 +16,7 @@ Website
 -----
 
 * Github project site https://github.com/KeironO/AWESOME
+* Blog https://www.aberawesome.co.uk
 
 License
 -------
