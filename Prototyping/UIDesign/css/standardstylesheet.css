@@ -1,0 +1,109 @@
+body {
+    font-family: 'Droid Sans', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 25px;
+    margin:0;
+    padding:0;
+    height:100%;
+}
+
+main {
+    margin: 0 auto 0;
+    width:800px;
+    padding-bottom:25px;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Droid Serif', Georgia, Times, serif;
+    text-align:center;
+}
+
+header {
+    width:100%;
+    height:60px;
+}
+
+    header .center {
+        max-width:800px;
+        margin:0 auto 0;
+    }
+
+    header h1 {
+        text-align:right;
+    }
+
+    header img {
+        float:left;
+    }
+
+nav {
+    text-align: center;
+    font-size:16px;
+    text-transform: uppercase;
+    color:#fff;
+    background-color:RGB(10,77,116);
+}
+
+nav li {
+    border-right: 1px solid rgb(255, 255, 255);
+    color:#FFF;
+    background-color:RGB(10,77,116);
+    text-align: center;
+    margin:0;
+    padding:5px;
+    display: inline-block;
+
+
+}
+
+nav a:link, a:visited {
+    color:inherit;
+    text-decoration: none;
+}
+
+nav li:hover {
+    background-color: #606060!important;
+	color: #FFFFFF!important; 
+}
+
+footer {
+    text-align:center;
+}
+
+#settings {
+    text-align:right;
+    padding-right:1ex;
+    padding-bottom:1ex;
+    margin:0;
+    font-size:90%;
+    top:0;
+    position:relative;
+}
+
+    #settings li {
+        padding:0px 10px 0px 10px;
+        border-right:1px solid #000;
+        display:inline-block;
+        width:80px;
+        text-align:center;
+    }
+
+    #settings a:link a:visited a:active {
+        color: inherit;
+        text-decoration: none;
+    }
+
+.warning {
+    margin:0 auto 0;
+    width:400px;
+    text-align:center;
+    background-color:#ffd800;
+}
+
+.login {
+    width:400px;
+    margin:0 auto 0;
+}
+
+@import url(http://fonts.googleapis.com/css?family=Droid+Serif);
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans);
