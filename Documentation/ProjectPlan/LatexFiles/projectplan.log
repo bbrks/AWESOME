@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.4.29)  19 JUN 2014 04:16
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.4.29)  19 JUN 2014 04:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -541,7 +541,7 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
 
-<images/aber.png, id=148, 602.25pt x 123.46124pt>
+<images/aber.png, id=140, 602.25pt x 123.46124pt>
 File: images/aber.png Graphic file (type png)
  <use images/aber.png>
 Package pdftex.def Info: images/aber.png used on input line 40.
@@ -569,24 +569,18 @@ een already used, duplicate ignored
                    \relax 
 l.72 \clearpage
                 [1]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.72 \clearpage
-                [2]
 LaTeX Font Info:    Try loading font information for OMS+cmr on input line 98.
  (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 98.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
 
 [1
 
@@ -601,7 +595,7 @@ Overfull \hbox (22.53033pt too wide) in paragraph at lines 184--185
 thub . com / KeironO / AWESOME / blob / master / Prototyping /
  []
 
-<images/uidesign/homepage.png, id=231, 906.38625pt x 746.79pt>
+<images/uidesign/homepage.png, id=216, 906.38625pt x 746.79pt>
 File: images/uidesign/homepage.png Graphic file (type png)
 
 <use images/uidesign/homepage.png>
@@ -610,7 +604,7 @@ Package pdftex.def Info: images/uidesign/homepage.png used on input line 192.
  [5
 
  <./images/uidesign/homepage.png>]
-<images/uidesign/questionnairehome.png, id=242, 906.38625pt x 746.79pt>
+<images/uidesign/questionnairehome.png, id=228, 906.38625pt x 746.79pt>
 File: images/uidesign/questionnairehome.png Graphic file (type png)
 
 <use images/uidesign/questionnairehome.png>
@@ -618,7 +612,7 @@ Package pdftex.def Info: images/uidesign/questionnairehome.png used on input li
 ne 201.
 (pdftex.def)             Requested size: 415.74042pt x 342.5362pt.
  [6 <./images/uidesign/questionnairehome.png>]
-<images/uidesign/generatingquestionnaire.png, id=250, 906.38625pt x 746.79pt>
+<images/uidesign/generatingquestionnaire.png, id=236, 906.38625pt x 746.79pt>
 File: images/uidesign/generatingquestionnaire.png Graphic file (type png)
 
 <use images/uidesign/generatingquestionnaire.png>
@@ -628,102 +622,94 @@ put line 214.
  [7
 
  <./images/uidesign/generatingquestionnaire.png>]
-<images/uidesign/vettingquestionnaire.png, id=259, 906.38625pt x 746.79pt>
+<images/uidesign/vettingquestionnaire.png, id=245, 906.38625pt x 746.79pt>
 File: images/uidesign/vettingquestionnaire.png Graphic file (type png)
 
 <use images/uidesign/vettingquestionnaire.png>
 Package pdftex.def Info: images/uidesign/vettingquestionnaire.png used on input
  line 227.
 (pdftex.def)             Requested size: 415.74042pt x 342.5362pt.
+ [8
 
-<images/uidesign/studentquestionnaire.png, id=260, 906.38625pt x 746.79pt>
+ <./images/uidesign/vettingquestionnaire.png>]
+<images/uidesign/studentquestionnaire.png, id=253, 906.38625pt x 746.79pt>
 File: images/uidesign/studentquestionnaire.png Graphic file (type png)
 
 <use images/uidesign/studentquestionnaire.png>
 Package pdftex.def Info: images/uidesign/studentquestionnaire.png used on input
- line 234.
+ line 240.
 (pdftex.def)             Requested size: 415.74042pt x 342.5362pt.
+ [9
 
+ <./images/uidesign/studentquestionnaire.png>]
 <images/uidesign/reportshome.png, id=261, 906.38625pt x 746.79pt>
 File: images/uidesign/reportshome.png Graphic file (type png)
 
 <use images/uidesign/reportshome.png>
-Package pdftex.def Info: images/uidesign/reportshome.png used on input line 241
+Package pdftex.def Info: images/uidesign/reportshome.png used on input line 251
 .
 (pdftex.def)             Requested size: 415.74042pt x 342.5362pt.
+ [10
 
-<images/uidesign/modulereport.png, id=262, 906.38625pt x 746.79pt>
+ <./images/uidesign/reportshome.png>]
+<images/uidesign/modulereport.png, id=269, 906.38625pt x 746.79pt>
 File: images/uidesign/modulereport.png Graphic file (type png)
 
 <use images/uidesign/modulereport.png>
-Package pdftex.def Info: images/uidesign/modulereport.png used on input line 24
-8.
+Package pdftex.def Info: images/uidesign/modulereport.png used on input line 26
+4.
 (pdftex.def)             Requested size: 415.74042pt x 342.5362pt.
+ [11
 
-<images/uidesign/help.png, id=263, 906.38625pt x 746.79pt>
+ <./images/uidesign/modulereport.png>] <images/uidesign/help.png, id=279, 906.3
+8625pt x 746.79pt>
 File: images/uidesign/help.png Graphic file (type png)
 
 <use images/uidesign/help.png>
-Package pdftex.def Info: images/uidesign/help.png used on input line 255.
+Package pdftex.def Info: images/uidesign/help.png used on input line 277.
 (pdftex.def)             Requested size: 415.74042pt x 342.5362pt.
- [8
+ [12
 
- <./images/uidesign/vettingquestionnaire.png>] [9 <./images/uidesign/studentque
-stionnaire.png> <./images/uidesign/reportshome.png>] [10 <./images/uidesign/mod
-ulereport.png> <./images/uidesign/help.png>]
-[11
+ <./images/uidesign/help.png>] [13
 
-] [12
+] [14
 
-] 
+]
+
 AED: lastpage setting LastPage
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 289.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 289.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 309.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 309.
 (./projectplan.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 289.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 289.
-
-
-Package rerunfilecheck Warning: File `projectplan.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `projectplan.out':
-(rerunfilecheck)             Before: 7F5BECE6CC637B5BB1F9CAFCED5F8BB0;2582
-(rerunfilecheck)             After:  6D5E201ADA46D6B86D893935E77B1C6E;2514.
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 289.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 309.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 309.
+Package rerunfilecheck Info: File `projectplan.out' has not changed.
+(rerunfilecheck)             Checksum: C51FC8CEF3CD5B1722EA00835242585B;2435.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 309.
  ) 
 Here is how much of TeX's memory you used:
- 10162 strings out of 493304
- 148618 string characters out of 6139871
+ 10175 strings out of 493304
+ 148708 string characters out of 6139871
  255370 words of memory out of 5000000
- 13417 multiletter control sequences out of 15000+600000
- 11881 words of font info for 44 fonts, out of 8000000 for 9000
+ 13424 multiletter control sequences out of 15000+600000
+ 14071 words of font info for 53 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  44i,11n,43p,637b,434s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{page.13} has been referenced but does not exist, 
-replaced by a fixed one
-
-pdfTeX warning (dest): name{subsection.2.3} has been referenced but does not ex
-ist, replaced by a fixed one
-
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmtt10.pfb>
-Output written on projectplan.pdf (15 pages, 783714 bytes).
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti
+10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on projectplan.pdf (16 pages, 808421 bytes).
 PDF statistics:
- 352 PDF objects out of 1000 (max. 8388607)
- 303 compressed objects within 4 object streams
+ 361 PDF objects out of 1000 (max. 8388607)
+ 308 compressed objects within 4 object streams
  61 named destinations out of 1000 (max. 500000)
- 334 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 318 words of extra memory for PDF output out of 10000 (max. 10000000)
 
