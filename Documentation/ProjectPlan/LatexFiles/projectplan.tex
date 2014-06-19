@@ -193,6 +193,16 @@ All design must begin with the understanding of who the user is, but due to the 
 \end{tabular}
 \end{center}
 
+\begin{center}
+
+\begin{tabular}{ |p {3cm} | p {10cm}| }
+  \hline
+  \multicolumn{2}{|c|}{\textbf{Student} \cellcolor{gray!25}} \\
+  \hline
+  Complete Questionnaire & When the student has got a individual link to complete the questionnaire, then they must be able to complete a questionnaire and submit it anonymously. \\ \hline
+\end{tabular}
+\end{center}
+
 \clearpage
 \section{User interface design}
 
@@ -316,7 +326,68 @@ Not that there will be, my software is flawless. \footnote{I wish}
 
 The below figure is a Gantt chart, a visual representation of the project schedule. It describes the project milestones and task dependencies.
 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\linewidth]{images/gantt.png}
+\end{figure}
+
 \subsection{Risk Analysis}
+
+\subsection{Technical Risks}
+
+\begin{center}
+  \begin{tabular}{| p {6cm} | p {6cm} | p {1.5cm} |}
+    \hline
+    \textbf{Potential Risk} & \textbf{Mitigation} & \textbf{Concern} \\ \hline
+    Bugs Prevent Correct Usage & Produce a comprehensive test plan, assign multiple testers
+ & \cellcolor{red!100} High \\ \hline
+    Push broken code into repository, rendering software unusable
+ & Use of branches mandated for code, pull requests function as a code review
+& \cellcolor{red!100} High \\
+    \hline
+      Server is temporarily unavailable & Wait. Nothing we can do.
+ & Medium \\
+    \hline
+      Error with git repository causes loss of data / unavailability
+ & Use of GitHub provides a reliable git service, git is decentralised
+ &\cellcolor{green!50} Low \\
+    \hline
+  \end{tabular}
+\end{center}
+
+\subsection{Project Risks}
+
+\begin{center}
+  \begin{tabular}{| p {6cm} | p {6cm} | p {1.5cm} |}
+    \hline
+    \textbf{Potential Risk} & \textbf{Mitigation} & \textbf{Concern} \\ \hline
+    Some features take too long to implement
+ & Prioritise features and postpone lower priority ones
+ & \cellcolor{red!100} High \\ \hline
+Application not working as described in requirements
+ & Leave enough time for testing
+ & \cellcolor{red!100} High \\ \hline
+One part of the project falls behind
+ & Modular system allows work to continue in other areas
+ & Medium \\ \hline
+Incomplete areas of the documentation
+ & Regular feedback to be provided and more people to assist with tasks if required
+  & Medium \\ \hline
+Codebase becomes fragmented
+ & All code to be pushed to git repository, coordinate work
+ & Medium \\ \hline
+The client redefines the project requirements
+ & Unlikely to happen, meetings will be held and requirements can be redrafted & \cellcolor{green!50} Low\\ \hline
+ 
+Accidental deletion of file from repository
+ & GitHub provides a robust mechanism for retrieving backups and versioning & \cellcolor{green!50} Low \\ \hline
+
+ 
+  \end{tabular}
+\end{center}
+
+
 
 \clearpage
 
@@ -327,7 +398,7 @@ The below figure is a Gantt chart, a visual representation of the project schedu
 \hline
 \textbf{Version} \cellcolor{gray!25} & \textbf{Date} \cellcolor{gray!25}& \cellcolor{gray!25}\textbf{Changes made to Document} &\textbf{ Changed by} \cellcolor{gray!25}\\
 \hline
-0.5 & 19-06-2014 & Completed UI & KeironO \\
+0.5 & 19-06-2014 & Completed UI / Risk Analysis& KeironO \\
 \hline
 0.2 & 17-06-2014 & Completed overview & KeironO \\
 \hline

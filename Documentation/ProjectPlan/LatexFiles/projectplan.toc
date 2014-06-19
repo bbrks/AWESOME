@@ -32,3 +32,5 @@
 \contentsline {section}{\numberline {5}Project Management}{14}{section.5}
 \contentsline {subsection}{\numberline {5.1}Gantt Chart}{14}{subsection.5.1}
 \contentsline {subsection}{\numberline {5.2}Risk Analysis}{14}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}Technical Risks}{14}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.4}Project Risks}{14}{subsection.5.4}
