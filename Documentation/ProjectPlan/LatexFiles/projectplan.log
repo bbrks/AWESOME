@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.4.29)  19 JUN 2014 04:44
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.4.29)  19 JUN 2014 04:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -687,14 +687,14 @@ Package pdftex.def Info: images/uidesign/help.png used on input line 288.
 ]
 
 AED: lastpage setting LastPage
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 320.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 320.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 322.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 322.
 (./projectplan.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 320.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 320.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 322.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 322.
 Package rerunfilecheck Info: File `projectplan.out' has not changed.
 (rerunfilecheck)             Checksum: C51FC8CEF3CD5B1722EA00835242585B;2435.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 320.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 322.
  ) 
 Here is how much of TeX's memory you used:
  10183 strings out of 493304
@@ -716,7 +716,7 @@ sfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
 m/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti
 10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on projectplan.pdf (17 pages, 829249 bytes).
+Output written on projectplan.pdf (17 pages, 829315 bytes).
 PDF statistics:
  368 PDF objects out of 1000 (max. 8388607)
  313 compressed objects within 4 object streams
