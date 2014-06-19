@@ -151,7 +151,8 @@ Most, if not all questionnaires will contain questions such as:
 
 \begin{itemize}
 	\item "Rate this on a scale of 1-5"
-	\item Multiple 
+	\item Multiple choice questions.
+	\item Additional feedback about department. (Textual)
 \end{itemize}
 
 \subsubsection{Collate feedback}
@@ -159,6 +160,8 @@ Most, if not all questionnaires will contain questions such as:
 This component is activated when a student submits a completed questionnaire. In order to ensure that the responses are completely anonymous it will store the answers to the database with no record of the user ID of the submitter. Ideally it would be easy to export the data to a format for processing in Microsoft Excel/LibreOffice Calc (CSV)- we also aim to utilise the stored data to implement some visualisation on the AWESOME website.
 
 \subsubsection{Automated targeted reminder emails}
+
+Students that are vet to complete a form will be targeted and 'pestered' about completing a questionnaire. This should be automatic and persuasive - however it's important not to fill the email inboxes of those students, there's nothing more scary than a disgruntled Computer Science student.
 
 \subsection{Description of Target Users}
 
@@ -168,10 +171,28 @@ All design must begin with the understanding of who the user is, but due to the 
 
 \section{Use Case}
 
-
 \subsection{Use Case Diagram}
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.75\linewidth]{images/usecase.png}
+\end{figure}
+
+
 \subsection{Use Case Descriptions}
+\begin{center}
+
+\begin{tabular}{ |p {3cm} | p {10cm}| }
+  \hline
+  \multicolumn{2}{|c|}{\textbf{Member of staff} \cellcolor{gray!25}} \\
+  \hline
+  Log in & A registered member of staff should be able to log in to AWESOME providing valid AU credentials. \\ \hline
+  Generate Questionnaire & Must be able to select what year/degree to generate a questionnaire for. \\ \hline
+  Modify/Publish Questionnaire & Must be able to add additional questions and publish questionnaires to students. \\ \hline
+  View Reports & Must be able to view statistics of past/ongoing questionnaires and compare them within the department or university. \\ \hline
+\end{tabular}
+\end{center}
+
 \clearpage
 \section{User interface design}
 
