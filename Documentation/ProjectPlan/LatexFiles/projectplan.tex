@@ -139,37 +139,30 @@ For staff to analyse feedback analytics consisting of visually-appealing graphs 
 
 Both staff and students will require connection to the server to allow them to use the application. Google Charts has been pinpointed as a possible way of doing this as it comes with a readily available API, and still keeps in line with the approach of using free software to build the entire system.
 
-\subsubsection{Staff Login}
-
 \subsubsection{Staff Access to SAMS/AStRA}
+
+In order to retrieve module information both both staff and students we would like to utilise either SAMS (Student Attendance Monitoring System) or AStRA (Aberystwyth Student Records and Admissions). Both of these systems require staff authentication.
+
+\subsubsection{Generate student questionnaires}
+
+We need to ensure that the questions asked are relevant to the module. An example could be that in the Department of Computer Science we could have department-level questions (about certain rooms, or advisory). Although not a necessity, AWESOME needs to be robust and portable enough to extend so that other departments can also ask specific questions.
+
+Most, if not all questionnaires will contain questions such as:
+
+\begin{itemize}
+	\item "Rate this on a scale of 1-5"
+	\item Multiple 
+\end{itemize}
+
+\subsubsection{Collate feedback}
+
+This component is activated when a student submits a completed questionnaire. In order to ensure that the responses are completely anonymous it will store the answers to the database with no record of the user ID of the submitter. Ideally it would be easy to export the data to a format for processing in Microsoft Excel/LibreOffice Calc (CSV)- we also aim to utilise the stored data to implement some visualisation on the AWESOME website.
+
+\subsubsection{Automated targeted reminder emails}
 
 \subsection{Description of Target Users}
 
 All design must begin with the understanding of who the user is, but due to the relatively large range of age and expertise of the target-base this will be difficult to achieve. The proposed system will be targeted to both staff and students who are currently working or studying at a higher education institute. Because of this inability to pinpoint a specific user base, it would be best to ensure that when designing the user interface we need to ensure that the application is simple to use (in order to avoid frustration and confusing) it must also be informative.
-
-\subsection{Software Licensing}
-
-\begin{framed}
-\begin{verbatim}
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-\end{verbatim}
-\end{framed}
 
 \clearpage
 
@@ -186,15 +179,83 @@ THE SOFTWARE.
 
 \subsection{GUI Design}
 
-The following images cover the initial concept of the application. These mockups were completed using the GNU Image Manipulation Program (GIMP) allowing for editing on evaluation.
+The following images cover the initial concept of the application. These designs were made using bootstrap and can be accessed at the following url:
+
+\url{http://htmlpreview.github.io/?https://github.com/KeironO/AWESOME/blob/master/Prototyping/UIDesign/index.html}
 
 \subsubsection{Home Page}
+The homepage is the first view to be presented to the applications user, inviting them to log onto the AWESOME system by entering their staff credentials for the e-mail address and password fields that are to be validated by the server upon the push of the login button. Inline with other BIS systems, a warning will be placed announcing that you need to be a member of staff of the University to have access to this system.
 
-\begin{figure}[hbtp]
+The page will also consist of a section consisting of news surrounding the AWESOME system. It's important to keep staff informed of expected downtime due to maintenance.
+\begin{figure}[h]
 \centering
 \includegraphics[width=0.85\linewidth]{images/uidesign/homepage.png}
 \end{figure}
 
+\subsubsection{Questionnaire Home}
+
+Once the user has successfully logged in using the correct credentials they can then have full access to the AWESOME system. On the homepage of the questionnaire generator the user will be greeted by options of what degree scheme and year they would like to send a questionnaire to. Underneath each year the number of students enrolled for that year will be listed.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\linewidth]{images/uidesign/questionnairehome.png}
+\end{figure}
+
+\clearpage
+
+\subsubsection{Generating a Questionnaire}
+
+Once the user has selected what degree and year they would like to generate a questionnaire for, they will be redirected to the questionnaire generator which will display all modules on offer for that particular degree/year and give the option to add additional (\textit{special/departmental}) questions.
+
+Although not in the figure below, it may be a good idea to also show the members of staff that teach that module as well as the number students enrolled on each module. I also plan on giving a checkbox to allow for 'quick' questionnaires. These will only consist of the "one-question-per-module" schema.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\linewidth]{images/uidesign/generatingquestionnaire.png}
+\end{figure}
+
+\clearpage
+
+\subsubsection{Vetting a Questionnaire}
+
+After additional questions have been added and the user has generated a questionnaire, they will then be able view the questionnaire and make any desired changes.
+
+Once finished, a button will be provided in order to email the survey out to the students.
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=0.85\linewidth]{images/uidesign/vettingquestionnaire.png}
+\end{figure}
+
+\subsubsection{Student Questionnaire}
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=0.85\linewidth]{images/uidesign/studentquestionnaire.png}
+\end{figure}
+
+\subsubsection{Reports Home}
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=0.85\linewidth]{images/uidesign/reportshome.png}
+\end{figure}
+
+\subsubsection{Report of a Module}
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=0.85\linewidth]{images/uidesign/modulereport.png}
+\end{figure}
+
+\subsubsection{Help}
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=0.85\linewidth]{images/uidesign/help.png}
+\end{figure}
+
+\subsubsection{Additional Features}
 
 \clearpage
 \section{Project Management}
