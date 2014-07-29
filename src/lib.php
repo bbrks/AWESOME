@@ -7,9 +7,6 @@ $db = new mysqli("d3s.co", "keiron", "bigtits", "database");
 if ($db->connect_errno)
 	throw "Failed to connect";
 
-global $user
-$user = $SESSION["user"]
-
 function getRow($stmt) { //PHP prepared statements are shit
     $meta = $stmt->result_metadata(); 
     while ($field = $meta->fetch_field()) 
@@ -29,11 +26,18 @@ function getRow($stmt) { //PHP prepared statements are shit
     return $result;
 }
 
-function getStudentDetails($user) {
+function getStudentDetails($student) {
 	if ($db->prepare("SELECT * FROM Students WHERE `Student ID`=?"))
 	{
-		$stmt->bind_param("i", $user);
+		$stmt->bind_param("i", $student);
 		$stmt->execute();
 		return getRow($stmt);
+	}
+}
+
+function getStudentModules($student)
+{
+	if ($db->prepare("SELECT * FROM Students WHERE `Student ID`=?"))
+	{
 	}
 }
