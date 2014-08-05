@@ -99,7 +99,7 @@ function getQuestions() {
 	return $rows;
 }
 
-function getPreparedQuestions($student) {
+function getPreparedQuestions($student, $answers=array()) {
 	$questions = getQuestions();
 	$modules = getStudentModules($student);
 	
@@ -111,6 +111,10 @@ function getPreparedQuestions($student) {
 			$identifier = "{$module["ModuleID"]}_{$question["QuestionID"]}";
 			if ($question["Staff"] == 0) {
 				$question["Identifier"] = $identifier;
+				if (in_array($identifier, $answers)) {
+					$question["answer"] = $answers[$identifier];
+				}
+				
 				$module["Questions"][] = $question;
 			}
 			else {
@@ -118,6 +122,10 @@ function getPreparedQuestions($student) {
 					$staff_identifier = "{$identifier}_{$staff["StaffID"]}";
 					$question["Identifier"] = $staff_identifier;
 					$question["QuestionText"] = sprintf($question["QuestionText"], $staff["StaffName"]);
+					if (in_array($staff_identifier, $answers)) {
+						$question["answer"] = $answers[$staff_identifier];
+					}
+					
 					$module["Questions"][] = $question;
 				}
 			}
