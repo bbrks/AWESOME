@@ -114,11 +114,13 @@ function getPreparedQuestions($student, $answers=array()) {
 			}
 			else {
 				foreach($module["Staff"] as $staff) {
+					$mquestion = $question; //copy question
 					$staff_identifier = "{$identifier}_{$staff["StaffID"]}";
-					$question["Identifier"] = $staff_identifier;
-					$question["QuestionText"] = sprintf($question["QuestionText"], $staff["StaffName"]);
 					
-					$module["Questions"][] = $question;
+					$mquestion["Identifier"] = $staff_identifier;
+					$mquestion["QuestionText"] = sprintf($question["QuestionText"], $staff["StaffName"]);
+					
+					$module["Questions"][] = $mquestion;
 				}
 			}
 		}
