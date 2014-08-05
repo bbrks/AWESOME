@@ -97,7 +97,7 @@ function getPreparedQuestions($student, $answers = array()) {
 	$questions = getQuestions();
 	$modules = getStudentModules($student);
 	
-	foreach($modules as &$module) {
+	foreach($modules as $mkey => &$module) {
 		
 		$module["Questions"] = array();
 		
@@ -120,13 +120,12 @@ function getPreparedQuestions($student, $answers = array()) {
 				}
 			}
 		}
-		
-		foreach($module["Questions"] as &$question) {
+		foreach($module["Questions"] as $key => $question) {
 			if (array_key_exists($question["Identifier"], $answers)) {
-				$question["Answer"] = $answers[$question["Identifier"]];
+				$module["Questions"][$key]["Answer"] = $answers[$question["Identifier"]];
 			}
 			else {
-				$question["Answer"] = "";
+				$module["Questions"][$key]["Answer"] = "";
 			}
 		}
 	}
