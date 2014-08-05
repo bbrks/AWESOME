@@ -2,9 +2,15 @@
 
 require("lib.php");
 
-function print_question($question) {
+function print_question($question, $warn=false) {
+	echo "<div";
+	if ($warn == true && $question["Answer"] == "") {
+		echo " style=\"border: 5px solid red;\"";
+	}
+	echo ">";
+	
 	echo "<h3>{$question["QuestionText"]}</h3>";
-
+	
 	if ($question["Type"] == "rate") {
 		echo "
 		<table>
@@ -29,16 +35,17 @@ function print_question($question) {
 		</table>";
 	}
 	elseif ($question["Type"] == "text") {
-		echo "<textarea name=\"{$question["Identifier"]}\" rows=\"8\" cols=\"0\"></textarea>";
+		echo "<textarea name=\"{$question["Identifier"]}\" rows=\"8\" cols=\"0\">{$question["Answer"]}</textarea>";
 	}
+	echo "</div>";
 }
 
-function print_form($modules) {
+function print_form($modules, $warn=false) {
 	echo "<form method=\"POST\">";
 	foreach($modules as $module) {
 		echo "<h2>{$module["ModuleID"]}: {$module["ModuleTitle"]}</h2>";
 		foreach($module["Questions"] as $question) {
-			print_question($question);
+			print_question($question, $warn);
 		}
 	}
 	echo "<input type=\"submit\" value=\"Submit survey!\" /></form>";
@@ -62,9 +69,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 	print_form($modules);
 }
 elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	var_dump($_POST);
+	var_dump($modules);
 	//validate that everything is filled in
 	if (!form_filled($modules)) { //form is not filled :(
-		print_form($modules);
+		print_form($modules, true);
 	}
 }
 
