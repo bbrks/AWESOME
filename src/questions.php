@@ -63,7 +63,9 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		print_form($modules, true);
 		return;
 	}
-	
+	else {
+		answers_submit($modules);
+	}
 	
 }
 

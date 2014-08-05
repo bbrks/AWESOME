@@ -115,7 +115,7 @@ function getPreparedQuestions($student, $answers = array()) {
 					
 					$mquestion["Identifier"] = $staff_identifier;
 					$mquestion["QuestionText"] = sprintf($question["QuestionText"], $staff["StaffName"]);
-					
+					$mquestion["StaffID"] = $staff["StaffID"];
 					$module["Questions"][] = $mquestion;
 				}
 			}
@@ -141,4 +141,39 @@ function answers_filled($modules) {
 		}
 	}
 	return true;
+}
+
+function answers_submit($modules) {
+	global $db;
+	$db->autocommit(false);
+	
+	$stmt = $db->prepare("INSERT INTO AnswerGroup VALUES ()");
+	$stmt->execute();
+	$stmt->close();
+	
+	$answerID = $db->insert_id;
+	
+	$stmt = $db->prepare("INSERT INTO Answers (AnswerID, QuestionID, ModuleID, StaffID, NumValue, TextValue) VALUES (?,?,?,?,?,?)");
+	foreach($modules as $module) {
+		foreach($module["Questions"] as $question) {
+			$StaffID = "";
+			$NumValue = null;
+			$TextValue = null;
+			if ($question["Staff"] == 1)
+				$StaffID = $question["StaffID"];
+			if ($question["Type"] == "rate") {
+				$NumValue = $question["Answer"];
+			}
+			elseif ($question["Type"] == "text") {
+				$TextValue = $question["Answer"];
+			}
+			
+			$stmt->bind_param("iissis", $answerID, $question["QuestionID"], $module["ModuleID"], $StaffID, $NumValue, $TextValue);
+			$stmt->execute();
+		}
+	}
+	
+	if (!$db->commit()) {
+		$db->rollback();
+	}
 }
