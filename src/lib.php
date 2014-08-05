@@ -68,7 +68,7 @@ function getStudentModuleLecturers($student) {
 	$stmt = $db->prepare("
 		SELECT StaffToModules.ModuleID AS ModuleID, Staff.UserID AS StaffID, Staff.Name as StaffName
 		FROM Staff
-		LEFT JOIN StaffToModules ON StaffToModules.UserID = Staff.UserID");
+		RIGHT JOIN StaffToModules ON StaffToModules.UserID = Staff.UserID");
 		
 
 	//$stmt->bind_param("s", $student);
