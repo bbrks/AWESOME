@@ -5,6 +5,63 @@ SET foreign_key_checks = 0;
 SET time_zone = '+02:00';
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
+DROP TABLE IF EXISTS `AnswerGroup`;
+CREATE TABLE `AnswerGroup` (
+  `AnswerID` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`AnswerID`)
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+
+INSERT INTO `AnswerGroup` (`AnswerID`) VALUES
+(15),
+(16),
+(17),
+(18),
+(19);
+
+DROP TABLE IF EXISTS `Answers`;
+CREATE TABLE `Answers` (
+  `AnswerID` int(11) NOT NULL,
+  `QuestionID` int(11) NOT NULL,
+  `ModuleID` varchar(10) NOT NULL,
+  `StaffID` varchar(6) NOT NULL DEFAULT '',
+  `NumValue` int(11) DEFAULT NULL,
+  `TextValue` text,
+  PRIMARY KEY (`AnswerID`,`QuestionID`,`ModuleID`,`StaffID`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+INSERT INTO `Answers` (`AnswerID`, `QuestionID`, `ModuleID`, `StaffID`, `NumValue`, `TextValue`) VALUES
+(18,	1,	'CS10110',	'',	5,	NULL),
+(17,	4,	'CS10110',	'',	NULL,	'huet'),
+(17,	3,	'CS10110',	'',	NULL,	'yeyh5r'),
+(17,	2,	'CS10110',	'mfc1',	2,	NULL),
+(17,	2,	'CS10110',	'lgt',	4,	NULL),
+(17,	2,	'CS10110',	'dap',	1,	NULL),
+(17,	1,	'CS10110',	'',	2,	NULL),
+(16,	4,	'CS10110',	'',	NULL,	'wtwe4'),
+(16,	3,	'CS10110',	'',	NULL,	'wetfgw'),
+(16,	2,	'CS10110',	'mfc1',	5,	NULL),
+(16,	2,	'CS10110',	'lgt',	4,	NULL),
+(16,	2,	'CS10110',	'dap',	4,	NULL),
+(16,	1,	'CS10110',	'',	2,	NULL),
+(15,	4,	'CS10110',	'',	NULL,	'wtwe4'),
+(15,	3,	'CS10110',	'',	NULL,	'wetfgw'),
+(15,	2,	'CS10110',	'mfc1',	5,	NULL),
+(15,	2,	'CS10110',	'lgt',	4,	NULL),
+(15,	2,	'CS10110',	'dap',	4,	NULL),
+(15,	1,	'CS10110',	'',	2,	NULL),
+(18,	2,	'CS10110',	'dap',	5,	NULL),
+(18,	2,	'CS10110',	'lgt',	2,	NULL),
+(18,	2,	'CS10110',	'mfc1',	5,	NULL),
+(18,	3,	'CS10110',	'',	NULL,	'egfwegf'),
+(18,	4,	'CS10110',	'',	NULL,	'egeg'),
+(19,	1,	'CS10110',	'',	3,	NULL),
+(19,	2,	'CS10110',	'dap',	4,	NULL),
+(19,	2,	'CS10110',	'lgt',	3,	NULL),
+(19,	2,	'CS10110',	'mfc1',	5,	NULL),
+(19,	3,	'CS10110',	'',	NULL,	'wtfgwq'),
+(19,	4,	'CS10110',	'',	NULL,	'wgtw4e');
+
+DROP TABLE IF EXISTS `Modules`;
 CREATE TABLE `Modules` (
   `ModuleID` varchar(10) COLLATE latin1_general_ci NOT NULL,
   `ModuleTitle` varchar(200) COLLATE latin1_general_ci NOT NULL,
@@ -55,6 +112,7 @@ INSERT INTO `Modules` (`ModuleID`, `ModuleTitle`) VALUES
 ('CS39620',	'Minor Project '),
 ('CS39930',	'Web-Based Major Project ');
 
+DROP TABLE IF EXISTS `Questions`;
 CREATE TABLE `Questions` (
   `QuestionID` int(11) NOT NULL,
   `Staff` bit(1) NOT NULL,
@@ -68,6 +126,7 @@ INSERT INTO `Questions` (`QuestionID`, `Staff`, `QuestionText`, `Type`) VALUES
 (3,	CONV('0', 2, 10) + 0,	'What one thing would you change to improve this module, and why?',	'text'),
 (4,	CONV('0', 2, 10) + 0,	'Please add any further comments on this module below',	'text');
 
+DROP TABLE IF EXISTS `Staff`;
 CREATE TABLE `Staff` (
   `UserID` varchar(6) COLLATE latin1_general_ci NOT NULL,
   `name` varchar(30) COLLATE latin1_general_ci NOT NULL,
@@ -164,8 +223,10 @@ INSERT INTO `Staff` (`UserID`, `name`) VALUES
 ('prw4',	'Phillip Wilkinson'),
 ('ghd',	'Huw Davies'),
 ('jig',	'John Gilbey'),
-('spk',	'Stephen Kingston');
+('spk',	'Stephen Kingston'),
+('rrp',	'Rhys Parry');
 
+DROP TABLE IF EXISTS `StaffToModules`;
 CREATE TABLE `StaffToModules` (
   `ModuleID` varchar(200) COLLATE latin1_general_ci NOT NULL,
   `UserID` varchar(6) COLLATE latin1_general_ci NOT NULL,
@@ -236,13 +297,14 @@ INSERT INTO `StaffToModules` (`ModuleID`, `UserID`) VALUES
 ('CS36410',	'mjn'),
 ('CS36410',	'mxw'),
 ('CS36510',	'dpb'),
-('CS37420',	'cwt'),
+('CS37420',	'cwl'),
 ('CS37420',	'nst'),
 ('CS38110',	'rcs'),
 ('CS38220',	'mfb'),
 ('CS38220',	'rrp'),
 ('CS39820',	'rrp');
 
+DROP TABLE IF EXISTS `Students`;
 CREATE TABLE `Students` (
   `UserID` varchar(6) COLLATE latin1_general_ci NOT NULL,
   `Department` enum('Art','IBERS','CompSci','Welsh') COLLATE latin1_general_ci NOT NULL,
@@ -250,8 +312,11 @@ CREATE TABLE `Students` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 INSERT INTO `Students` (`UserID`, `Department`) VALUES
-('keo7',	'CompSci');
+('keo7',	'CompSci'),
+('stm26',	'CompSci'),
+('abc1',	'CompSci');
 
+DROP TABLE IF EXISTS `StudentsToModules`;
 CREATE TABLE `StudentsToModules` (
   `UserID` varchar(6) COLLATE latin1_general_ci NOT NULL,
   `ModuleID` varchar(200) COLLATE latin1_general_ci NOT NULL,
@@ -260,12 +325,20 @@ CREATE TABLE `StudentsToModules` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 INSERT INTO `StudentsToModules` (`UserID`, `ModuleID`) VALUES
+('abc1',	'CS10110'),
 ('keo7',	'CS28310'),
 ('keo7',	'CS31310'),
 ('keo7',	'CS35910'),
 ('keo7',	'CS37420'),
 ('keo7',	'CS38110'),
 ('keo7',	'CS38220'),
-('keo7',	'CS39440');
+('keo7',	'CS39440'),
+('stm26',	'CS10110'),
+('stm26',	'CS10410'),
+('stm26',	'CS10720'),
+('stm26',	'CS12020'),
+('stm26',	'CS12320'),
+('stm26',	'CS12510'),
+('stm26',	'CS18010');
 
--- 2014-08-05 06:43:49
+-- 2014-08-05 20:47:09
