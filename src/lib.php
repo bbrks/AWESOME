@@ -93,7 +93,7 @@ function getQuestions() {
 	return $rows;
 }
 
-function getPreparedQuestions($student, $answers=array()) {
+function getPreparedQuestions($student, $answers = array()) {
 	$questions = getQuestions();
 	$modules = getStudentModules($student);
 	
@@ -122,8 +122,8 @@ function getPreparedQuestions($student, $answers=array()) {
 		}
 		
 		foreach($module["Questions"] as &$question) {
-			if (in_array($question["Identifier"], $answers)) {
-				$question["answer"] = $answers[$question["Identifier"]];
+			if (array_key_exists($question["Identifier"], $answers)) {
+				$question["Answer"] = $answers[$question["Identifier"]];
 			}
 		}
 	}
