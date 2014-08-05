@@ -2,7 +2,7 @@
 
 global $db;
 
-$db = new mysqli("d3s.co", "ylt", "", "ylt_keiron");
+require "db.php";
 if ($db->connect_errno)
 	throw "Failed to connect";
 
@@ -97,4 +97,31 @@ function getQuestions() {
 	$rows = getRows($stmt);
 	
 	return $rows;
+}
+
+function getPreparedQuestions($student) {
+	$questions = getQuestions();
+	$modules = getStudentModules($student);
+	
+	foreach($modules as &$module) {
+		
+		$module["Questions"] = array();
+		
+		foreach($questions as $question) {
+			$identifier = "{$module["ModuleID"]}_{$question["QuestionID"]}";
+			if ($question["Staff"] == 0) {
+				$question["Identifier"] = $identifier;
+				$module["Questions"][] = $question;
+			}
+			else {
+				foreach($module["Staff"] as $staff) {
+					$staff_identifier = "{$identifier}_{$staff["StaffID"]}";
+					$question["Identifier"] = $staff_identifier;
+					$question["QuestionText"] = sprintf($question["QuestionText"], $staff["StaffName"]);
+					$module["Questions"][] = $question;
+				}
+			}
+		}
+	}
+	return $modules;
 }

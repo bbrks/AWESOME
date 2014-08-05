@@ -33,8 +33,10 @@ function print_question($identifier, $question_text, $type) {
 	}
 }
 
+$user = $_GET["user"];
+
 $questions = getQuestions();
-$modules = getStudentModules('keo7');
+$modules = getStudentModules($user);
 
 foreach($modules as $module) {
 	echo "<h2>{$module["ModuleID"]}: {$module["ModuleTitle"]}</h2>";
