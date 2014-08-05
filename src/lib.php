@@ -2,12 +2,11 @@
 
 global $db;
 
-
-$db = new mysqli("d3s.co", "keiron", "bigtits", "database");
+$db = new mysqli("d3s.co", "ylt", "", "ylt_keiron");
 if ($db->connect_errno)
 	throw "Failed to connect";
 
-function getRow($stmt) { //PHP prepared statements are shit
+function getRows($stmt) { //PHP prepared statements are shit
     $meta = $stmt->result_metadata(); 
     while ($field = $meta->fetch_field()) 
     { 
@@ -27,9 +26,9 @@ function getRow($stmt) { //PHP prepared statements are shit
 }
 
 function getStudentDetails($student) {
-	if ($db->prepare("SELECT * FROM Students WHERE `Student ID`=?"))
+	if ($stmt = $db->prepare("SELECT * FROM Students WHERE `StudentID`=?"))
 	{
-		$stmt->bind_param("i", $student);
+		$stmt->bind_param("s", $student);
 		$stmt->execute();
 		return getRow($stmt);
 	}
@@ -37,7 +36,65 @@ function getStudentDetails($student) {
 
 function getStudentModules($student)
 {
-	if ($db->prepare("SELECT * FROM Students WHERE `Student ID`=?"))
-	{
+	global $db;
+	
+	$stmt = $db->prepare("
+		SELECT StudentsToModules.ModuleID AS ModuleID, Modules.ModuleTitle as ModuleTitle
+		FROM Modules
+
+		JOIN StudentsToModules ON StudentsToModules.ModuleID = Modules.ModuleID
+		WHERE StudentsToModules.UserID=?");
+		
+	$stmt->bind_param("s", $student);
+	$stmt->execute();
+	
+	$rows = getRows($stmt);
+	
+	$lecturers = getStudentModuleLecturers($student);
+	foreach ($rows as &$row) {
+		if (array_key_exists($row["ModuleID"], $lecturers)) {
+			$row["Staff"] = $lecturers[$row["ModuleID"]];
+		}
+		else {
+			$row["Staff"] = Array();
+		}
 	}
+	
+	return $rows;
+}
+
+function getStudentModuleLecturers($student)
+{
+	global $db;
+	
+	$stmt = $db->prepare("
+		SELECT StudentsToModules.ModuleID AS ModuleID, Staff.UserID AS StaffID, Staff.Name as StaffName
+		FROM Staff
+		JOIN StaffToModules ON StaffToModules.UserID = Staff.UserID
+
+		/* used just to filter to student */
+		JOIN StudentsToModules ON StudentsToModules.ModuleID = StaffToModules.ModuleID
+		WHERE StudentsToModules.UserID=?");
+		
+
+	$stmt->bind_param("s", $student);
+	$stmt->execute();
+	$rows = getRows($stmt);
+	
+	$lecturers = array();
+	foreach($rows as $row) {
+		$lecturers[$row["ModuleID"]][] = $row;
+	}
+	return $lecturers;
+}
+
+function getQuestions() {
+	global $db;
+	
+	$stmt = $db->prepare("SELECT * from Questions");
+	
+	$stmt->execute();
+	$rows = getRows($stmt);
+	
+	return $rows;
 }
