@@ -125,6 +125,9 @@ function getPreparedQuestions($student, $answers = array()) {
 			if (array_key_exists($question["Identifier"], $answers)) {
 				$question["Answer"] = $answers[$question["Identifier"]];
 			}
+			else {
+				$question["Answer"] = "";
+			}
 		}
 	}
 	return $modules;
