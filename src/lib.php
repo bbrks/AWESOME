@@ -66,16 +66,12 @@ function getStudentModuleLecturers($student) {
 	global $db;
 	
 	$stmt = $db->prepare("
-		SELECT StudentsToModules.ModuleID AS ModuleID, Staff.UserID AS StaffID, Staff.Name as StaffName
+		SELECT StaffToModules.ModuleID AS ModuleID, Staff.UserID AS StaffID, Staff.Name as StaffName
 		FROM Staff
-		JOIN StaffToModules ON StaffToModules.UserID = Staff.UserID
-
-		/* used just to filter to student */
-		JOIN StudentsToModules ON StudentsToModules.ModuleID = StaffToModules.ModuleID
-		WHERE StudentsToModules.UserID=?");
+		LEFT JOIN StaffToModules ON StaffToModules.UserID = Staff.UserID");
 		
 
-	$stmt->bind_param("s", $student);
+	//$stmt->bind_param("s", $student);
 	$stmt->execute();
 	$rows = getRows($stmt);
 	
