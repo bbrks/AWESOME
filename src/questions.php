@@ -11,7 +11,7 @@ $questions = getQuestions();
 $modules = getStudentModules('keo7');
 
 foreach($modules as $module) {
-	echo "<h2>{$module["ModuleTitle"]}</h2>";
+	echo "<h2>{$module["ModuleID"]}: {$module["ModuleTitle"]}</h2>";
 	foreach($questions as $question) {
 		$identifier = "{$module["ModuleID"]}_{$question["QuestionID"]}";
 		if ($question["Staff"] == 0) {
