@@ -34,8 +34,7 @@ function getStudentDetails($student) {
 	}
 }
 
-function getStudentModules($student)
-{
+function getStudentModules($student) {
 	global $db;
 	
 	$stmt = $db->prepare("
@@ -63,8 +62,7 @@ function getStudentModules($student)
 	return $rows;
 }
 
-function getStudentModuleLecturers($student)
-{
+function getStudentModuleLecturers($student) {
 	global $db;
 	
 	$stmt = $db->prepare("
