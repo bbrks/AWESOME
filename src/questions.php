@@ -2,10 +2,10 @@
 
 require("lib.php");
 
-function print_question($identifier, $question_text, $type) {
-	echo "<h3>{$question_text}</h3>";
+function print_question($question) {
+	echo "<h3>{$question["QuestionText"]}</h3>";
 
-	if ($type == "rate") {
+	if ($question["Type"] == "rate") {
 		echo "
 		<table>
 			<thead>
@@ -19,38 +19,28 @@ function print_question($identifier, $question_text, $type) {
 			</thead>
 			<tr>
 				<td>Strongly Disagree</td>
-				<td><input type=\"radio\" name=\"{$identifier}\" value=\"1\"></td>
-				<td><input type=\"radio\" name=\"{$identifier}\" value=\"2\"></td>
-				<td><input type=\"radio\" name=\"{$identifier}\" value=\"3\"></td>
-				<td><input type=\"radio\" name=\"{$identifier}\" value=\"4\"></td>
-				<td><input type=\"radio\" name=\"{$identifier}\" value=\"5\"></td>
+				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" value=\"1\"></td>
+				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" value=\"2\"></td>
+				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" value=\"3\"></td>
+				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" value=\"4\"></td>
+				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" value=\"5\"></td>
 				<td>Strongly Agree</td>
 			</tr>
 		</table>";
 	}
-	elseif ($type == "text") {
-		echo "<textarea name=\"{$identifier}\" rows=\"8\" cols=\"0\"></textarea>";
+	elseif ($question["Type"] == "text") {
+		echo "<textarea name=\"{$question["Identifier"]}\" rows=\"8\" cols=\"0\"></textarea>";
 	}
 }
 
 $user = $_GET["user"];
 
-$questions = getQuestions();
-$modules = getStudentModules($user);
+$modules = getPreparedQuestions($user);
 
 foreach($modules as $module) {
 	echo "<h2>{$module["ModuleID"]}: {$module["ModuleTitle"]}</h2>";
-	foreach($questions as $question) {
-		$identifier = "{$module["ModuleID"]}_{$question["QuestionID"]}";
-		if ($question["Staff"] == 0) {
-			print_question($identifier, $question["QuestionText"], $question["Type"]);
-		}
-		else {
-			foreach($module["Staff"] as $staff) {
-				$staff_identifier = "{$identifier}_{$staff["StaffID"]}";
-				print_question($staff_identifier, sprintf($question["QuestionText"], $staff["StaffName"]), $question["Type"]);
-			}
-		}
+	foreach($module["Questions"] as $question) {
+		print_question($question);
 	}
 }
 
