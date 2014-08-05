@@ -19,11 +19,11 @@ function print_question($question) {
 			</thead>
 			<tr>
 				<td>Strongly Disagree</td>
-				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" value=\"1\"></td>
-				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" value=\"2\"></td>
-				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" value=\"3\"></td>
-				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" value=\"4\"></td>
-				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" value=\"5\"></td>
+				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" value=\"1\" ". ($question["Answer"]==1?"checked=\"true\"":"") ."></td>
+				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" value=\"2\" ". ($question["Answer"]==2?"checked=\"true\"":"") ."></td>
+				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" value=\"3\" ". ($question["Answer"]==3?"checked=\"true\"":"") ."></td>
+				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" value=\"4\" ". ($question["Answer"]==4?"checked=\"true\"":"") ."></td>
+				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" value=\"5\" ". ($question["Answer"]==5?"checked=\"true\"":"") ."></td>
 				<td>Strongly Agree</td>
 			</tr>
 		</table>";
@@ -33,15 +33,40 @@ function print_question($question) {
 	}
 }
 
+function print_form($modules) {
+	echo "<form method=\"POST\">";
+	foreach($modules as $module) {
+		echo "<h2>{$module["ModuleID"]}: {$module["ModuleTitle"]}</h2>";
+		foreach($module["Questions"] as $question) {
+			print_question($question);
+		}
+	}
+	echo "<input type=\"submit\" value=\"Submit survey!\" /></form>";
+}
+
+function form_filled($modules) {
+	foreach($modules as $module) {
+		foreach($module["Questions"] as $question) {
+			if ($question["Answer"] == "") {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
 $user = $_GET["user"];
+$modules = getPreparedQuestions($user, $_POST);
 
-$modules = getPreparedQuestions($user);
-
-foreach($modules as $module) {
-	echo "<h2>{$module["ModuleID"]}: {$module["ModuleTitle"]}</h2>";
-	foreach($module["Questions"] as $question) {
-		print_question($question);
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+	print_form($modules);
+}
+elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	//validate that everything is filled in
+	if (!form_filled($modules)) { //form is not filled :(
+		print_form($modules);
 	}
 }
 
 ?>
+
