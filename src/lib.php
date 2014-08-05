@@ -131,3 +131,14 @@ function getPreparedQuestions($student, $answers = array()) {
 	}
 	return $modules;
 }
+
+function answers_filled($modules) {
+	foreach($modules as $module) {
+		foreach($module["Questions"] as $question) {
+			if ($question["Answer"] == "") {
+				return false;
+			}
+		}
+	}
+	return true;
+}

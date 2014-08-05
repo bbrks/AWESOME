@@ -51,17 +51,6 @@ function print_form($modules, $warn=false) {
 	echo "<input type=\"submit\" value=\"Submit survey!\" /></form>";
 }
 
-function form_filled($modules) {
-	foreach($modules as $module) {
-		foreach($module["Questions"] as $question) {
-			if ($question["Answer"] == "") {
-				return false;
-			}
-		}
-	}
-	return true;
-}
-
 $user = $_GET["user"];
 $modules = getPreparedQuestions($user, $_POST);
 
@@ -69,12 +58,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 	print_form($modules);
 }
 elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	var_dump($_POST);
-	var_dump($modules);
 	//validate that everything is filled in
-	if (!form_filled($modules)) { //form is not filled :(
+	if (!answers_filled($modules)) { //form is not filled :(
 		print_form($modules, true);
+		return;
 	}
+	
+	
 }
 
 ?>
