@@ -1,18 +1,35 @@
-<?
+<html>
 
+<?
 require("lib.php");
 
+?>
+
+
+<head>
+	<title>Questionnaire</title>
+	<link rel="icon" type="image/png" href="../../assets/favicon.png">
+
+	<link href="../../css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<?
 function print_question($question, $warn=false) {
 	echo "<div";
 	if ($warn == true && $question["Answer"] == "") {
 		echo " style=\"border: 5px solid red;\"";
 	}
 	echo ">";
-	
-	echo "<h3>{$question["QuestionText"]}</h3>";
-	
+
+	echo "<h4>{$question["QuestionText"]}</h4>";
+
 	if ($question["Type"] == "rate") {
-		echo "
+		echo "<hr>
 		<table>
 			<thead>
 				<th></th>
@@ -32,10 +49,11 @@ function print_question($question, $warn=false) {
 				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" value=\"5\" ". ($question["Answer"]==5?"checked=\"true\"":"") ."></td>
 				<td>Strongly Agree</td>
 			</tr>
-		</table>";
+		</table>
+		<hr>";
 	}
 	elseif ($question["Type"] == "text") {
-		echo "<textarea name=\"{$question["Identifier"]}\" rows=\"8\" cols=\"0\">{$question["Answer"]}</textarea>";
+		echo "<textarea name=\"{$question["Identifier"]}\" rows=\"8\" cols=\"50\">{$question["Answer"]}</textarea>";
 	}
 	echo "</div>";
 }
@@ -43,7 +61,7 @@ function print_question($question, $warn=false) {
 function print_form($modules, $warn=false) {
 	echo "<form method=\"POST\">";
 	foreach($modules as $module) {
-		echo "<h2>{$module["ModuleID"]}: {$module["ModuleTitle"]}</h2>";
+		echo "<h3>{$module["ModuleID"]}: {$module["ModuleTitle"]}</h3>";
 		foreach($module["Questions"] as $question) {
 			print_question($question, $warn);
 		}
@@ -65,9 +83,14 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	}
 	else {
 		answers_submit($modules);
+
 	}
-	
+
 }
 
 ?>
 
+</div>
+</body>
+
+</html>
