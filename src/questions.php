@@ -10,7 +10,7 @@ require("lib.php");
 	<title>Questionnaire</title>
 	<link rel="icon" type="image/png" href="../../assets/favicon.png">
 
-	<link href="../../css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
 
 </head>
 
