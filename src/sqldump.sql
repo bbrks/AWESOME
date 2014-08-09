@@ -1,65 +1,35 @@
--- Adminer 4.0.3 MySQL dump
+-- Adminer 3.3.3 MySQL dump
 
 SET NAMES utf8;
 SET foreign_key_checks = 0;
-SET time_zone = '+02:00';
+SET time_zone = 'SYSTEM';
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 DROP TABLE IF EXISTS `AnswerGroup`;
 CREATE TABLE `AnswerGroup` (
   `AnswerID` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`AnswerID`)
-) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 INSERT INTO `AnswerGroup` (`AnswerID`) VALUES
 (15),
 (16),
 (17),
 (18),
-(19);
+(19),
+(20);
 
 DROP TABLE IF EXISTS `Answers`;
 CREATE TABLE `Answers` (
   `AnswerID` int(11) NOT NULL,
   `QuestionID` int(11) NOT NULL,
-  `ModuleID` varchar(10) NOT NULL,
-  `StaffID` varchar(6) NOT NULL DEFAULT '',
+  `ModuleID` varchar(10) COLLATE latin1_general_ci NOT NULL,
+  `StaffID` varchar(6) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `NumValue` int(11) DEFAULT NULL,
-  `TextValue` text,
+  `TextValue` text COLLATE latin1_general_ci,
   PRIMARY KEY (`AnswerID`,`QuestionID`,`ModuleID`,`StaffID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
-INSERT INTO `Answers` (`AnswerID`, `QuestionID`, `ModuleID`, `StaffID`, `NumValue`, `TextValue`) VALUES
-(18,	1,	'CS10110',	'',	5,	NULL),
-(17,	4,	'CS10110',	'',	NULL,	'huet'),
-(17,	3,	'CS10110',	'',	NULL,	'yeyh5r'),
-(17,	2,	'CS10110',	'mfc1',	2,	NULL),
-(17,	2,	'CS10110',	'lgt',	4,	NULL),
-(17,	2,	'CS10110',	'dap',	1,	NULL),
-(17,	1,	'CS10110',	'',	2,	NULL),
-(16,	4,	'CS10110',	'',	NULL,	'wtwe4'),
-(16,	3,	'CS10110',	'',	NULL,	'wetfgw'),
-(16,	2,	'CS10110',	'mfc1',	5,	NULL),
-(16,	2,	'CS10110',	'lgt',	4,	NULL),
-(16,	2,	'CS10110',	'dap',	4,	NULL),
-(16,	1,	'CS10110',	'',	2,	NULL),
-(15,	4,	'CS10110',	'',	NULL,	'wtwe4'),
-(15,	3,	'CS10110',	'',	NULL,	'wetfgw'),
-(15,	2,	'CS10110',	'mfc1',	5,	NULL),
-(15,	2,	'CS10110',	'lgt',	4,	NULL),
-(15,	2,	'CS10110',	'dap',	4,	NULL),
-(15,	1,	'CS10110',	'',	2,	NULL),
-(18,	2,	'CS10110',	'dap',	5,	NULL),
-(18,	2,	'CS10110',	'lgt',	2,	NULL),
-(18,	2,	'CS10110',	'mfc1',	5,	NULL),
-(18,	3,	'CS10110',	'',	NULL,	'egfwegf'),
-(18,	4,	'CS10110',	'',	NULL,	'egeg'),
-(19,	1,	'CS10110',	'',	3,	NULL),
-(19,	2,	'CS10110',	'dap',	4,	NULL),
-(19,	2,	'CS10110',	'lgt',	3,	NULL),
-(19,	2,	'CS10110',	'mfc1',	5,	NULL),
-(19,	3,	'CS10110',	'',	NULL,	'wtfgwq'),
-(19,	4,	'CS10110',	'',	NULL,	'wgtw4e');
 
 DROP TABLE IF EXISTS `Modules`;
 CREATE TABLE `Modules` (
@@ -116,15 +86,15 @@ DROP TABLE IF EXISTS `Questions`;
 CREATE TABLE `Questions` (
   `QuestionID` int(11) NOT NULL,
   `Staff` bit(1) NOT NULL,
-  `QuestionText` text NOT NULL,
-  `Type` enum('rate','text') NOT NULL
+  `QuestionText` text CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `Type` enum('rate','text') CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO `Questions` (`QuestionID`, `Staff`, `QuestionText`, `Type`) VALUES
-(1,	CONV('0', 2, 10) + 0,	'I have learned a good deal from this module',	'rate'),
-(2,	CONV('1', 2, 10) + 0,	'This module was well taught by %s',	'rate'),
-(3,	CONV('0', 2, 10) + 0,	'What one thing would you change to improve this module, and why?',	'text'),
-(4,	CONV('0', 2, 10) + 0,	'Please add any further comments on this module below',	'text');
+(1,	'0',	'I have learned a good deal from this module',	'rate'),
+(2,	'1',	'This module was well taught by %s',	'rate'),
+(3,	'0',	'What one thing would you change to improve this module, and why?',	'text'),
+(4,	'0',	'Please add any further comments on this module below',	'text');
 
 DROP TABLE IF EXISTS `Staff`;
 CREATE TABLE `Staff` (
@@ -341,4 +311,4 @@ INSERT INTO `StudentsToModules` (`UserID`, `ModuleID`) VALUES
 ('stm26',	'CS12510'),
 ('stm26',	'CS18010');
 
--- 2014-08-05 20:47:09
+-- 2014-08-09 17:52:47
