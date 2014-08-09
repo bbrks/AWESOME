@@ -2,7 +2,7 @@
 
 global $db;
 
-require "db.php";
+require "../db.php";
 if ($db->connect_errno)
 	throw "Failed to connect";
 

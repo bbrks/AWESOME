@@ -1,0 +1,1 @@
+<? $db = new mysqli("hostname", "username","password","database"); 

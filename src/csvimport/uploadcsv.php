@@ -16,6 +16,7 @@
 		<p>Expected format...</p>
 		<pre>userid, department, moduleid, moduleid, moduleid...</pre>
 		<?php
+		require "../db.php"
 
 		if (isset($_FILES['userfile'])) {
 			$csv_file = $_FILES['userfile']['tmp_name'];
