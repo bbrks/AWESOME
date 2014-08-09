@@ -9,34 +9,26 @@ DROP TABLE IF EXISTS `AnswerGroup`;
 CREATE TABLE `AnswerGroup` (
   `AnswerID` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`AnswerID`)
-) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
-
-INSERT INTO `AnswerGroup` (`AnswerID`) VALUES
-(15),
-(16),
-(17),
-(18),
-(19),
-(20);
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `Answers`;
 CREATE TABLE `Answers` (
   `AnswerID` int(11) NOT NULL,
   `QuestionID` int(11) NOT NULL,
-  `ModuleID` varchar(10) COLLATE latin1_general_ci NOT NULL,
-  `StaffID` varchar(6) COLLATE latin1_general_ci NOT NULL DEFAULT '',
+  `ModuleID` varchar(10) COLLATE utf8_general_ci NOT NULL,
+  `StaffID` varchar(6) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `NumValue` int(11) DEFAULT NULL,
-  `TextValue` text COLLATE latin1_general_ci,
+  `TextValue` text COLLATE utf8_general_ci,
   PRIMARY KEY (`AnswerID`,`QuestionID`,`ModuleID`,`StaffID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 DROP TABLE IF EXISTS `Modules`;
 CREATE TABLE `Modules` (
-  `ModuleID` varchar(10) COLLATE latin1_general_ci NOT NULL,
-  `ModuleTitle` varchar(200) COLLATE latin1_general_ci NOT NULL,
+  `ModuleID` varchar(10) COLLATE utf8_general_ci NOT NULL,
+  `ModuleTitle` varchar(200) COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`ModuleID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `Modules` (`ModuleID`, `ModuleTitle`) VALUES
 ('CS10110',	'Introduction to Computer Hardware, Operating Systems and Unix Tools'),
@@ -86,9 +78,9 @@ DROP TABLE IF EXISTS `Questions`;
 CREATE TABLE `Questions` (
   `QuestionID` int(11) NOT NULL,
   `Staff` bit(1) NOT NULL,
-  `QuestionText` text CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
-  `Type` enum('rate','text') CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `QuestionText` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `Type` enum('rate','text') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `Questions` (`QuestionID`, `Staff`, `QuestionText`, `Type`) VALUES
 (1,	'0',	'I have learned a good deal from this module',	'rate'),
@@ -98,10 +90,10 @@ INSERT INTO `Questions` (`QuestionID`, `Staff`, `QuestionText`, `Type`) VALUES
 
 DROP TABLE IF EXISTS `Staff`;
 CREATE TABLE `Staff` (
-  `UserID` varchar(6) COLLATE latin1_general_ci NOT NULL,
-  `name` varchar(30) COLLATE latin1_general_ci NOT NULL,
+  `UserID` varchar(6) COLLATE utf8_general_ci NOT NULL,
+  `Name` varchar(30) COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`UserID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `Staff` (`UserID`, `name`) VALUES
 ('bpt',	'Bernie Tiddeman'),
@@ -198,11 +190,11 @@ INSERT INTO `Staff` (`UserID`, `name`) VALUES
 
 DROP TABLE IF EXISTS `StaffToModules`;
 CREATE TABLE `StaffToModules` (
-  `ModuleID` varchar(200) COLLATE latin1_general_ci NOT NULL,
-  `UserID` varchar(6) COLLATE latin1_general_ci NOT NULL,
+  `ModuleID` varchar(200) COLLATE utf8_general_ci NOT NULL,
+  `UserID` varchar(6) COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`ModuleID`,`UserID`),
   KEY `UserID` (`UserID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `StaffToModules` (`ModuleID`, `UserID`) VALUES
 ('CS10110',	'dap'),
@@ -276,10 +268,10 @@ INSERT INTO `StaffToModules` (`ModuleID`, `UserID`) VALUES
 
 DROP TABLE IF EXISTS `Students`;
 CREATE TABLE `Students` (
-  `UserID` varchar(6) COLLATE latin1_general_ci NOT NULL,
-  `Department` enum('Art','IBERS','CompSci','Welsh') COLLATE latin1_general_ci NOT NULL,
+  `UserID` varchar(6) COLLATE utf8_general_ci NOT NULL,
+  `Department` enum('Art','IBERS','CompSci','Welsh') COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`UserID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `Students` (`UserID`, `Department`) VALUES
 ('keo7',	'CompSci'),
@@ -288,11 +280,11 @@ INSERT INTO `Students` (`UserID`, `Department`) VALUES
 
 DROP TABLE IF EXISTS `StudentsToModules`;
 CREATE TABLE `StudentsToModules` (
-  `UserID` varchar(6) COLLATE latin1_general_ci NOT NULL,
-  `ModuleID` varchar(200) COLLATE latin1_general_ci NOT NULL,
+  `UserID` varchar(6) COLLATE utf8_general_ci NOT NULL,
+  `ModuleID` varchar(200) COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`UserID`,`ModuleID`),
   KEY `ModuleID` (`ModuleID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `StudentsToModules` (`UserID`, `ModuleID`) VALUES
 ('abc1',	'CS10110'),
