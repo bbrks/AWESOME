@@ -1,11 +1,5 @@
+<!DOCTYPE HTML>
 <html>
-
-<?
-require("lib.php");
-
-?>
-
-
 <head>
 	<title>Questionnaire</title>
 	<link rel="icon" type="image/png" href="../../assets/favicon.png">
@@ -19,6 +13,8 @@ require("lib.php");
 <div class="container">
 
 <?
+require("lib.php");
+
 function print_question($question, $warn=false) {
 	echo "<div";
 	if ($warn == true && $question["Answer"] == "") {
