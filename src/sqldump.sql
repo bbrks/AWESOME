@@ -1,34 +1,39 @@
--- Adminer 3.3.3 MySQL dump
+-- Adminer 4.1.0 MySQL dump
 
 SET NAMES utf8;
+SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
-SET time_zone = 'SYSTEM';
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 DROP TABLE IF EXISTS `AnswerGroup`;
 CREATE TABLE `AnswerGroup` (
   `AnswerID` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`AnswerID`)
+  `QuestionaireID` int(11) NOT NULL,
+  PRIMARY KEY (`AnswerID`,`QuestionaireID`)
 ) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+
+INSERT INTO `AnswerGroup` (`AnswerID`, `QuestionaireID`) VALUES
+(1,	1),
+(2,	1);
 
 DROP TABLE IF EXISTS `Answers`;
 CREATE TABLE `Answers` (
   `AnswerID` int(11) NOT NULL,
   `QuestionID` int(11) NOT NULL,
-  `ModuleID` varchar(10) COLLATE utf8_general_ci NOT NULL,
-  `StaffID` varchar(6) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `ModuleID` varchar(10) NOT NULL,
+  `StaffID` varchar(6) NOT NULL DEFAULT '',
   `NumValue` int(11) DEFAULT NULL,
-  `TextValue` text COLLATE utf8_general_ci,
+  `TextValue` text,
   PRIMARY KEY (`AnswerID`,`QuestionID`,`ModuleID`,`StaffID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `Modules`;
 CREATE TABLE `Modules` (
-  `ModuleID` varchar(10) COLLATE utf8_general_ci NOT NULL,
-  `ModuleTitle` varchar(200) COLLATE utf8_general_ci NOT NULL,
+  `ModuleID` varchar(10) NOT NULL,
+  `ModuleTitle` varchar(200) NOT NULL,
   PRIMARY KEY (`ModuleID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `Modules` (`ModuleID`, `ModuleTitle`) VALUES
 ('CS10110',	'Introduction to Computer Hardware, Operating Systems and Unix Tools'),
@@ -74,28 +79,41 @@ INSERT INTO `Modules` (`ModuleID`, `ModuleTitle`) VALUES
 ('CS39620',	'Minor Project '),
 ('CS39930',	'Web-Based Major Project ');
 
+DROP TABLE IF EXISTS `Questionaires`;
+CREATE TABLE `Questionaires` (
+  `QuestionaireID` int(11) NOT NULL AUTO_INCREMENT,
+  `QuestionaireName` varchar(20) NOT NULL,
+  `QuestionaireDepartment` enum('Art','IBERS','CompSci','Welsh') NOT NULL,
+  PRIMARY KEY (`QuestionaireID`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+INSERT INTO `Questionaires` (`QuestionaireID`, `QuestionaireName`, `QuestionaireDepartment`) VALUES
+(1,	'test',	'CompSci'),
+(2,	'test',	'CompSci');
+
 DROP TABLE IF EXISTS `Questions`;
 CREATE TABLE `Questions` (
   `QuestionID` int(11) NOT NULL,
   `Staff` bit(1) NOT NULL,
-  `QuestionText` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `Type` enum('rate','text') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
+  `QuestionText` text NOT NULL,
+  `QuestionText_welsh` text NOT NULL,
+  `Type` enum('rate','text') NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `Questions` (`QuestionID`, `Staff`, `QuestionText`, `Type`) VALUES
-(1,	'0',	'I have learned a good deal from this module',	'rate'),
-(2,	'1',	'This module was well taught by %s',	'rate'),
-(3,	'0',	'What one thing would you change to improve this module, and why?',	'text'),
-(4,	'0',	'Please add any further comments on this module below',	'text');
+INSERT INTO `Questions` (`QuestionID`, `Staff`, `QuestionText`, `QuestionText_welsh`, `Type`) VALUES
+(1,	CONV('0', 2, 10) + 0,	'I have learned a good deal from this module',	'Rydw i wedi dysgu llawer o\'r modiwl',	'rate'),
+(2,	CONV('1', 2, 10) + 0,	'This module was well taught by %s',	'Mae\'r modiwl ei haddysgu yn dda %s',	'rate'),
+(3,	CONV('0', 2, 10) + 0,	'What one thing would you change to improve this module, and why?',	'Gwelliannau Modiwl, a pham?',	'text'),
+(4,	CONV('0', 2, 10) + 0,	'Please add any further comments on this module below',	'sylwadau pellach',	'text');
 
 DROP TABLE IF EXISTS `Staff`;
 CREATE TABLE `Staff` (
-  `UserID` varchar(6) COLLATE utf8_general_ci NOT NULL,
-  `Name` varchar(30) COLLATE utf8_general_ci NOT NULL,
+  `UserID` varchar(6) NOT NULL,
+  `Name` varchar(30) NOT NULL,
   PRIMARY KEY (`UserID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `Staff` (`UserID`, `name`) VALUES
+INSERT INTO `Staff` (`UserID`, `Name`) VALUES
 ('bpt',	'Bernie Tiddeman'),
 ('dpb',	'Dave Barnes'),
 ('mhl',	'Mark Lee'),
@@ -190,88 +208,89 @@ INSERT INTO `Staff` (`UserID`, `name`) VALUES
 
 DROP TABLE IF EXISTS `StaffToModules`;
 CREATE TABLE `StaffToModules` (
-  `ModuleID` varchar(200) COLLATE utf8_general_ci NOT NULL,
-  `UserID` varchar(6) COLLATE utf8_general_ci NOT NULL,
-  PRIMARY KEY (`ModuleID`,`UserID`),
+  `ModuleID` varchar(200) NOT NULL,
+  `UserID` varchar(6) NOT NULL,
+  `QuestionaireID` int(11) NOT NULL,
+  PRIMARY KEY (`ModuleID`,`UserID`,`QuestionaireID`),
   KEY `UserID` (`UserID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `StaffToModules` (`ModuleID`, `UserID`) VALUES
-('CS10110',	'dap'),
-('CS10110',	'lgt'),
-('CS10110',	'mfc1'),
-('CS10410',	'dap'),
-('CS10410',	'nkn'),
-('CS10720',	'thj10'),
-('CS12020',	'aos'),
-('CS12320',	'cwl'),
-('CS12510',	'afc'),
-('CS15010',	'hmd1'),
-('CS15020',	'ais'),
-('CS18010',	'fwl'),
-('CS18010',	'hmd1'),
-('CS20410',	'afc'),
-('CS20410',	'fwl'),
-('CS21120',	'ltt'),
-('CS21120',	'ncm'),
-('CS21120',	'rcs'),
-('CS22120',	'bpt'),
-('CS22120',	'cjp'),
-('CS22120',	'dap'),
-('CS22310',	'nwh'),
-('CS22510',	'ffl'),
-('CS22510',	'job46'),
-('CS23710',	'dap'),
-('CS23710',	'fwl'),
-('CS24110',	'yyl'),
-('CS25010',	'ais'),
-('CS25010',	'jjr6'),
-('CS25110',	'ais'),
-('CS25110',	'jig'),
-('CS25110',	'spk'),
-('CS25210',	'hmd1'),
-('CS25410',	'thj10'),
-('CS25710',	'cos'),
-('CS25710',	'nns'),
-('CS26110',	'rkj'),
-('CS26210',	'elt7'),
-('CS26210',	'mxw'),
-('CS26410',	'mxw'),
-('CS26410',	'ttb7'),
-('CS27020',	'eds'),
-('CS27020',	'nkn'),
-('CS27510',	'rcs'),
-('CS28310',	'eds'),
-('CS31310',	'eds'),
-('CS32310',	'bpt'),
-('CS32310',	'hoh'),
-('CS34110',	'ffl'),
-('CS34110',	'yyl'),
-('CS35710',	'mjn'),
-('CS35810',	'ais'),
-('CS35810',	'jig'),
-('CS35810',	'spk'),
-('CS35910',	'ais'),
-('CS35910',	'jig'),
-('CS35910',	'spk'),
-('CS36110',	'cul'),
-('CS36110',	'yyl'),
-('CS36410',	'mjn'),
-('CS36410',	'mxw'),
-('CS36510',	'dpb'),
-('CS37420',	'cwl'),
-('CS37420',	'nst'),
-('CS38110',	'rcs'),
-('CS38220',	'mfb'),
-('CS38220',	'rrp'),
-('CS39820',	'rrp');
+INSERT INTO `StaffToModules` (`ModuleID`, `UserID`, `QuestionaireID`) VALUES
+('CS10110',	'dap',	0),
+('CS10110',	'lgt',	0),
+('CS10110',	'mfc1',	0),
+('CS10410',	'dap',	0),
+('CS10410',	'nkn',	0),
+('CS10720',	'thj10',	0),
+('CS12020',	'aos',	0),
+('CS12320',	'cwl',	0),
+('CS12510',	'afc',	0),
+('CS15010',	'hmd1',	0),
+('CS15020',	'ais',	0),
+('CS18010',	'fwl',	0),
+('CS18010',	'hmd1',	0),
+('CS20410',	'afc',	0),
+('CS20410',	'fwl',	0),
+('CS21120',	'ltt',	0),
+('CS21120',	'ncm',	0),
+('CS21120',	'rcs',	0),
+('CS22120',	'bpt',	0),
+('CS22120',	'cjp',	0),
+('CS22120',	'dap',	0),
+('CS22310',	'nwh',	0),
+('CS22510',	'ffl',	0),
+('CS22510',	'job46',	0),
+('CS23710',	'dap',	0),
+('CS23710',	'fwl',	0),
+('CS24110',	'yyl',	0),
+('CS25010',	'ais',	0),
+('CS25010',	'jjr6',	0),
+('CS25110',	'ais',	0),
+('CS25110',	'jig',	0),
+('CS25110',	'spk',	0),
+('CS25210',	'hmd1',	0),
+('CS25410',	'thj10',	0),
+('CS25710',	'cos',	0),
+('CS25710',	'nns',	0),
+('CS26110',	'rkj',	0),
+('CS26210',	'elt7',	0),
+('CS26210',	'mxw',	0),
+('CS26410',	'mxw',	0),
+('CS26410',	'ttb7',	0),
+('CS27020',	'eds',	0),
+('CS27020',	'nkn',	0),
+('CS27510',	'rcs',	0),
+('CS28310',	'eds',	0),
+('CS31310',	'eds',	0),
+('CS32310',	'bpt',	0),
+('CS32310',	'hoh',	0),
+('CS34110',	'ffl',	0),
+('CS34110',	'yyl',	0),
+('CS35710',	'mjn',	0),
+('CS35810',	'ais',	0),
+('CS35810',	'jig',	0),
+('CS35810',	'spk',	0),
+('CS35910',	'ais',	0),
+('CS35910',	'jig',	0),
+('CS35910',	'spk',	0),
+('CS36110',	'cul',	0),
+('CS36110',	'yyl',	0),
+('CS36410',	'mjn',	0),
+('CS36410',	'mxw',	0),
+('CS36510',	'dpb',	0),
+('CS37420',	'cwl',	0),
+('CS37420',	'nst',	0),
+('CS38110',	'rcs',	0),
+('CS38220',	'mfb',	0),
+('CS38220',	'rrp',	0),
+('CS39820',	'rrp',	0);
 
 DROP TABLE IF EXISTS `Students`;
 CREATE TABLE `Students` (
-  `UserID` varchar(6) COLLATE utf8_general_ci NOT NULL,
-  `Department` enum('Art','IBERS','CompSci','Welsh') COLLATE utf8_general_ci NOT NULL,
+  `UserID` varchar(6) NOT NULL,
+  `Department` enum('Art','IBERS','CompSci','Welsh') NOT NULL,
   PRIMARY KEY (`UserID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `Students` (`UserID`, `Department`) VALUES
 ('keo7',	'CompSci'),
@@ -280,27 +299,28 @@ INSERT INTO `Students` (`UserID`, `Department`) VALUES
 
 DROP TABLE IF EXISTS `StudentsToModules`;
 CREATE TABLE `StudentsToModules` (
-  `UserID` varchar(6) COLLATE utf8_general_ci NOT NULL,
-  `ModuleID` varchar(200) COLLATE utf8_general_ci NOT NULL,
-  PRIMARY KEY (`UserID`,`ModuleID`),
+  `UserID` varchar(6) NOT NULL,
+  `ModuleID` varchar(200) NOT NULL,
+  `QuestionaireID` int(11) NOT NULL,
+  PRIMARY KEY (`UserID`,`ModuleID`,`QuestionaireID`),
   KEY `ModuleID` (`ModuleID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `StudentsToModules` (`UserID`, `ModuleID`) VALUES
-('abc1',	'CS10110'),
-('keo7',	'CS28310'),
-('keo7',	'CS31310'),
-('keo7',	'CS35910'),
-('keo7',	'CS37420'),
-('keo7',	'CS38110'),
-('keo7',	'CS38220'),
-('keo7',	'CS39440'),
-('stm26',	'CS10110'),
-('stm26',	'CS10410'),
-('stm26',	'CS10720'),
-('stm26',	'CS12020'),
-('stm26',	'CS12320'),
-('stm26',	'CS12510'),
-('stm26',	'CS18010');
+INSERT INTO `StudentsToModules` (`UserID`, `ModuleID`, `QuestionaireID`) VALUES
+('abc1',	'CS10110',	1),
+('keo7',	'CS28310',	1),
+('keo7',	'CS31310',	0),
+('keo7',	'CS35910',	0),
+('keo7',	'CS37420',	0),
+('keo7',	'CS38110',	0),
+('keo7',	'CS38220',	0),
+('keo7',	'CS39440',	0),
+('stm26',	'CS10110',	0),
+('stm26',	'CS10410',	0),
+('stm26',	'CS10720',	0),
+('stm26',	'CS12020',	0),
+('stm26',	'CS12320',	0),
+('stm26',	'CS12510',	0),
+('stm26',	'CS18010',	0);
 
--- 2014-08-09 17:52:47
+-- 2014-08-10 14:13:10
