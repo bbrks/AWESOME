@@ -11,7 +11,6 @@ include "lib-admin.php";
 $questionaireID = $_GET["questionaireID"];
 $q;
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST["action"] == "modify_basic") {
-	print_r($_POST);
 	$q = array(
 		"QuestionaireName"=>$_POST["questionaireName"],
 		"QuestionaireDepartment"=>$_POST["questionaireDepartment"]

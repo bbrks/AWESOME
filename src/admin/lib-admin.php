@@ -32,7 +32,7 @@ function getQuestionaire($questionaireID) {
 	$stmt->execute();
 
 	$rows = getRows($stmt);
-	print_r($rows);
+	
 	return $rows[0];
 }
 
