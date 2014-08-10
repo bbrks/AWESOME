@@ -75,7 +75,7 @@ $questionaires = getQuestionaires();
 	<?
 	
 foreach($questionaires as $questionaire) {
-	$percent = ($questionaire["Total"]/$questionaire["Answers"])*100;
+	$percent = $questionaire["Answers"]==0?0:($questionaire["Total"]/$questionaire["Answers"])*100;
 	?>
 	<tr>
 		<td><?=$questionaire["QuestionaireID"]?></td>
