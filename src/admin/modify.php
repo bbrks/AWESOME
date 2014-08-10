@@ -9,16 +9,18 @@ if (!isset($_SESSION["admin_user"])) {
 include "lib-admin.php";
 
 $questionaireID = $_GET["questionaireID"];
-$q;
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST["action"] == "modify_basic") {
-	$q = array(
-		"QuestionaireName"=>$_POST["questionaireName"],
-		"QuestionaireDepartment"=>$_POST["questionaireDepartment"]
-		);
-	updateQuestionaire($questionaireID, $q);
-}
-else {
-	$q = getQuestionaire($questionaireID);
+$q = getQuestionaire($questionaireID);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	if ($_POST["action"] == "modify_basic") {
+		$q["QuestionaireName"] = $_POST["questionaireName"];
+		$q["QuestionaireDepartment"] = $_POST["questionaireDepartment"];
+		
+		updateQuestionaire($questionaireID, $q);
+	}
+	elseif ($_POST["action"] == "csv_submit") {
+		parseCSV($_POST["csvdata"]);
+	}
 }
 
 
@@ -70,7 +72,14 @@ else {
 					</form>
 				</div>
 				
-				<div class="tab-pane" id="students">Students</div>
+				<div class="tab-pane" id="students">
+					<form method="post">
+						<input type="hidden" name="action" value="csv_submit" />
+						<textarea name="csvdata" class="form-control" rows="25"></textarea>
+						<button type="submit" class="btn btn-primary form-control">Modify Questionaire</button>
+					</form>
+				
+				</div>
 				<div class="tab-pane" id="modules">Modules</div>
 			</div>
 		</div>

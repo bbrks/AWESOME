@@ -45,3 +45,21 @@ function updateQuestionaire($questionaireID, $fields) {
 	$stmt->bind_param("ssi", $fields["QuestionaireName"], $fields["QuestionaireDepartment"], $questionaireID);
 	$stmt->execute();
 }
+
+function parseCSV($data) {
+	$lines = explode("\n",$data);
+	$students = array();
+	foreach($lines as $line) {
+		$csv = str_getcsv($line);
+		if (count($csv) < 4)
+			continue;
+			
+		$students[] = array(
+			"UserID" => $csv[0],
+			"Department" => $csv[1],
+			"Modules" => array_slice($csv, 2)
+		);
+	}
+	
+	print_r($students);
+}
