@@ -31,53 +31,54 @@ CREATE TABLE `Answers` (
 DROP TABLE IF EXISTS `Modules`;
 CREATE TABLE `Modules` (
   `ModuleID` varchar(10) NOT NULL,
+  `QuestionaireID` int(11) NOT NULL,
   `ModuleTitle` varchar(200) NOT NULL,
-  PRIMARY KEY (`ModuleID`)
+  PRIMARY KEY (`ModuleID`,`QuestionaireID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `Modules` (`ModuleID`, `ModuleTitle`) VALUES
-('CS10110',	'Introduction to Computer Hardware, Operating Systems and Unix Tools'),
-('CS10410',	'The Mathematics Driving License for Computer Science'),
-('CS12020',	'Introduction to Programming'),
-('CS12510',	'Functional Programming'),
-('CS15020',	'Web Development Tools'),
-('CS10720',	'Problems and Solutions'),
-('CS12320',	'Programming Using an Object-Oriented Language'),
-('CS18010',	'Professional and Personal Development'),
-('CS20410',	'The Advanced Mathematics Driving License for Computer Science '),
-('CS21120',	'Program Design, Data Structures and Algorithms '),
-('CS22120',	'The Software Development Life Cycle'),
-('CS23710',	'C and UNIX Programming'),
-('CS24110',	'Image Processing'),
-('CS25010',	'Web Programming'),
-('CS25110',	'Introduction to System and Network Services Administration'),
-('CS25410',	'Computer Architecture and Hardware '),
-('CS26110',	'The Artificial Intelligence Toolbox Part 1: how to Find Solutions '),
-('CS27020',	'Modelling Persistent Data'),
-('CS28310',	'Introduction to Business Processes for Web Developers'),
-('CS31310',	'Agile Methodologies '),
-('CS32310',	'Advanced Computer Graphics '),
-('CS34110',	'Computer Vision '),
-('CS35710',	'Ubiquitous Computing '),
-('CS35910',	'Internet Services Administration '),
-('CS36110',	'Machine Learning '),
-('CS36510',	'Space Robotics '),
-('CS37420',	'E-Commerce: Implementation, Management and Security'),
-('CS38110',	'Open Source Development Issues '),
-('CS39820',	'Business Information Technology Group Project'),
-('CS22310',	'User Centred Design and Human Computer Interaction '),
-('CS22510',	'C++, C and Java Programming Paradigms '),
-('CS25210',	'Client-Side Graphics Programming for the Web'),
-('CS25710',	'Mobile, Embedded and Wearable Technology '),
-('CS26210',	'The Artificial Intelligence Toolbox - Part ii: Programming in An Uncertain World '),
-('CS26410',	'Introduction to Robotics '),
-('CS27510',	'Commercial Database Applications '),
-('CS35810',	'Further Issues in System and Network Services Administration '),
-('CS36410',	'Intelligent Robotics '),
-('CS38220',	'Professional Issues in the Computing Industry '),
-('CS39440',	'Major Project '),
-('CS39620',	'Minor Project '),
-('CS39930',	'Web-Based Major Project ');
+INSERT INTO `Modules` (`ModuleID`, `QuestionaireID`, `ModuleTitle`) VALUES
+('CS10110',	0,	'Introduction to Computer Hardware, Operating Systems and Unix Tools'),
+('CS10410',	0,	'The Mathematics Driving License for Computer Science'),
+('CS12020',	0,	'Introduction to Programming'),
+('CS12510',	0,	'Functional Programming'),
+('CS15020',	0,	'Web Development Tools'),
+('CS10720',	0,	'Problems and Solutions'),
+('CS12320',	0,	'Programming Using an Object-Oriented Language'),
+('CS18010',	0,	'Professional and Personal Development'),
+('CS20410',	0,	'The Advanced Mathematics Driving License for Computer Science '),
+('CS21120',	0,	'Program Design, Data Structures and Algorithms '),
+('CS22120',	0,	'The Software Development Life Cycle'),
+('CS23710',	0,	'C and UNIX Programming'),
+('CS24110',	0,	'Image Processing'),
+('CS25010',	0,	'Web Programming'),
+('CS25110',	0,	'Introduction to System and Network Services Administration'),
+('CS25410',	0,	'Computer Architecture and Hardware '),
+('CS26110',	0,	'The Artificial Intelligence Toolbox Part 1: how to Find Solutions '),
+('CS27020',	0,	'Modelling Persistent Data'),
+('CS28310',	0,	'Introduction to Business Processes for Web Developers'),
+('CS31310',	0,	'Agile Methodologies '),
+('CS32310',	0,	'Advanced Computer Graphics '),
+('CS34110',	0,	'Computer Vision '),
+('CS35710',	0,	'Ubiquitous Computing '),
+('CS35910',	0,	'Internet Services Administration '),
+('CS36110',	0,	'Machine Learning '),
+('CS36510',	0,	'Space Robotics '),
+('CS37420',	0,	'E-Commerce: Implementation, Management and Security'),
+('CS38110',	0,	'Open Source Development Issues '),
+('CS39820',	0,	'Business Information Technology Group Project'),
+('CS22310',	0,	'User Centred Design and Human Computer Interaction '),
+('CS22510',	0,	'C++, C and Java Programming Paradigms '),
+('CS25210',	0,	'Client-Side Graphics Programming for the Web'),
+('CS25710',	0,	'Mobile, Embedded and Wearable Technology '),
+('CS26210',	0,	'The Artificial Intelligence Toolbox - Part ii: Programming in An Uncertain World '),
+('CS26410',	0,	'Introduction to Robotics '),
+('CS27510',	0,	'Commercial Database Applications '),
+('CS35810',	0,	'Further Issues in System and Network Services Administration '),
+('CS36410',	0,	'Intelligent Robotics '),
+('CS38220',	0,	'Professional Issues in the Computing Industry '),
+('CS39440',	0,	'Major Project '),
+('CS39620',	0,	'Minor Project '),
+('CS39930',	0,	'Web-Based Major Project ');
 
 DROP TABLE IF EXISTS `Questionaires`;
 CREATE TABLE `Questionaires` (
@@ -85,11 +86,12 @@ CREATE TABLE `Questionaires` (
   `QuestionaireName` varchar(20) NOT NULL,
   `QuestionaireDepartment` enum('Art','IBERS','CompSci','Welsh') NOT NULL,
   PRIMARY KEY (`QuestionaireID`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 INSERT INTO `Questionaires` (`QuestionaireID`, `QuestionaireName`, `QuestionaireDepartment`) VALUES
-(1,	'test',	'CompSci'),
-(2,	'test',	'CompSci');
+(1,	'ModifiedName',	'CompSci'),
+(2,	'test',	'CompSci'),
+(3,	'October2014',	'CompSci');
 
 DROP TABLE IF EXISTS `Questions`;
 CREATE TABLE `Questions` (
@@ -288,14 +290,17 @@ INSERT INTO `StaffToModules` (`ModuleID`, `UserID`, `QuestionaireID`) VALUES
 DROP TABLE IF EXISTS `Students`;
 CREATE TABLE `Students` (
   `UserID` varchar(6) NOT NULL,
+  `QuestionaireID` int(11) NOT NULL,
   `Department` enum('Art','IBERS','CompSci','Welsh') NOT NULL,
-  PRIMARY KEY (`UserID`)
+  PRIMARY KEY (`UserID`,`QuestionaireID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `Students` (`UserID`, `Department`) VALUES
-('keo7',	'CompSci'),
-('stm26',	'CompSci'),
-('abc1',	'CompSci');
+INSERT INTO `Students` (`UserID`, `QuestionaireID`, `Department`) VALUES
+('keo7',	0,	'CompSci'),
+('stm26',	0,	'CompSci'),
+('nid16',	0,	'CompSci'),
+('jmt14',	0,	'CompSci'),
+('th1',	0,	'CompSci');
 
 DROP TABLE IF EXISTS `StudentsToModules`;
 CREATE TABLE `StudentsToModules` (
@@ -307,20 +312,65 @@ CREATE TABLE `StudentsToModules` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `StudentsToModules` (`UserID`, `ModuleID`, `QuestionaireID`) VALUES
-('abc1',	'CS10110',	1),
-('keo7',	'CS28310',	1),
-('keo7',	'CS31310',	0),
-('keo7',	'CS35910',	0),
-('keo7',	'CS37420',	0),
-('keo7',	'CS38110',	0),
-('keo7',	'CS38220',	0),
-('keo7',	'CS39440',	0),
-('stm26',	'CS10110',	0),
-('stm26',	'CS10410',	0),
-('stm26',	'CS10720',	0),
-('stm26',	'CS12020',	0),
-('stm26',	'CS12320',	0),
-('stm26',	'CS12510',	0),
-('stm26',	'CS18010',	0);
+('jmt14',	'cs21120',	1),
+('jmt14',	'cs21120',	3),
+('jmt14',	'cs22120',	1),
+('jmt14',	'cs22120',	3),
+('jmt14',	'cs22310',	1),
+('jmt14',	'cs22310',	3),
+('jmt14',	'cs25210',	1),
+('jmt14',	'cs25210',	3),
+('jmt14',	'cs25410',	1),
+('jmt14',	'cs25410',	3),
+('jmt14',	'cs27020',	1),
+('jmt14',	'cs27020',	3),
+('keo7',	'cs21120',	1),
+('keo7',	'cs21120',	3),
+('keo7',	'cs22120',	1),
+('keo7',	'cs22120',	3),
+('keo7',	'cs22310',	1),
+('keo7',	'cs22310',	3),
+('keo7',	'cs25210',	1),
+('keo7',	'cs25210',	3),
+('keo7',	'cs25410',	1),
+('keo7',	'cs25410',	3),
+('keo7',	'cs27020',	1),
+('keo7',	'cs27020',	3),
+('nid16',	'cs21120',	1),
+('nid16',	'cs21120',	3),
+('nid16',	'cs22120',	1),
+('nid16',	'cs22120',	3),
+('nid16',	'cs22310',	1),
+('nid16',	'cs22310',	3),
+('nid16',	'cs25210',	1),
+('nid16',	'cs25210',	3),
+('nid16',	'cs27020',	1),
+('nid16',	'cs27020',	3),
+('nid16',	'il35010',	1),
+('nid16',	'il35010',	3),
+('stm26',	'cs21120',	1),
+('stm26',	'cs21120',	3),
+('stm26',	'cs22120',	1),
+('stm26',	'cs22120',	3),
+('stm26',	'cs22310',	1),
+('stm26',	'cs22310',	3),
+('stm26',	'cs25210',	1),
+('stm26',	'cs25210',	3),
+('stm26',	'cs27020',	1),
+('stm26',	'cs27020',	3),
+('stm26',	'cs28310',	1),
+('stm26',	'cs28310',	3),
+('th1',	'',	1),
+('th1',	'',	3),
+('th1',	'cs10110',	1),
+('th1',	'cs10110',	3),
+('th1',	'cs10410',	1),
+('th1',	'cs10410',	3),
+('th1',	'cs10720',	1),
+('th1',	'cs10720',	3),
+('th1',	'cs12420',	1),
+('th1',	'cs12420',	3),
+('th1',	'cs18010',	1),
+('th1',	'cs18010',	3);
 
--- 2014-08-10 14:13:10
+-- 2014-08-10 22:25:29
