@@ -5,6 +5,24 @@ if (!isset($_SESSION["admin_user"])) {
 	header("location: login.php");
 	exit("login ffs");
 }
+
+include "lib-admin.php";
+
+$questionaireID = $_GET["questionaireID"];
+$q;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST["action"] == "modify_basic") {
+	print_r($_POST);
+	$q = array(
+		"QuestionaireName"=>$_POST["questionaireName"],
+		"QuestionaireDepartment"=>$_POST["questionaireDepartment"]
+		);
+	updateQuestionaire($questionaireID, $q);
+}
+else {
+	$q = getQuestionaire($questionaireID);
+}
+
+
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -35,7 +53,24 @@ if (!isset($_SESSION["admin_user"])) {
 		</div>
 		<div class="col-md-10">
 			<div class="tab-content">
-				<div class="tab-pane active" id="basic">Basic</div>
+				
+				<div class="tab-pane active" id="basic">
+					<form method="post">
+						<input type="hidden" name="action" value="modify_basic" />
+						
+						<label for="questionaireName">Name</label>
+						<input type="text" name="questionaireName" class="form-control" value="<?=$q["QuestionaireName"]?>"/>
+						<label for="questionaireDepartment">Department</label>
+						<select name="questionaireDepartment" class="form-control">
+							<option value="Art" <?=$q["QuestionaireDepartment"]=="Art"?"selected":""?>>Art</option>
+							<option value="IBERS" <?=$q["QuestionaireDepartment"]=="IBERS"?"selected":""?>>IBERS</option>
+							<option value="CompSci" <?=$q["QuestionaireDepartment"]=="CompSci"?"selected":""?>>CompSci</option>
+							<option value="Welsh" <?=$q["QuestionaireDepartment"]=="Welsh"?"selected":""?>>Welsh</option>
+						</select>
+						<button type="submit" class="btn btn-primary form-control">Modify Questionaire</button>
+					</form>
+				</div>
+				
 				<div class="tab-pane" id="students">Students</div>
 				<div class="tab-pane" id="modules">Modules</div>
 			</div>

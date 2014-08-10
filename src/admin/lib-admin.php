@@ -21,3 +21,27 @@ function getQuestionaires() {
 	$rows = getRows($stmt);
 	return $rows;
 }
+
+function getQuestionaire($questionaireID) {
+	global $db;
+
+	$stmt = $db->prepare("
+		SELECT * FROM Questionaires WHERE QuestionaireID=?");
+
+	$stmt->bind_param("i", $questionaireID);
+	$stmt->execute();
+
+	$rows = getRows($stmt);
+	print_r($rows);
+	return $rows[0];
+}
+
+function updateQuestionaire($questionaireID, $fields) {
+	global $db;
+
+	$stmt = $db->prepare("
+		UPDATE Questionaires SET QuestionaireName=?, QuestionaireDepartment=? WHERE QuestionaireID=?");
+
+	$stmt->bind_param("ssi", $fields["QuestionaireName"], $fields["QuestionaireDepartment"], $questionaireID);
+	$stmt->execute();
+}
