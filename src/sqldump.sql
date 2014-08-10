@@ -292,15 +292,17 @@ CREATE TABLE `Students` (
   `UserID` varchar(6) NOT NULL,
   `QuestionaireID` int(11) NOT NULL,
   `Department` enum('Art','IBERS','CompSci','Welsh') NOT NULL,
+  `Token` varchar(8) NOT NULL,
+  `Done` bit(1) NOT NULL,
   PRIMARY KEY (`UserID`,`QuestionaireID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `Students` (`UserID`, `QuestionaireID`, `Department`) VALUES
-('keo7',	0,	'CompSci'),
-('stm26',	0,	'CompSci'),
-('nid16',	0,	'CompSci'),
-('jmt14',	0,	'CompSci'),
-('th1',	0,	'CompSci');
+INSERT INTO `Students` (`UserID`, `QuestionaireID`, `Department`, `Token`, `Done`) VALUES
+('keo7',	0,	'CompSci',	'',	CONV('0', 2, 10) + 0),
+('stm26',	0,	'CompSci',	'',	CONV('0', 2, 10) + 0),
+('nid16',	0,	'CompSci',	'',	CONV('0', 2, 10) + 0),
+('jmt14',	0,	'CompSci',	'',	CONV('0', 2, 10) + 0),
+('th1',	0,	'CompSci',	'',	CONV('0', 2, 10) + 0);
 
 DROP TABLE IF EXISTS `StudentsToModules`;
 CREATE TABLE `StudentsToModules` (
@@ -373,4 +375,4 @@ INSERT INTO `StudentsToModules` (`UserID`, `ModuleID`, `QuestionaireID`) VALUES
 ('th1',	'cs18010',	1),
 ('th1',	'cs18010',	3);
 
--- 2014-08-10 22:25:29
+-- 2014-08-10 22:37:58
