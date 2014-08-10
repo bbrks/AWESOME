@@ -56,10 +56,9 @@ function parseCSV($data) {
 			
 		$students[] = array(
 			"UserID" => $csv[0],
-			"Department" => $csv[1],
-			"Modules" => array_slice($csv, 2)
+			"Modules" => array_slice($csv, 1)
 		);
 	}
 	
-	print_r($students);
+	return $students;
 }
