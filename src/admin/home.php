@@ -15,7 +15,11 @@ if (!isset($_SESSION["admin_user"])) {
 	<link href="../css/bootstrap.min.css" rel="stylesheet">
 	<script src="../js/jquery-1.11.0.min.js" type="text/javascript"></script>
 	<script src="../js/bootstrap.min.js" type="text/javascript"></script>
-	
+	<style>
+		.table .progress {
+			margin-bottom: 0px;
+		}
+	</style>
 	
 </head>
 
@@ -73,7 +77,7 @@ $questionaires = getQuestionaires();
 	<?
 	
 foreach($questionaires as $questionaire) {
-	$percent = $questionaire["Answers"]==0?0:($questionaire["Total"]/$questionaire["Answers"])*100;
+	$percent = $questionaire["Total"]==0?0:($questionaire["Answers"]/$questionaire["Total"])*100;
 	?>
 	<tr>
 		<td><?=$questionaire["QuestionaireID"]?></td>
@@ -81,7 +85,7 @@ foreach($questionaires as $questionaire) {
 		<td><?=$questionaire["QuestionaireDepartment"]?></td>
 		<td><?=$questionaire["Answers"]?></td>
 		<td><?=$questionaire["Total"]?></td>
-		<td><div class="progress-bar" role="progressbar" aria-valuenow="<?=$percent?>" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"><?=$percent?>%</div></td>
+		<td><div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="<?=$percent?>" aria-valuemin="0" aria-valuemax="100" style="width: <?=$percent?>%;"><?=$percent?>%</div></div></td>
 		<td><a class="btn btn-default btn-xs" href="modify.php?questionaireID=<?=$questionaire["QuestionaireID"]?>">Modify</a> <a class="btn btn-default btn-xs" href="stats.php?questionaireID=<?=$questionaire["QuestionaireID"]?>">Stats</a></td>
 	</tr>
 	<?

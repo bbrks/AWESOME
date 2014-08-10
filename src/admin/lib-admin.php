@@ -11,11 +11,11 @@ function getQuestionaires() {
 				WHERE Questionaires.QuestionaireID = AnswerGroup.QuestionaireID
 			) AS Answers,
 			(
-				SELECT COUNT(*)
+				SELECT COUNT(DISTINCT StudentsToModules.UserID)
 				FROM StudentsToModules
 				WHERE Questionaires.QuestionaireID = StudentsToModules.QuestionaireID
 			) AS Total
-		FROM Questionaires	
+		FROM Questionaires
 	");
 	$stmt->execute();
 	$rows = getRows($stmt);
@@ -56,9 +56,25 @@ function parseCSV($data) {
 			
 		$students[] = array(
 			"UserID" => $csv[0],
-			"Modules" => array_slice($csv, 1)
+			"Department" => $csv[1],
+			"Modules" => array_slice($csv, 2)
 		);
 	}
 	
 	return $students;
+}
+
+function insertStudents($students, $questionaireID) {
+	global $db;
+	$dbstudent = $db->prepare("INSERT INTO Students (UserID, Department, QuestionareID) VALUES (?, ?, ?)");
+	$dbmodules = $db->prepare("INSERT INTO StudentsToModules (UserID, ModuleID, QuestionaireID) VALUES (?, ?, ?)");
+	foreach ($students as $student) {
+		$dbstudent->bind_param("sss", $student["UserID"], $student["Department"], $questionaireID);
+		$dbstudent->execute();
+		
+		foreach($student["Modules"] as $module) {
+			$dbmodules->bind_param("ssi", $student["UserID"], $module, $questionaireID);
+			$dbmodules->execute();
+		}
+	}
 }

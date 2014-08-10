@@ -19,7 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		updateQuestionaire($questionaireID, $q);
 	}
 	elseif ($_POST["action"] == "csv_submit") {
-		parseCSV($_POST["csvdata"]);
+		$data = parseCSV($_POST["csvdata"]);
+		insertStudents($data, $questionaireID);
 	}
 }
 
