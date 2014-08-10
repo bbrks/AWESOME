@@ -36,6 +36,13 @@ $q = getQuestionaire($questionaireID);
 	<link href="../css/bootstrap.min.css" rel="stylesheet">
 	<script src="../js/jquery-1.11.0.min.js" type="text/javascript"></script>
 	<script src="../js/bootstrap.min.js" type="text/javascript"></script>
+	<style>
+		@media (min-width: 992px){
+			.leftcolumn {
+				border-right: 1px dashed #333;
+			}
+		}
+	</style>
 </head>
 
 <body>
@@ -47,7 +54,7 @@ $q = getQuestionaire($questionaireID);
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-2" style="border-right: 1px dashed #333;">
+		<div class="col-md-2 leftcolumn">
 			<ul class="nav nav-pills nav-stacked">
 			  <li class="active"><a href="#basic" role="tab" data-toggle="tab">Basic</a></li>
 			  <li><a href="#students" role="tab" data-toggle="tab">Students</a></li>
