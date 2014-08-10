@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (!isset($_SESSION["admin_user"])) {
+	header("location: login.php");
+	exit("login ffs");
+}
+?>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -14,16 +22,6 @@
 <body>
 
 <div class="container">
-
-<?php
-session_start();
-
-if (!isset($_SESSION["admin_user"])) {
-	header("location: login.php");
-	exit("login ffs");
-}
-?>
-
 <div class="modal fade" id="modal">
   <div class="modal-dialog">
     <div class="modal-content">
