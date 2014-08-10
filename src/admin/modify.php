@@ -9,21 +9,22 @@ if (!isset($_SESSION["admin_user"])) {
 include "lib-admin.php";
 
 $questionaireID = $_GET["questionaireID"];
-$q = getQuestionaire($questionaireID);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	if ($_POST["action"] == "modify_basic") {
+		$q = array();
 		$q["QuestionaireName"] = $_POST["questionaireName"];
 		$q["QuestionaireDepartment"] = $_POST["questionaireDepartment"];
 		
 		updateQuestionaire($questionaireID, $q);
 	}
-	elseif ($_POST["action"] == "csv_submit") {
+	elseif ($_POST["action"] == "students_csv_submit") {
 		$data = parseCSV($_POST["csvdata"]);
 		insertStudents($data, $questionaireID);
 	}
 }
 
+$q = getQuestionaire($questionaireID);
 
 ?>
 <!DOCTYPE HTML>
@@ -31,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
 	<title>Questionnaire</title>
 	<link rel="icon" type="image/png" href="../../assets/favicon.png">
-
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="../css/bootstrap.min.css" rel="stylesheet">
 	<script src="../js/jquery-1.11.0.min.js" type="text/javascript"></script>
 	<script src="../js/bootstrap.min.js" type="text/javascript"></script>
@@ -75,13 +76,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				
 				<div class="tab-pane" id="students">
 					<form method="post">
-						<input type="hidden" name="action" value="csv_submit" />
+						<input type="hidden" name="action" value="students_csv_submit" />
 						<textarea name="csvdata" class="form-control" rows="25"></textarea>
-						<button type="submit" class="btn btn-primary form-control">Modify Questionaire</button>
+						<button type="submit" class="btn btn-primary form-control">Add Students</button>
 					</form>
 				
 				</div>
-				<div class="tab-pane" id="modules">Modules</div>
+				
+				<div class="tab-pane" id="modules">
+						<form method="post">
+						<input type="hidden" name="action" value="modules_csv_submit" />
+						<textarea name="csvdata" class="form-control" rows="25"></textarea>
+						<button type="submit" class="btn btn-primary form-control">Add Modules</button>
+					</form>
+				</div>
+				
 			</div>
 		</div>
 	</div>
