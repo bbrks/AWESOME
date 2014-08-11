@@ -19,8 +19,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		updateQuestionaire($questionaireID, $q);
 	}
 	elseif ($_POST["action"] == "students_csv_submit") {
-		$data = parseCSV($_POST["csvdata"]);
+		$data = parseStudentsCSV($_POST["csvdata"]);
 		insertStudents($data, $questionaireID);
+	}
+	elseif ($_POST["action"] == "modules_csv_submit") {
+		$data = parseModulesCSV($_POST["csvdata"]);
+		insertModules($data, $questionaireID);
+	}
+	elseif ($_POST["action"] == "staff_csv_submit") {
+		$data = parseStaffCSV($_POST["csvdata"]);
+		insertStaff($data, $questionaireID);
+	}
+	elseif ($_POST["action"] == "staffmodules_csv_submit") {
+		$data = parseModulesStaffCSV($_POST["csvdata"]);
+		insertStaffModules($data, $questionaireID);
 	}
 }
 
@@ -59,6 +71,7 @@ $q = getQuestionaire($questionaireID);
 			  <li class="active"><a href="#basic" role="tab" data-toggle="tab">Basic</a></li>
 			  <li><a href="#students" role="tab" data-toggle="tab">Students</a></li>
 			  <li><a href="#modules" role="tab" data-toggle="tab">Modules</a></li>
+			  <li><a href="#staff" role="tab" data-toggle="tab">Staff</a></li>
 			</ul>
 		</div>
 		<div class="col-md-10">
@@ -95,6 +108,22 @@ $q = getQuestionaire($questionaireID);
 						<input type="hidden" name="action" value="modules_csv_submit" />
 						<textarea name="csvdata" class="form-control" rows="25"></textarea>
 						<button type="submit" class="btn btn-primary form-control">Add Modules</button>
+					</form>
+				</div>
+				
+				<div class="tab-pane" id="staff">
+						<form method="post">
+						<input type="hidden" name="action" value="staff_csv_submit" />
+						<textarea name="csvdata" class="form-control" rows="25"></textarea>
+						<button type="submit" class="btn btn-primary form-control">Add Staff</button>
+					</form>
+				</div>
+				
+				<div class="tab-pane" id="staffmodules">
+						<form method="post">
+						<input type="hidden" name="action" value="staffmodules_csv_submit" />
+						<textarea name="csvdata" class="form-control" rows="25"></textarea>
+						<button type="submit" class="btn btn-primary form-control">Add Staff/Module links</button>
 					</form>
 				</div>
 				

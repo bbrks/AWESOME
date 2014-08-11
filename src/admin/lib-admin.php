@@ -46,18 +46,18 @@ function updateQuestionaire($questionaireID, $fields) {
 	$stmt->execute();
 }
 
-function parseCSV($data) {
+function parseStudentsCSV($data) {
 	$lines = explode("\n",$data);
 	$students = array();
 	foreach($lines as $line) {
 		$csv = str_getcsv($line);
-		if (count($csv) < 4)
+		if (count($csv) < 3)
 			continue;
 			
 		$students[] = array(
-			"UserID" => $csv[0],
+			"UserID" => strtolower($csv[0]),
 			"Department" => $csv[1],
-			"Modules" => array_slice($csv, 2)
+			"Modules" => array_map('strtolower',array_slice($csv, 2))
 		);
 	}
 	
@@ -69,12 +69,87 @@ function insertStudents($students, $questionaireID) {
 	$dbstudent = $db->prepare("INSERT INTO Students (UserID, Department, QuestionareID) VALUES (?, ?, ?)");
 	$dbmodules = $db->prepare("INSERT INTO StudentsToModules (UserID, ModuleID, QuestionaireID) VALUES (?, ?, ?)");
 	foreach ($students as $student) {
-		$dbstudent->bind_param("sss", $student["UserID"], $student["Department"], $questionaireID);
+		$dbstudent->bind_param("ssi", $student["UserID"], $student["Department"], $questionaireID);
 		$dbstudent->execute();
 		
 		foreach($student["Modules"] as $module) {
 			$dbmodules->bind_param("ssi", $student["UserID"], $module, $questionaireID);
 			$dbmodules->execute();
 		}
+	}
+}
+
+function parseModulesCSV($data) {
+	$lines = explode("\n",$data);
+	$modules = array();
+	foreach($lines as $line) {
+		$csv = str_getcsv($line);
+		if (count($csv) < 2)
+			continue;
+			
+		$modules[] = array(
+			"ModuleID"=>strtolower($csv[0]),
+			"ModuleTitle"=>$csv[1]
+		);
+	}
+	return $modules;
+}
+
+function insertModules($modules, $questionaireID) {
+	global $db;
+	$dbmodule = $db->prepare("INSERT INTO Modules (ModuleID, QuestionaireID, ModuleTitle) VALUES (?, ?, ?)");
+	foreach($modules as $module) {
+		$dbmodule->bind_param("sis", $module["ModuleID"], $questionaireID, $module["ModuleTitle"]);
+		$dbmodule->execute();
+	}
+}
+
+function parseStaff($data) {
+	$lines = explode("\n",$data);
+	$staff = array();
+	foreach($lines as $line) {
+		$csv = str_getcsv($line);
+		if (count($csv) < 2)
+			continue;
+			
+		$staff[] = array(
+			"UserID"=>strtolower($csv[0]),
+			"Name"=>$csv[1]
+		);
+	}
+	return $staff;
+}
+
+function insertStaff($stafflist, $questionaireID) {
+	global $db;
+	$dbsmodule = $db->prepare("INSERT INTO Staff (UserID, Name, QuestionaireID) VALUES (?, ?, ?)");
+	foreach($stafflist as $staff) {
+		$dbsmodule->bind_param("ssi", $staffmodule["ModuleID"], $staffmodule["UserID"], $questionaireID);
+		$dbsmodule->execute();
+	}
+}
+
+function parseStaffModulesCSV($data) {
+	$lines = explode("\n",$data);
+	$staffmodules = array();
+	foreach($lines as $line) {
+		$csv = str_getcsv($line);
+		if (count($csv) < 2)
+			continue;
+			
+		$staffmodules[] = array(
+			"ModuleID"=>strtolower($csv[0]),
+			"UserID"=>strtolower($csv[1])
+		);
+	}
+	return $staffmodules;
+}
+
+function insertStaffModules($staffmodules, $questionaireID) {
+	global $db;
+	$dbsmodule = $db->prepare("INSERT INTO StaffToModules (ModuleID, UserID, QuestionaireID) VALUES (?, ?, ?)");
+	foreach($staffmodules as $staffmodule) {
+		$dbsmodule->bind_param("ssi", $staffmodule["ModuleID"], $staffmodule["UserID"], $questionaireID);
+		$dbsmodule->execute();
 	}
 }
