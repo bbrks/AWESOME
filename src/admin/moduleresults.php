@@ -45,41 +45,24 @@ $moduleID = $_GET["moduleID"];
 		}
 		elseif ($module[0]["Type"] == "rate") {
 			$data = array(
-				array(
-						"value"=>0,
-						"color"=>"#F7464A",
-						"label"=>"1"
-					),
-				array(
-						"value"=>0,
-						"color"=>"#F7464A",
-						"label"=>2
-					),
-				array(
-						"value"=>0,
-						"color"=>"#FDB45C",
-						"label"=>3,
-					),
-				array(
-						"value"=>0,
-						"color"=>"#5AD3D1",
-						"label"=>4,
-					),
-				array(
-						"value"=>0,
-						"color"=>"#5AD3D1",
-						"label"=>5
+				"labels"=> array(1,2,3,4,5),
+				"datasets"=>array(
+					array(
+							"value"=>0,
+							"color"=>"#F7464A",
+							"data"=>array(0,0,0,0,0)
+						)
 					)
 			);
 				
 			foreach ($module as $result) {
-				$data[$result["NumValue"]-1]["value"]++;
+				$data["datasets"][0]["data"][$result["NumValue"]-1]++;
 			}
 			?>
 			<canvas id="<?=$key?>" width="400" height="400"></canvas>
 			<script>
 				var ctx = document.getElementById("<?=$key?>").getContext("2d");
-				var myNewChart = new Chart(ctx).Pie(<? echo json_encode($data); ?>);
+				var myNewChart = new Chart(ctx).Bar(<? echo json_encode($data); ?>);
 				
 				
 			</script>
