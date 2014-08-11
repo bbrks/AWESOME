@@ -160,10 +160,10 @@ function getResults($moduleID, $questionaireID) {
 	global $db;
 	
 	$stmt = $db->prepare("
-		SELECT Answers.AnswerID, Answers.ModuleID, Answers.QuestionID, Staff.UserID as StaffID, REPLACE(Questions.QuestionText, '%s', Staff.name) AS QuestionText, Questions.Type, Answers.NumValue, Answers.TextValue FROM Answers
+		SELECT Answers.AnswerID, Answers.ModuleID, Answers.QuestionID, Staff.UserID as StaffID, REPLACE(Questions.QuestionText, '%s', CASE WHEN Staff.Name is NULL THEN '' ELSE Staff.Name END) AS QuestionText, Questions.Type, Answers.NumValue, Answers.TextValue FROM Answers
 		JOIN AnswerGroup on Answers.AnswerID=AnswerGroup.AnswerID
 		LEFT JOIN Questions ON Answers.QuestionID = Questions.QuestionID
-		LEFT JOIN Staff ON Answers.StaffID = Staff.UserID
+		LEFT JOIN Staff ON Answers.StaffID = Staff.UserID AND AnswerGroup.QuestionaireID = Staff.QuestionaireID
 		WHERE AnswerGroup.QuestionaireID=?
 		AND Answers.ModuleID=?");
 
