@@ -156,7 +156,49 @@ INSERT INTO `Modules` (`ModuleID`, `QuestionaireID`, `ModuleTitle`) VALUES
 ('CS38220',	0,	'Professional Issues in the Computing Industry '),
 ('CS39440',	0,	'Major Project '),
 ('CS39620',	0,	'Minor Project '),
-('CS39930',	0,	'Web-Based Major Project ');
+('CS39930',	0,	'Web-Based Major Project '),
+('cs10110',	3,	'Introduction to Computer Hardware, Operating Systems and Unix Tools'),
+('cs10410',	3,	'The Mathematics Driving License for Computer Science'),
+('cs12020',	3,	'Introduction to Programming'),
+('cs12510',	3,	'Functional Programming'),
+('cs15020',	3,	'Web Development Tools'),
+('cs10720',	3,	'Problems and Solutions'),
+('cs12320',	3,	'Programming Using an Object-Oriented Language'),
+('cs18010',	3,	'Professional and Personal Development'),
+('cs20410',	3,	'The Advanced Mathematics Driving License for Computer Science '),
+('cs21120',	3,	'Program Design, Data Structures and Algorithms '),
+('cs22120',	3,	'The Software Development Life Cycle'),
+('cs23710',	3,	'C and UNIX Programming'),
+('cs24110',	3,	'Image Processing'),
+('cs25010',	3,	'Web Programming'),
+('cs25110',	3,	'Introduction to System and Network Services Administration'),
+('cs25410',	3,	'Computer Architecture and Hardware '),
+('cs26110',	3,	'The Artificial Intelligence Toolbox Part 1: how to Find Solutions '),
+('cs27020',	3,	'Modelling Persistent Data'),
+('cs28310',	3,	'Introduction to Business Processes for Web Developers'),
+('cs31310',	3,	'Agile Methodologies '),
+('cs32310',	3,	'Advanced Computer Graphics '),
+('cs34110',	3,	'Computer Vision '),
+('cs35710',	3,	'Ubiquitous Computing '),
+('cs35910',	3,	'Internet Services Administration '),
+('cs36110',	3,	'Machine Learning '),
+('cs36510',	3,	'Space Robotics '),
+('cs37420',	3,	'E-Commerce: Implementation, Management and Security'),
+('cs38110',	3,	'Open Source Development Issues '),
+('cs39820',	3,	'Business Information Technology Group Project'),
+('cs22310',	3,	'User Centred Design and Human Computer Interaction '),
+('cs22510',	3,	'C++, C and Java Programming Paradigms '),
+('cs25210',	3,	'Client-Side Graphics Programming for the Web'),
+('cs25710',	3,	'Mobile, Embedded and Wearable Technology '),
+('cs26210',	3,	'The Artificial Intelligence Toolbox - Part ii: Programming in An Uncertain World '),
+('cs26410',	3,	'Introduction to Robotics '),
+('cs27510',	3,	'Commercial Database Applications '),
+('cs35810',	3,	'Further Issues in System and Network Services Administration '),
+('cs36410',	3,	'Intelligent Robotics '),
+('cs38220',	3,	'Professional Issues in the Computing Industry '),
+('cs39440',	3,	'Major Project '),
+('cs39620',	3,	'Minor Project '),
+('cs39930',	3,	'Web-Based Major Project ');
 
 DROP TABLE IF EXISTS `Questionaires`;
 CREATE TABLE `Questionaires` (
@@ -522,4 +564,4 @@ INSERT INTO `StudentsToModules` (`UserID`, `ModuleID`, `QuestionaireID`) VALUES
 ('th1',	'cs18010',	1),
 ('th1',	'cs18010',	3);
 
--- 2014-08-11 03:36:00
+-- 2014-08-11 06:40:39
