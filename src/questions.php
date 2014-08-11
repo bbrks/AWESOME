@@ -64,9 +64,11 @@ function print_form($modules, $warn=false) {
 	}
 	echo "<input type=\"submit\" value=\"Submit survey!\" /></form>";
 }
+$token = $_GET["token"];
+$details = getStudentDetails($token);
 
-$user = $_GET["user"];
-$modules = getPreparedQuestions($user, $_POST);
+$user = $details["UserID"];
+$modules = getPreparedQuestions($details, $_POST);
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 	print_form($modules);
@@ -78,7 +80,7 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		return;
 	}
 	else {
-		answers_submit($modules);
+		answers_submit($details, $modules);
 
 	}
 

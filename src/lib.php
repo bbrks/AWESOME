@@ -25,16 +25,19 @@ function getRows($stmt) { //PHP prepared statements are shit
     return $result;
 }
 
-function getStudentDetails($student) {
-	if ($stmt = $db->prepare("SELECT * FROM Students WHERE `StudentID`=?"))
-	{
-		$stmt->bind_param("s", $student);
-		$stmt->execute();
-		return getRow($stmt);
-	}
+function getStudentDetails($token) {
+	global $db;
+	
+	$stmt = $db->prepare("SELECT * FROM Students WHERE `Token`=?");
+	
+	$stmt->bind_param("s", $token);
+	$stmt->execute();
+	
+	$rows = getRows($stmt);
+	return $rows[0];
 }
 
-function getStudentModules($student) {
+function getStudentModules($details) {
 	global $db;
 
 	$stmt = $db->prepare("
@@ -42,14 +45,16 @@ function getStudentModules($student) {
 		FROM Modules
 
 		JOIN StudentsToModules ON StudentsToModules.ModuleID = Modules.ModuleID
-		WHERE StudentsToModules.UserID=?");
+		WHERE StudentsToModules.UserID=?
+		AND StudentsToModules.QuestionaireID=?
+	");
 
-	$stmt->bind_param("s", $student);
+	$stmt->bind_param("ss", $details["UserID"], $details["QuestionaireID"]);
 	$stmt->execute();
 
 	$rows = getRows($stmt);
 
-	$lecturers = getStudentModuleLecturers($student);
+	$lecturers = getStudentModuleLecturers($details);
 	foreach ($rows as &$row) {
 		if (array_key_exists($row["ModuleID"], $lecturers)) {
 			$row["Staff"] = $lecturers[$row["ModuleID"]];
@@ -62,17 +67,19 @@ function getStudentModules($student) {
 	return $rows;
 }
 
-function getStudentModuleLecturers($student) {
+function getStudentModuleLecturers($details) {
 	global $db;
 
 	$stmt = $db->prepare("
 		SELECT StaffToModules.ModuleID AS ModuleID, StaffToModules.UserID AS StaffID, Staff.Name as StaffName
 		FROM Staff
-		RIGHT JOIN StaffToModules ON StaffToModules.UserID = Staff.UserID");
+		RIGHT JOIN StaffToModules ON StaffToModules.UserID = Staff.UserID AND StaffToModules.QuestionaireID = Staff.QuestionaireID
+		WHERE StaffToModules.QuestionaireID=?");
 
 
-	//$stmt->bind_param("s", $student);
+	$stmt->bind_param("s", $details["QuestionaireID"]);
 	$stmt->execute();
+	
 	$rows = getRows($stmt);
 
 	$lecturers = array();
@@ -93,9 +100,9 @@ function getQuestions() {
 	return $rows;
 }
 
-function getPreparedQuestions($student, $answers = array()) {
+function getPreparedQuestions($details, $answers = array()) {
 	$questions = getQuestions();
-	$modules = getStudentModules($student);
+	$modules = getStudentModules($details);
 
 	foreach($modules as $mkey => &$module) {
 
@@ -143,11 +150,12 @@ function answers_filled($modules) {
 	return true;
 }
 
-function answers_submit($modules) {
+function answers_submit($details, $modules) {
 	global $db;
 	$db->autocommit(false);
 
-	$stmt = $db->prepare("INSERT INTO AnswerGroup VALUES ()");
+	$stmt = $db->prepare("INSERT INTO AnswerGroup (QuestionaireID) VALUES ()");
+	$stmt->bind_param("iissis", $details["QuestionaireID"]);
 	$stmt->execute();
 	$stmt->close();
 
