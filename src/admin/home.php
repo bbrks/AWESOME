@@ -86,7 +86,7 @@ foreach($questionaires as $questionaire) {
 		<td><?=$questionaire["Answers"]?></td>
 		<td><?=$questionaire["Total"]?></td>
 		<td><div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="<?=$percent?>" aria-valuemin="0" aria-valuemax="100" style="width: <?=$percent?>%;"><?=$percent?>%</div></div></td>
-		<td><a class="btn btn-default btn-xs" href="modify.php?questionaireID=<?=$questionaire["QuestionaireID"]?>">Modify</a> <a class="btn btn-default btn-xs" href="stats.php?questionaireID=<?=$questionaire["QuestionaireID"]?>">Stats</a></td>
+		<td><a class="btn btn-default btn-xs" href="modify.php?questionaireID=<?=$questionaire["QuestionaireID"]?>">Modify</a> <a class="btn btn-default btn-xs" href="results.php?questionaireID=<?=$questionaire["QuestionaireID"]?>">Stats</a></td>
 	</tr>
 	<?
 }
