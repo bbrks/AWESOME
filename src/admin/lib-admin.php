@@ -106,7 +106,7 @@ function insertModules($modules, $questionaireID) {
 	}
 }
 
-function parseStaff($data) {
+function parseStaffCSV($data) {
 	$lines = explode("\n",$data);
 	$staff = array();
 	foreach($lines as $line) {
@@ -126,7 +126,7 @@ function insertStaff($stafflist, $questionaireID) {
 	global $db;
 	$dbsmodule = $db->prepare("INSERT INTO Staff (UserID, Name, QuestionaireID) VALUES (?, ?, ?)");
 	foreach($stafflist as $staff) {
-		$dbsmodule->bind_param("ssi", $staffmodule["ModuleID"], $staffmodule["UserID"], $questionaireID);
+		$dbsmodule->bind_param("ssi", $staff["UserID"], $staff["Name"], $questionaireID);
 		$dbsmodule->execute();
 	}
 }

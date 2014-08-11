@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		insertStaff($data, $questionaireID);
 	}
 	elseif ($_POST["action"] == "staffmodules_csv_submit") {
-		$data = parseModulesStaffCSV($_POST["csvdata"]);
+		$data = parseStaffModulesCSV($_POST["csvdata"]);
 		insertStaffModules($data, $questionaireID);
 	}
 }
@@ -72,6 +72,7 @@ $q = getQuestionaire($questionaireID);
 			  <li><a href="#students" role="tab" data-toggle="tab">Students</a></li>
 			  <li><a href="#modules" role="tab" data-toggle="tab">Modules</a></li>
 			  <li><a href="#staff" role="tab" data-toggle="tab">Staff</a></li>
+			  <li><a href="#staffmodules" role="tab" data-toggle="tab">Staff Modules</a></li>
 			</ul>
 		</div>
 		<div class="col-md-10">
