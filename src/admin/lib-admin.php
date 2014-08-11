@@ -66,12 +66,12 @@ function parseStudentsCSV($data) {
 
 function insertStudents($students, $questionaireID) {
 	global $db;
-	$dbstudent = $db->prepare("INSERT INTO Students (UserID, Department, QuestionareID, Token, Done) VALUES (?, ?, ?)");
+	$dbstudent = $db->prepare("INSERT INTO Students (UserID, Department, QuestionareID, Token, Done) VALUES (?, ?, ?, ?, ?)");
 	$dbmodules = $db->prepare("INSERT INTO StudentsToModules (UserID, ModuleID, QuestionaireID) VALUES (?, ?, ?)");
 	foreach ($students as $student) {
 		$token = bin2hex(openssl_random_pseudo_bytes(16));
 		$done = false;
-		$dbstudent->bind_param("ssi", $student["UserID"], $student["Department"], $questionaireID, $token, $done);
+		$dbstudent->bind_param("ssisi", $student["UserID"], $student["Department"], $questionaireID, $token, $done);
 		$dbstudent->execute();
 		
 		foreach($student["Modules"] as $module) {
