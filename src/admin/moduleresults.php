@@ -9,6 +9,7 @@ if (!isset($_SESSION["admin_user"])) {
 include "lib-admin.php";
 
 $questionaireID = $_GET["questionaireID"];
+$moduleID = $_GET["moduleID"];
 
 ?>
 <!DOCTYPE HTML>
@@ -32,7 +33,7 @@ $questionaireID = $_GET["questionaireID"];
 <body>
 	<?
 	
-	$results = getResults("cs21120", $questionaireID);
+	$results = getResults($moduleID, $questionaireID);
 	//print_r($results);
 	foreach($results as $key=>$module) {
 		echo "<h3>{$module[0]["QuestionText"]}</h3>";
