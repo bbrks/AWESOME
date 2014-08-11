@@ -16,13 +16,21 @@
 require("lib.php");
 
 function print_question($question, $warn=false) {
+	global $is_welsh;
 	echo "<div";
 	if ($warn == true && $question["Answer"] == "") {
 		echo " style=\"border: 5px solid red;\"";
 	}
 	echo ">";
-
-	echo "<h4>{$question["QuestionText"]}</h4>";
+	
+	if ($is_welsh) {
+		echo "<h4>{$question["QuestionText_welsh"]}</h4>";
+	}
+	else
+	{
+		echo "<h4>{$question["QuestionText"]}</h4>";
+	}
+	
 
 	if ($question["Type"] == "rate") {
 		echo "<hr>
@@ -65,6 +73,8 @@ function print_form($modules, $warn=false) {
 	echo "<input type=\"submit\" value=\"Submit survey!\" /></form>";
 }
 $token = $_GET["token"];
+$is_welsh = isset($_GET["welsh"]);
+
 $details = getStudentDetails($token);
 
 $user = $details["UserID"];

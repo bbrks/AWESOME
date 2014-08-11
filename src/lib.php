@@ -122,6 +122,7 @@ function getPreparedQuestions($details, $answers = array()) {
 
 					$mquestion["Identifier"] = $staff_identifier;
 					$mquestion["QuestionText"] = sprintf($question["QuestionText"], $staff["StaffName"]);
+					$mquestion["QuestionText_welsh"] = sprintf($question["QuestionText_welsh"], $staff["StaffName"]);
 					$mquestion["StaffID"] = $staff["StaffID"];
 					$module["Questions"][] = $mquestion;
 				}
@@ -154,8 +155,8 @@ function answers_submit($details, $modules) {
 	global $db;
 	$db->autocommit(false);
 
-	$stmt = $db->prepare("INSERT INTO AnswerGroup (QuestionaireID) VALUES ()");
-	$stmt->bind_param("iissis", $details["QuestionaireID"]);
+	$stmt = $db->prepare("INSERT INTO AnswerGroup (QuestionaireID) VALUES (?)");
+	$stmt->bind_param("i", $details["QuestionaireID"]);
 	$stmt->execute();
 	$stmt->close();
 
