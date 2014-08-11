@@ -29,5 +29,13 @@ $questionaireID = $_GET["questionaireID"];
 </head>
 
 <body>
+	<pre>
+	<?
+	
+	$results = getResults("cs21120", $questionaireID);
+	print_r($results);
+	?>
+	
+	
 </body>
 </html>
