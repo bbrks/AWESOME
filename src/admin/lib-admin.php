@@ -160,7 +160,7 @@ function getResults($moduleID, $questionaireID) {
 	global $db;
 	
 	$stmt = $db->prepare("
-		SELECT Answers.AnswerID, Answers.ModuleID, Answers.QuestionID, REPLACE(Questions.QuestionText, '%s', Staff.name) AS QuestionText, Questions.Type, Answers.NumValue, Answers.TextValue FROM Answers
+		SELECT Answers.AnswerID, Answers.ModuleID, Answers.QuestionID, Staff.UserID as StaffID, REPLACE(Questions.QuestionText, '%s', Staff.name) AS QuestionText, Questions.Type, Answers.NumValue, Answers.TextValue FROM Answers
 		JOIN AnswerGroup on Answers.AnswerID=AnswerGroup.AnswerID
 		LEFT JOIN Questions ON Answers.QuestionID = Questions.QuestionID
 		LEFT JOIN Staff ON Answers.StaffID = Staff.UserID
@@ -170,5 +170,14 @@ function getResults($moduleID, $questionaireID) {
 	$stmt->bind_param("is", $questionaireID, $moduleID);
 	$stmt->execute();
 	$rows = getRows($stmt);
-	return $rows;
+	
+	$results = array();
+	foreach($rows as $row) {
+		$id = $row["QuestionID"];
+		if ($row["StaffID"]) {
+			$id .= "_".$row["StaffID"];
+		}
+		$results[$id][] = $row;
+	}
+	return $results;
 }
