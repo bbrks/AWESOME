@@ -66,7 +66,7 @@ function parseStudentsCSV($data) {
 
 function insertStudents($students, $questionaireID) {
 	global $db;
-	$dbstudent = $db->prepare("INSERT INTO Students (UserID, Department, QuestionareID, Token, Done) VALUES (?, ?, ?, ?, ?)");
+	$dbstudent = $db->prepare("INSERT INTO Students (UserID, Department, QuestionaireID, Token, Done) VALUES (?, ?, ?, ?, ?)");
 	$dbmodules = $db->prepare("INSERT INTO StudentsToModules (UserID, ModuleID, QuestionaireID) VALUES (?, ?, ?)");
 	foreach ($students as $student) {
 		$token = bin2hex(openssl_random_pseudo_bytes(16));
