@@ -59,7 +59,7 @@ class tidy_sql {
 		$this->types = $types;
 		
 		if (!$this->stmt = $db->prepare($query)) {
-			throw new Exception($db->error);
+			throw new Exception("SQL prepare: ".$db->error);
 		}
 	}
 	
@@ -76,10 +76,17 @@ class tidy_sql {
 		
 		$exec = $this->stmt->execute();
 		if (!$exec) {
-			throw new Exception($this->stmt->error);
+			$this->stmt->reset();
+			throw new Exception("SQL Execute: ".$this->stmt->error);
+		}
+		elseif ($this->stmt->result_metadata()) {
+			$rows = $this->getRows();
+			$this->stmt->reset();
+			return $rows;
 		}
 		else {
-			return $this->getRows();
+			$this->stmt->reset();
+			return true;
 		}
 	}
 	
@@ -239,14 +246,12 @@ function answers_submit($details, $modules) {
 	global $db;
 	$db->autocommit(false);
 
-	$stmt = $db->prepare("INSERT INTO AnswerGroup (QuestionaireID) VALUES (?)");
-	$stmt->bind_param("i", $details["QuestionaireID"]);
-	$stmt->execute();
-	$stmt->close();
+	$stmt = new tidy_sql($db, "INSERT INTO AnswerGroup (QuestionaireID) VALUES (?)", "i");
+	$stmt->query($details["QuestionaireID"]);
 
 	$answerID = $db->insert_id;
 
-	$stmt = $db->prepare("INSERT INTO Answers (AnswerID, QuestionID, ModuleID, StaffID, NumValue, TextValue) VALUES (?,?,?,?,?,?)");
+	$stmt = new tidy_sql($db, "INSERT INTO Answers (AnswerID, QuestionID, ModuleID, StaffID, NumValue, TextValue) VALUES (?,?,?,?,?,?)", "iissis");
 	foreach($modules as $module) {
 		foreach($module["Questions"] as $question) {
 			$StaffID = "";
@@ -261,8 +266,7 @@ function answers_submit($details, $modules) {
 				$TextValue = $question["Answer"];
 			}
 
-			$stmt->bind_param("iissis", $answerID, $question["QuestionID"], $module["ModuleID"], $StaffID, $NumValue, $TextValue);
-			$stmt->execute();
+			$stmt->query($answerID, $question["QuestionID"], $module["ModuleID"], $StaffID, $NumValue, $TextValue);
 		}
 	}
 	if (!$db->commit()) {
