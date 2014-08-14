@@ -45,6 +45,7 @@ function getStudentModules($details) {
 		FROM Modules
 
 		JOIN StudentsToModules ON StudentsToModules.ModuleID = Modules.ModuleID
+			AND StudentsToModules.QuestionaireID = Modules.QuestionaireID
 		WHERE StudentsToModules.UserID=?
 		AND StudentsToModules.QuestionaireID=?
 	");
