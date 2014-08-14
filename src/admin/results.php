@@ -31,13 +31,11 @@ $questionaireID = $_GET["questionaireID"];
 
 <body>
 <?
-	$stmt = $db->prepare("SELECT * FROM Modules WHERE Modules.QuestionaireID=?");
-	$stmt->bind_param("i", $questionaireID);
-	$stmt->execute();
+	$stmt = new tidy_sql($db, "SELECT * FROM Modules WHERE Modules.QuestionaireID=?", "i");
+	$rows = $stmt->query($questionaireID);
 	?>
 	<ul class="nav nav-pills nav-stacked">
 	<?
-	$rows = getRows($stmt);
 	foreach($rows as $row) {
 		?>
 		<li><a href="moduleresults.php?questionaireID=<?=$questionaireID?>&moduleID=<?=$row["ModuleID"]?>"><?=$row["ModuleID"]?>: <?=$row["ModuleTitle"]?></a></li>

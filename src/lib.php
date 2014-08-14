@@ -12,41 +12,6 @@ require "db.php";
 if ($db->connect_errno)
 	throw "Failed to connect";
 
-
-//left in for compatibility reasons, removing once new class
-//	fully in use
-if (function_exists("mysqli_stmt_get_result")) {
-	function getRows($stmt) {
-		$result = $stmt->get_result();
-		$rows = array();
-		while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-			$rows[] = $row;
-		}
-		return $rows;
-	}
-}
-else {
-	function getRows($stmt) { //PHP prepared statements are shit
-		$meta = $stmt->result_metadata();
-		while ($field = $meta->fetch_field())
-		{
-			$params[] = &$row[$field->name];
-		}
-
-		call_user_func_array(array($stmt, 'bind_result'), $params);
-
-		while ($stmt->fetch()) {
-			foreach($row as $key => $val)
-			{
-				$c[$key] = $val;
-			}
-			$result[] = $c;
-		}
-		return $result;
-	}
-}
-
-
 class tidy_sql {
 	public $db;
 	public $types;
