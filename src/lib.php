@@ -98,7 +98,6 @@ function getStudentDetails($token) {
 	return $rows[0];
 }
 
-
 function getStudentModules($details) {
 	global $db;
 
