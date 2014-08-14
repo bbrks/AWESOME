@@ -130,11 +130,15 @@ function parseStaffModulesCSV($data) {
 		$csv = str_getcsv($line);
 		if (count($csv) < 2)
 			continue;
-			
+		
 		$staffmodules[] = array(
-			"ModuleID"=>strtolower($csv[0]),
-			"UserID"=>strtolower($csv[1])
+			"ModuleID" => strtoupper($csv[0]),
+			"Semester" => $csv[1],
+			"Staff" => array_map('strtolower',array_slice($csv, 2))
 		);
+	}
+	if ($staffmodules[0]["ModuleID"] == "Modules") {
+		array_shift($staff_modules);
 	}
 	return $staffmodules;
 }
@@ -142,8 +146,10 @@ function parseStaffModulesCSV($data) {
 function insertStaffModules($staffmodules, $questionaireID) {
 	global $db;
 	$dbsmodule = new tidy_sql($db, "INSERT INTO StaffToModules (ModuleID, UserID, QuestionaireID) VALUES (?, ?, ?)", "ssi");
-	foreach($staffmodules as $staffmodule) {
-		$dbsmodule->query($staffmodule["ModuleID"], $staffmodule["UserID"], $questionaireID);
+	foreach($staffmodules as $module) {
+		foreach($module["Staff"] as $staff) {
+			$dbsmodule->query($staffmodule["ModuleID"], $staff, $questionaireID);
+		}
 	}
 }
 
