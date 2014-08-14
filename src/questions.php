@@ -58,7 +58,7 @@ require("lib.php");
 function print_question($question, $warn=false) {
 	global $is_welsh;
 	echo "<div";
-	if ($warn == true && $question["Answer"] == "") {
+	if ($warn == true && !answer_filled($question)) {
 		echo " style=\"border: 5px solid red;\"";
 	}
 	echo ">";

@@ -231,12 +231,23 @@ function getPreparedQuestions($details, $answers = array()) {
 	return $modules;
 }
 
+function answer_filled($question) {
+	if ($question["Answer"] == "") {
+		return false;
+	}
+	elseif ($question["Type"] == "rate") {
+		if ($question["Answer"] < 1 || $question["Answer"] > 5) {
+			return false;
+		}
+	}
+	return true;
+}
+
 function answers_filled($modules) {
 	foreach($modules as $module) {
 		foreach($module["Questions"] as $question) {
-			if ($question["Answer"] == "") {
+			if (!answer_filled($question))
 				return false;
-			}
 		}
 	}
 	return true;
