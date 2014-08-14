@@ -54,7 +54,7 @@ class tidy_sql {
 	public $error;
 	public $errno;
 	
-	public function tidy_sql($db, $query, $types) {
+	public function tidy_sql($db, $query, $types = "") {
 		$this->db = $db;
 		$this->types = $types;
 		
@@ -65,19 +65,21 @@ class tidy_sql {
 	
 	public function query() {
 		$args = func_get_args();
-		//param args, bind_param works by reference
-		//	so we create a 2nd array consisting of just pointers to the first
-		$pargs = array();
-		foreach($args as &$arg) { $pargs[] = &$arg; }
-		array_unshift($pargs,$this->types);
-		call_user_func_array(array($this->stmt, "bind_param"),$pargs);
+		if (count($args) > 0) {
+			//param args, bind_param works by reference
+			//	so we create a 2nd array consisting of just pointers to the first
+			$pargs = array();
+			foreach($args as &$arg) { $pargs[] = &$arg; }
+			array_unshift($pargs,$this->types);
+			call_user_func_array(array($this->stmt, "bind_param"),$pargs);
+		}
 		
 		$exec = $this->stmt->execute();
 		if (!$exec) {
 			throw new Exception($this->stmt->error);
 		}
 		else {
-			return $this->getRows($this->stmt);
+			return $this->getRows();
 		}
 	}
 	
@@ -130,7 +132,7 @@ function getStudentDetails($token) {
 function getStudentModules($details) {
 	global $db;
 
-	$stmt = $db->prepare("
+	$stmt = new tidy_sql($db, "
 		SELECT StudentsToModules.ModuleID AS ModuleID, Modules.ModuleTitle as ModuleTitle
 		FROM Modules
 
@@ -138,13 +140,10 @@ function getStudentModules($details) {
 			AND StudentsToModules.QuestionaireID = Modules.QuestionaireID
 		WHERE StudentsToModules.UserID=?
 		AND StudentsToModules.QuestionaireID=?
-	");
+	", "ss");
 
-	$stmt->bind_param("ss", $details["UserID"], $details["QuestionaireID"]);
-	$stmt->execute();
-
-	$rows = getRows($stmt);
-
+	$rows = $stmt->query($details["UserID"], $details["QuestionaireID"]);
+	
 	$lecturers = getStudentModuleLecturers($details);
 	foreach ($rows as &$row) {
 		if (array_key_exists($row["ModuleID"], $lecturers)) {
@@ -161,17 +160,14 @@ function getStudentModules($details) {
 function getStudentModuleLecturers($details) {
 	global $db;
 
-	$stmt = $db->prepare("
+	$stmt = new tidy_sql($db, "
 		SELECT StaffToModules.ModuleID AS ModuleID, StaffToModules.UserID AS StaffID, Staff.Name as StaffName
 		FROM Staff
 		RIGHT JOIN StaffToModules ON StaffToModules.UserID = Staff.UserID AND StaffToModules.QuestionaireID = Staff.QuestionaireID
-		WHERE StaffToModules.QuestionaireID=?");
+		WHERE StaffToModules.QuestionaireID=?", "i");
 
 
-	$stmt->bind_param("s", $details["QuestionaireID"]);
-	$stmt->execute();
-	
-	$rows = getRows($stmt);
+	$rows = $stmt->query($details["QuestionaireID"]);
 
 	$lecturers = array();
 	foreach($rows as $row) {
@@ -183,12 +179,9 @@ function getStudentModuleLecturers($details) {
 function getQuestions() {
 	global $db;
 
-	$stmt = $db->prepare("SELECT * from Questions");
+	$stmt = new tidy_sql($db, "SELECT * from Questions", "");
 
-	$stmt->execute();
-	$rows = getRows($stmt);
-
-	return $rows;
+	return $stmt->query();
 }
 
 function getPreparedQuestions($details, $answers = array()) {
