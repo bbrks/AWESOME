@@ -12,6 +12,9 @@ require "db.php";
 if ($db->connect_errno)
 	throw "Failed to connect";
 
+
+//left in for compatibility reasons, removing once new class
+//	fully in use
 if (function_exists("mysqli_stmt_get_result")) {
 	function getRows($stmt) {
 		$result = $stmt->get_result();
@@ -40,6 +43,75 @@ else {
 			$result[] = $c;
 		}
 		return $result;
+	}
+}
+
+
+class tidy_sql {
+	public $db;
+	public $types;
+	public $stmt;
+	public $error;
+	public $errno;
+	
+	public function tidy_sql($db, $query, $types) {
+		$this->db = $db;
+		$this->types = $types;
+		
+		if (!$this->stmt = $db->prepare($query)) {
+			throw new Exception($db->error);
+		}
+	}
+	
+	public function query() {
+		$args = func_get_args();
+		//param args, bind_param works by reference
+		//	so we create a 2nd array consisting of just pointers to the first
+		$pargs = array();
+		foreach($args as &$arg) { $pargs[] = &$arg; }
+		array_unshift($pargs,$this->types);
+		call_user_func_array(array($this->stmt, "bind_param"),$pargs);
+		
+		$exec = $this->stmt->execute();
+		if (!$exec) {
+			throw new Exception($this->stmt->error);
+		}
+		else {
+			return $this->getRows($this->stmt);
+		}
+	}
+	
+
+	public function getRows() {
+		
+		if (function_exists("mysqli_stmt_get_result")) {
+			$result = $this->stmt->get_result();
+			$rows = array();
+			while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+				$rows[] = $row;
+			}
+			return $rows;
+		}
+		
+		else { //mysqlnd not being used, error prone :(
+			$meta = $this->stmt->result_metadata();
+			while ($field = $meta->fetch_field())
+			{
+				$params[] = &$row[$field->name];
+			}
+
+			call_user_func_array(array($this->stmt, 'bind_result'), $params);
+
+			while ($this->stmt->fetch()) {
+				foreach($row as $key => $val)
+				{
+					$c[$key] = $val;
+				}
+				$result[] = $c;
+			}
+			return $result;
+		}
+		
 	}
 }
 
