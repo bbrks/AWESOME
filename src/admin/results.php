@@ -31,17 +31,33 @@ $questionaireID = $_GET["questionaireID"];
 
 <body>
 <?
-	$stmt = new tidy_sql($db, "SELECT * FROM Modules WHERE Modules.QuestionaireID=?", "i");
+	$stmt = new tidy_sql($db, "
+		SELECT Modules.ModuleID,Modules.ModuleTitle,COUNT(DISTINCT AnswerGroup.AnswerID) as NumAnswers FROM Modules
+		JOIN StudentsToModules ON StudentsToModules.ModuleID = Modules.ModuleID AND StudentsToModules.QuestionaireID = Modules.QuestionaireID
+		LEFT JOIN Answers ON Answers.ModuleID = Modules.ModuleID
+		LEFT JOIN AnswerGroup ON AnswerGroup.QuestionaireID = Modules.QuestionaireID
+		WHERE Modules.QuestionaireID=?
+		GROUP BY Modules.ModuleID
+		", "i");
 	$rows = $stmt->query($questionaireID);
 	?>
-	<ul class="nav nav-pills nav-stacked">
+	<table class="table">
+		<thead>
+			<td>Module ID</td>
+			<th>Module Title</th>
+			<th>Num Answers</th>
+		</thead>
 	<?
 	foreach($rows as $row) {
 		?>
-		<li><a href="moduleresults.php?questionaireID=<?=$questionaireID?>&moduleID=<?=$row["ModuleID"]?>"><?=$row["ModuleID"]?>: <?=$row["ModuleTitle"]?></a></li>
+		<tr>
+			<td><?=$row["ModuleID"]?></td>
+			<td><a href="moduleresults.php?questionaireID=<?=$questionaireID?>&moduleID=<?=$row["ModuleID"]?>"><?=$row["ModuleTitle"]?></a></td>
+			<td><?=$row["NumAnswers"]?></td>
+		</tr>
 		<?
 	}
 	?>
-	</ul>
+	</table>
 </body>
 </html>
