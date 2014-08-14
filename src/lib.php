@@ -1,4 +1,10 @@
 <?
+$start = microtime(true);
+register_shutdown_function('output_timer');
+function output_timer() {
+	global $start;
+	echo "<!-- Page generated in ". (microtime(true)-$start) ." seconds! :D -->";
+}
 
 global $db;
 
