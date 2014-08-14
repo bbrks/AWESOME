@@ -129,7 +129,7 @@ $q = getQuestionaire($questionaireID);
 				<div class="tab-pane" id="staffmodules">
 						<form method="post">
 						<p>The system expects a CSV, with no header (very important) with the structure:<br/>
-						Staff UserID, Module ID<br/>
+						Module ID,Staff UserID<br/>
 						This is repeated for every module</p>
 						<input type="hidden" name="action" value="staffmodules_csv_submit" />
 						<textarea name="csvdata" class="form-control" rows="25"></textarea>

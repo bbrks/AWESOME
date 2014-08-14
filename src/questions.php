@@ -110,7 +110,8 @@ function print_form($modules, $warn=false) {
 			print_question($question, $warn);
 		}
 	}
-	echo "<input type=\"submit\" value=\"Submit survey!\" /></form>";
+	//echo "<input type=\"submit\" value=\"Submit survey!\" /></form>";
+	echo "<br><div class=\"pull-right\"><button type=\"submit\" class=\"btn btn-lg btn-success\" id=\"submit\"\">Submit Survey</button></div>";
 }
 $token = $_GET["token"];
 $is_welsh = isset($_GET["welsh"]);
@@ -137,6 +138,13 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 ?>
+			<br>
+			<br>
+			<footer>
+				
+				&copy; Keiron-Teilo O'Shea 2014
+				<p class="pull-right"><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p>
+			</footer>
 
 </div>
 </body>
