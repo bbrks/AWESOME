@@ -97,6 +97,8 @@ $q = getQuestionaire($questionaireID);
 				
 				<div class="tab-pane" id="students">
 					<form method="post">
+						<p>The system expects a CSV, with no header (very important) with the structure:<br/>
+						Student UserID, Student Department, Module 1, Module 2, ..., Module &infin;</p>
 						<input type="hidden" name="action" value="students_csv_submit" />
 						<textarea name="csvdata" class="form-control" rows="25"></textarea>
 						<button type="submit" class="btn btn-primary form-control">Add Students</button>
@@ -106,6 +108,8 @@ $q = getQuestionaire($questionaireID);
 				
 				<div class="tab-pane" id="modules">
 						<form method="post">
+						<p>The system expects a CSV, with no header (very important) with the structure:<br/>
+						Module ID, Module Name</p>
 						<input type="hidden" name="action" value="modules_csv_submit" />
 						<textarea name="csvdata" class="form-control" rows="25"></textarea>
 						<button type="submit" class="btn btn-primary form-control">Add Modules</button>
@@ -114,6 +118,8 @@ $q = getQuestionaire($questionaireID);
 				
 				<div class="tab-pane" id="staff">
 						<form method="post">
+						<p>The system expects a CSV, with no header (very important) with the structure:<br/>
+						Staff UserID, Staff Name</p>
 						<input type="hidden" name="action" value="staff_csv_submit" />
 						<textarea name="csvdata" class="form-control" rows="25"></textarea>
 						<button type="submit" class="btn btn-primary form-control">Add Staff</button>
@@ -122,6 +128,9 @@ $q = getQuestionaire($questionaireID);
 				
 				<div class="tab-pane" id="staffmodules">
 						<form method="post">
+						<p>The system expects a CSV, with no header (very important) with the structure:<br/>
+						Staff UserID, Module ID<br/>
+						This is repeated for every module</p>
 						<input type="hidden" name="action" value="staffmodules_csv_submit" />
 						<textarea name="csvdata" class="form-control" rows="25"></textarea>
 						<button type="submit" class="btn btn-primary form-control">Add Staff/Module links</button>
