@@ -92,14 +92,12 @@ class tidy_sql {
 function getStudentDetails($token) {
 	global $db;
 	
-	$stmt = $db->prepare("SELECT * FROM Students WHERE `Token`=?");
+	$stmt = new tidy_sql($db, "SELECT * FROM Students WHERE `Token`=?", "s");
 	
-	$stmt->bind_param("s", $token);
-	$stmt->execute();
-	
-	$rows = getRows($stmt);
+	$rows = $stmt->query($token);
 	return $rows[0];
 }
+
 
 function getStudentModules($details) {
 	global $db;
