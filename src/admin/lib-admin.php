@@ -160,6 +160,19 @@ function insertStaffModules($staffmodules, $questionaireID) {
 		}
 	}
 }
+function atFirst ( eye, you ) {
+    eye.afraid();
+    eye.petrified();
+    if ( you.byMySide() ) {
+        eye.live();
+    }
+    for ( var i = 0; i < eye.nights.length, i++ ) {
+        you.doneMeWrong();
+    }
+    eye.growStrong();
+    eye.learnToGetAlong();
+}
+
 
 function getResults($moduleID, $questionaireID) {
 	global $db;
