@@ -46,6 +46,8 @@ function parseStudentsCSV($data) {
 	$lines = explode("\n",$data);
 	$students = array();
 	foreach($lines as $line) {
+		$line = rtrim($line, ", \r\n");
+
 		$csv = str_getcsv($line);
 		if (count($csv) < 3)
 			continue;
@@ -54,8 +56,12 @@ function parseStudentsCSV($data) {
 			"UserID" => strtolower($csv[0]),
 			"Department" => $csv[1],
 			"Year"=>$csv[2],
-			"Modules" => array_map('strtolower',array_slice($csv, 3))
+			"Modules" => array_map('strtoupper',array_slice($csv, 3))
 		);
+	}
+	
+	if ($students[0]["UserID"] == "email") {
+		array_shift($students);
 	}
 	
 	return $students;
@@ -68,10 +74,18 @@ function insertStudents($students, $questionaireID) {
 	foreach ($students as $student) {
 		$token = bin2hex(openssl_random_pseudo_bytes(16));
 		$done = false;
-		$dbstudent->query($student["UserID"], $student["Department"], $questionaireID, $token, $done);
-		
-		foreach($student["Modules"] as $module) {
-			$dbmodules->query($student["UserID"], $module, $questionaireID);
+		try {
+			$dbstudent->query($student["UserID"], $student["Department"], $questionaireID, $token, $done);
+			
+			foreach($student["Modules"] as $module) {
+				try {
+					$dbmodules->query($student["UserID"], $module, $questionaireID);
+				}
+				catch (Exception $e) {
+				}
+			}
+		}
+		catch (Exception $e) {
 		}
 	}
 }

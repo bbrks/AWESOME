@@ -24,7 +24,7 @@ class tidy_sql {
 		$this->types = $types;
 		
 		if (!$this->stmt = $db->prepare($query)) {
-			throw new Exception("SQL prepare: ".$db->error);
+			throw new Exception("SQL prepare: ".strval($db->errno)." - ".$db->error);
 		}
 	}
 	
@@ -40,9 +40,10 @@ class tidy_sql {
 		}
 		
 		$exec = $this->stmt->execute();
-		if (!$exec) {
+		if ($this->stmt->errno != 0) {
+			$message = "SQL Execute: ".strval($this->stmt->errno)." - ".$this->stmt->error;
 			$this->stmt->reset();
-			throw new Exception("SQL Execute: ".$this->stmt->error);
+			throw new Exception($message);
 		}
 		elseif ($this->stmt->result_metadata()) {
 			$rows = $this->getRows();
@@ -51,7 +52,7 @@ class tidy_sql {
 		}
 		else {
 			$this->stmt->reset();
-			return true;
+			return $exec;
 		}
 	}
 	
