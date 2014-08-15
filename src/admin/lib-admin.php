@@ -38,8 +38,7 @@ function updateQuestionaire($questionaireID, $fields) {
 	$stmt = new tidy_sql($db, "
 		UPDATE Questionaires SET QuestionaireName=?, QuestionaireDepartment=? WHERE QuestionaireID=?", "ssi");
 
-	$stmt->bind_param("ssi", $fields["QuestionaireName"], $fields["QuestionaireDepartment"], $questionaireID);
-	$stmt->execute();
+	$stmt->query($fields["QuestionaireName"], $fields["QuestionaireDepartment"], $questionaireID);
 }
 
 function parseStudentsCSV($data) {
