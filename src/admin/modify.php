@@ -103,13 +103,20 @@ $q = getQuestionaire($questionaireID);
 							<th>Token</th>
 						</thead>
 						<?
-$stmt = new tidy_sql($db, "SELECT * FROM Students WHERE QuestionaireID=?", "i");
+$stmt = new tidy_sql($db, "
+	SELECT Students.UserID, Students.Department, Students.Token, GROUP_CONCAT(DISTINCT ModuleID ORDER BY ModuleID ASC SEPARATOR ' ') AS Modules, Students.Done
+	FROM Students
+	JOIN StudentsToModules ON StudentsToModules.UserID=Students.UserID AND StudentsToModules.QuestionaireID=Students.QuestionaireID 
+	WHERE Students.QuestionaireID=?
+	GROUP BY Students.UserID
+", "i");
 $rows = $stmt->query($questionaireID);
 foreach($rows as $row) { ?>
 						<tr>
 							<td><?=$row["UserID"]?></td>
 							<td><?=$row["Department"]?></td>
 							<td><a href="../questions.php?token=<?=$row["Token"]?>"><?=$row["Token"]?></a></td>
+							<td><?=$row["Modules"]?></td>
 						</tr>
 <?}
 						?>
