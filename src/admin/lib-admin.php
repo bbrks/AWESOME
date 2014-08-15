@@ -69,24 +69,18 @@ function parseStudentsCSV($data) {
 
 function insertStudents($students, $questionaireID) {
 	global $db;
-	$dbstudent = new tidy_sql($db, "INSERT INTO Students (UserID, Department, QuestionaireID, Token, Done) VALUES (?, ?, ?, ?, ?)", "ssisi");
-	$dbmodules = new tidy_sql($db, "INSERT INTO StudentsToModules (UserID, ModuleID, QuestionaireID) VALUES (?, ?, ?)", "ssi");
+	$dbstudent = new tidy_sql($db, "INSERT IGNORE INTO Students (UserID, Department, QuestionaireID, Token, Done) VALUES (?, ?, ?, ?, ?) ", "ssisi");
+	$dbmodules = new tidy_sql($db, "REPLACE INTO StudentsToModules (UserID, ModuleID, QuestionaireID) VALUES (?, ?, ?)", "ssi");
 	foreach ($students as $student) {
 		$token = bin2hex(openssl_random_pseudo_bytes(16));
 		$done = false;
-		try {
-			$dbstudent->query($student["UserID"], $student["Department"], $questionaireID, $token, $done);
-			
-			foreach($student["Modules"] as $module) {
-				try {
-					$dbmodules->query($student["UserID"], $module, $questionaireID);
-				}
-				catch (Exception $e) {
-				}
-			}
+
+		$dbstudent->query($student["UserID"], $student["Department"], $questionaireID, $token, $done);
+		
+		foreach($student["Modules"] as $module) {
+			$dbmodules->query($student["UserID"], $module, $questionaireID);
 		}
-		catch (Exception $e) {
-		}
+
 	}
 }
 
@@ -108,7 +102,7 @@ function parseModulesCSV($data) {
 
 function insertModules($modules, $questionaireID) {
 	global $db;
-	$dbmodule = new tidy_sql($db, "INSERT INTO Modules (ModuleID, QuestionaireID, ModuleTitle) VALUES (?, ?, ?)", "sis");
+	$dbmodule = new tidy_sql($db, "REPLACE INTO Modules (ModuleID, QuestionaireID, ModuleTitle) VALUES (?, ?, ?)", "sis");
 	foreach($modules as $module) {
 		$dbmodule->query($module["ModuleID"], $questionaireID, $module["ModuleTitle"]);
 	}
@@ -132,7 +126,7 @@ function parseStaffCSV($data) {
 
 function insertStaff($stafflist, $questionaireID) {
 	global $db;
-	$dbsmodule = new tidy_sql($db, "INSERT INTO Staff (UserID, Name, QuestionaireID) VALUES (?, ?, ?)", "ssi");
+	$dbsmodule = new tidy_sql($db, "REPLACE INTO Staff (UserID, Name, QuestionaireID) VALUES (?, ?, ?)", "ssi");
 	foreach($stafflist as $staff) {
 		$dbsmodule->query($staff["UserID"], $staff["Name"], $questionaireID);
 	}
@@ -160,10 +154,10 @@ function parseStaffModulesCSV($data) {
 
 function insertStaffModules($staffmodules, $questionaireID) {
 	global $db;
-	$dbsmodule = new tidy_sql($db, "INSERT INTO StaffToModules (ModuleID, UserID, QuestionaireID) VALUES (?, ?, ?)", "ssi");
+	$dbsmodule = new tidy_sql($db, "REPLACE INTO StaffToModules (ModuleID, UserID, QuestionaireID) VALUES (?, ?, ?)", "ssi");
 	foreach($staffmodules as $module) {
 		foreach($module["Staff"] as $staff) {
-			$dbsmodule->query($staffmodule["ModuleID"], $staff, $questionaireID);
+			$dbsmodule->query($module["ModuleID"], $staff, $questionaireID);
 		}
 	}
 }
