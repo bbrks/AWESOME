@@ -96,6 +96,28 @@ $q = getQuestionaire($questionaireID);
 				</div>
 				
 				<div class="tab-pane" id="students">
+					<table class="table">
+						<thead>
+							<th>UserID</th>
+							<th>Department</th>
+							<th>Token</th>
+						</thead>
+						<?
+$stmt = new tidy_sql($db, "SELECT * FROM Students WHERE QuestionaireID=?", "i");
+$rows = $stmt->query($questionaireID);
+foreach($rows as $row) { ?>
+						<tr>
+							<td><?=$row["UserID"]?></td>
+							<td><?=$row["Department"]?></td>
+							<td><a href="../questions.php?token=<?=$row["Token"]?>"><?=$row["Token"]?></a></td>
+						</tr>
+<?}
+						?>
+						
+						
+					</table>
+					
+					
 					<form method="post">
 						<p>The system expects a CSV, with no header (very important) with the structure:<br/>
 						Student UserID, Student Department, Module 1, Module 2, ..., Module &infin;</p>

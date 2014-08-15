@@ -106,7 +106,7 @@ function getStudentModules($details) {
 		SELECT StudentsToModules.ModuleID AS ModuleID, Modules.ModuleTitle as ModuleTitle
 		FROM Modules
 
-		JOIN StudentsToModules ON StudentsToModules.ModuleID = Modules.ModuleID
+		RIGHT JOIN StudentsToModules ON StudentsToModules.ModuleID = Modules.ModuleID
 			AND StudentsToModules.QuestionaireID = Modules.QuestionaireID
 		WHERE StudentsToModules.UserID=?
 		AND StudentsToModules.QuestionaireID=?
