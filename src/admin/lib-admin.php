@@ -53,7 +53,8 @@ function parseStudentsCSV($data) {
 		$students[] = array(
 			"UserID" => strtolower($csv[0]),
 			"Department" => $csv[1],
-			"Modules" => array_map('strtolower',array_slice($csv, 2))
+			"Year"=>$csv[2],
+			"Modules" => array_map('strtolower',array_slice($csv, 3))
 		);
 	}
 	
@@ -137,8 +138,8 @@ function parseStaffModulesCSV($data) {
 			"Staff" => array_map('strtolower',array_slice($csv, 2))
 		);
 	}
-	if ($staffmodules[0]["ModuleID"] == "Modules") {
-		array_shift($staff_modules);
+	if ($staffmodules[0]["ModuleID"] == "MODULES") {
+		array_shift($staffmodules);
 	}
 	return $staffmodules;
 }
