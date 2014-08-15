@@ -479,7 +479,7 @@ DROP TABLE IF EXISTS `Students`;
 CREATE TABLE `Students` (
   `UserID` varchar(6) NOT NULL,
   `QuestionaireID` int(11) NOT NULL,
-  `Department` enum('Art','IBERS','CompSci','Welsh') NOT NULL,
+  `Department` varchar(10) NOT NULL,
   `Token` varchar(8) NOT NULL,
   `Done` bit(1) NOT NULL,
   PRIMARY KEY (`UserID`,`QuestionaireID`),
