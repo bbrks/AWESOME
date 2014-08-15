@@ -101,6 +101,7 @@ $q = getQuestionaire($questionaireID);
 							<th>UserID</th>
 							<th>Department</th>
 							<th>Token</th>
+							<th>Modules</th>
 						</thead>
 						<?
 $stmt = new tidy_sql($db, "
