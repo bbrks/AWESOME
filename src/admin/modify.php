@@ -102,6 +102,7 @@ $q = getQuestionaire($questionaireID);
 							<th>Department</th>
 							<th>Token</th>
 							<th>Modules</th>
+							<th>Done</th>
 						</thead>
 						<?
 $stmt = new tidy_sql($db, "
@@ -118,6 +119,7 @@ foreach($rows as $row) { ?>
 							<td><?=$row["Department"]?></td>
 							<td><a href="../questions.php?token=<?=$row["Token"]?>"><?=$row["Token"]?></a></td>
 							<td><?=$row["Modules"]?></td>
+							<td><input type="checkbox" readonly="true" <?=$row["Done"]?"checked":""?>></td>
 						</tr>
 <?}
 						?>

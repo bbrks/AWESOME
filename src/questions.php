@@ -118,23 +118,35 @@ $is_welsh = isset($_GET["welsh"]);
 
 $details = getStudentDetails($token);
 
-$user = $details["UserID"];
-$modules = getPreparedQuestions($details, $_POST);
-
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-	print_form($modules);
+if ($details["Done"]) {
+	?>
+	<h1>You have already done this questionnaire.</h1>
+	<?
 }
-elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	//validate that everything is filled in
-	if (!answers_filled($modules)) { //form is not filled :(
-		print_form($modules, true);
-		return;
+else {
+	$user = $details["UserID"];
+	$modules = getPreparedQuestions($details, $_POST);
+
+	if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+		print_form($modules);
 	}
-	else {
-		answers_submit($details, $modules);
+	elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		//validate that everything is filled in
+		if (!answers_filled($modules)) { //form is not filled :(
+			print_form($modules, true);
+			return;
+		}
+		else {
+			answers_submit($details, $modules);
+			
+			$stmt = new tidy_sql($db, "UPDATE Students SET Done=1 WHERE UserID=? AND QuestionaireID=?","si");
+			$stmt->query($details["UserID"], $details["QuestionaireID"]);
+			?>
+			<h1>Thank you for completing this questionnaire!</h1>
+			<?
+		}
 
 	}
-
 }
 
 ?>
