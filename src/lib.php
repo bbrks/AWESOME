@@ -103,7 +103,7 @@ function getStudentModules($details) {
 	global $db;
 
 	$stmt = new tidy_sql($db, "
-		SELECT StudentsToModules.ModuleID AS ModuleID, Modules.ModuleTitle as ModuleTitle
+		SELECT StudentsToModules.ModuleID AS ModuleID, Modules.ModuleTitle as ModuleTitle, Modules.Fake
 		FROM Modules
 
 		RIGHT JOIN StudentsToModules ON StudentsToModules.ModuleID = Modules.ModuleID
@@ -165,23 +165,25 @@ function getPreparedQuestions($details, $answers = array()) {
 
 		foreach($questions as $question) {
 			$identifier = "{$module["ModuleID"]}_{$question["QuestionID"]}";
-			if ($question["Staff"] == 0) {
-				if (!$question["ModuleID"] || $question["ModuleID"] == $module["ModuleID"]) {
-					$question["Identifier"] = $identifier;
+			if ((!$question["ModuleID"] && !$module["Fake"]) || // fake modules do not have generic questions
+				$question["ModuleID"] == $module["ModuleID"]) {
+				if ($question["Staff"] == 0) {
 
-					$module["Questions"][] = $question;
+						$question["Identifier"] = $identifier;
+
+						$module["Questions"][] = $question;
 				}
-			}
-			else {
-				foreach($module["Staff"] as $staff) {
-					$mquestion = $question; //copy question
-					$staff_identifier = "{$identifier}_{$staff["StaffID"]}";
+				else {
+					foreach($module["Staff"] as $staff) {
+						$mquestion = $question; //copy question
+						$staff_identifier = "{$identifier}_{$staff["StaffID"]}";
 
-					$mquestion["Identifier"] = $staff_identifier;
-					$mquestion["QuestionText"] = sprintf($question["QuestionText"], $staff["StaffName"]);
-					$mquestion["QuestionText_welsh"] = sprintf($question["QuestionText_welsh"], $staff["StaffName"]);
-					$mquestion["StaffID"] = $staff["StaffID"];
-					$module["Questions"][] = $mquestion;
+						$mquestion["Identifier"] = $staff_identifier;
+						$mquestion["QuestionText"] = sprintf($question["QuestionText"], $staff["StaffName"]);
+						$mquestion["QuestionText_welsh"] = sprintf($question["QuestionText_welsh"], $staff["StaffName"]);
+						$mquestion["StaffID"] = $staff["StaffID"];
+						$module["Questions"][] = $mquestion;
+					}
 				}
 			}
 		}
