@@ -146,16 +146,16 @@ function getStudentModuleLecturers($details) {
 	return $lecturers;
 }
 
-function getQuestions() {
+function getQuestions($details) {
 	global $db;
 
-	$stmt = new tidy_sql($db, "SELECT * from Questions", "");
+	$stmt = new tidy_sql($db, "SELECT * from Questions WHERE Questions.QuestionaireID IS NULL OR Questions.QuestionaireID = ?", "i");
 
-	return $stmt->query();
+	return $stmt->query($details["QuestionaireID"]);
 }
 
 function getPreparedQuestions($details, $answers = array()) {
-	$questions = getQuestions();
+	$questions = getQuestions($details);
 	$modules = getStudentModules($details);
 
 	foreach($modules as $mkey => &$module) {
@@ -165,9 +165,11 @@ function getPreparedQuestions($details, $answers = array()) {
 		foreach($questions as $question) {
 			$identifier = "{$module["ModuleID"]}_{$question["QuestionID"]}";
 			if ($question["Staff"] == 0) {
-				$question["Identifier"] = $identifier;
+				if (!$question["ModuleID"] || $question["ModuleID"] == $module["ModuleID"]) {
+					$question["Identifier"] = $identifier;
 
-				$module["Questions"][] = $question;
+					$module["Questions"][] = $question;
+				}
 			}
 			else {
 				foreach($module["Staff"] as $staff) {
