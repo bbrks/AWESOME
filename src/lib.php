@@ -103,14 +103,14 @@ function getStudentModules($details) {
 	global $db;
 
 	$stmt = new tidy_sql($db, "
-		SELECT StudentsToModules.ModuleID AS ModuleID, Modules.ModuleTitle as ModuleTitle, Modules.Fake
-		FROM Modules
+SELECT Modules.ModuleID AS ModuleID, Modules.ModuleTitle as ModuleTitle, Modules.Fake AS Fake
+FROM Modules
 
-		RIGHT JOIN StudentsToModules ON StudentsToModules.ModuleID = Modules.ModuleID
-			AND StudentsToModules.QuestionaireID = Modules.QuestionaireID
-		WHERE (StudentsToModules.UserID=? OR Modules.Fake = true)
-		AND StudentsToModules.QuestionaireID=?
-		GROUP BY coalesce(Modules.ModuleID, StudentsToModules.ModuleID)
+LEFT JOIN StudentsToModules ON StudentsToModules.ModuleID = Modules.ModuleID
+	AND StudentsToModules.QuestionaireID = Modules.QuestionaireID
+WHERE (StudentsToModules.UserID=? OR Modules.Fake = true)
+AND Modules.QuestionaireID = ?
+GROUP BY Modules.ModuleID
 	", "ss");
 
 	$rows = $stmt->query($details["UserID"], $details["QuestionaireID"]);
@@ -166,7 +166,7 @@ function getPreparedQuestions($details, $answers = array()) {
 		foreach($questions as $question) {
 			$identifier = "{$module["ModuleID"]}_{$question["QuestionID"]}";
 			if ((!$question["ModuleID"] && !$module["Fake"]) || // fake modules do not have generic questions
-				$question["ModuleID"] == $module["ModuleID"]) {
+				strcasecmp($question["ModuleID"],$module["ModuleID"]) == 0) {
 				if ($question["Staff"] == 0) {
 
 						$question["Identifier"] = $identifier;
