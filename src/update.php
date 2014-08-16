@@ -52,7 +52,7 @@ if ($version == 2) {
 
 if ($version == 3) {
 	$stmt = new tidy_sql($db, "ALTER TABLE `Modules`
-	ADD `Fake` bit NOT NULL,
+	ADD `Fake` bit NOT NULL DEFAULT 0,
 	COMMENT='';")
 	$stmt->query();
 	
