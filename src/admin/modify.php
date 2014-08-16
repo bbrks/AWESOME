@@ -111,6 +111,7 @@ $stmt = new tidy_sql($db, "
 	JOIN StudentsToModules ON StudentsToModules.UserID=Students.UserID AND StudentsToModules.QuestionaireID=Students.QuestionaireID 
 	WHERE Students.QuestionaireID=?
 	GROUP BY Students.UserID
+	ORDER BY Students.Done DESC
 ", "i");
 $rows = $stmt->query($questionaireID);
 foreach($rows as $row) { ?>
