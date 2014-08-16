@@ -108,8 +108,9 @@ function getStudentModules($details) {
 
 		RIGHT JOIN StudentsToModules ON StudentsToModules.ModuleID = Modules.ModuleID
 			AND StudentsToModules.QuestionaireID = Modules.QuestionaireID
-		WHERE StudentsToModules.UserID=?
+		WHERE (StudentsToModules.UserID=? OR Modules.Fake = true)
 		AND StudentsToModules.QuestionaireID=?
+		GROUP BY coalesce(Modules.ModuleID, StudentsToModules.ModuleID)
 	", "ss");
 
 	$rows = $stmt->query($details["UserID"], $details["QuestionaireID"]);
