@@ -23,6 +23,7 @@ if ($version == null) {
 		) ENGINE=MyISAM DEFAULT CHARSET=latin1
 	");
 	$stmt->query();
+	
 	$version = 1;
 	update();
 }
@@ -35,7 +36,27 @@ if ($version == 1) {
 		COMMENT='';"
 	);
 	$stmt->query();
+	
 	$version = 2;
+	update();
+}
+
+if ($version == 2) {
+	$stmt = new tidy_sql($db, "ALTER TABLE `Config`
+	COMMENT='' COLLATE 'utf8_general_ci';");
+	$stmt->query();
+	
+	$version = 3;
+	update();
+}
+
+if ($version == 3) {
+	$stmt = new tidy_sql($db, "ALTER TABLE `Modules`
+	ADD `Fake` bit NOT NULL,
+	COMMENT='';")
+	$stmt->query();
+	
+	$version = 4;
 	update();
 }
 echo "<strong>Finished</strong>";
