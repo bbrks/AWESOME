@@ -29,7 +29,26 @@
 			width: 100%;
 			margin: auto;
 		}
+			
+		img {
+			padding-top:10px;
+			display:block;
+			margin:0 auto 0;
+			padding-bottom:10px;
+}
 		
+		#addedfooter {
+	padding-top:10px;
+	text-align:right;
+}
+
+#addedfooter a {
+	color:inherit;
+}
+
+.language {
+	float:right;
+}
 	</style>
 	
 	<script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>
@@ -52,12 +71,25 @@
 
 <div class="container">
 
+<div class="language">
+<p><a href="questions.php?token=<?=$_GET["token"]?>">English</a> | <a href="questions.php?token=<?=$_GET["token"]?>&welsh">Cymraeg</a></p>
+</div>
+<img src="img/logo.png" width="40%">
+
+<p>This is a survey that's aimed at you. </p>
+
+<p>Once you press submit, your answers come back to us with no identifying information, and your unique link will stop working.</p>
+
+<p>The results are completely anonymous, so be as honest as you can!</p>
+
+<hr>
+
 <?
 require("lib.php");
 
 function print_question($question, $warn=false) {
 	global $is_welsh;
-	echo "<div";
+	echo "<hr> <div";
 	if ($warn == true && !answer_filled($question)) {
 		echo " style=\"border: 5px solid red;\"";
 	}
@@ -73,7 +105,7 @@ function print_question($question, $warn=false) {
 	
 
 	if ($question["Type"] == "rate") {
-		echo "<hr>
+		echo "
 		<table class=\"ratetable\">
 			<thead>
 				<th></th>
@@ -94,7 +126,7 @@ function print_question($question, $warn=false) {
 				<td>Strongly Agree</td>
 			</tr>
 		</table>
-		<hr>";
+		";
 	}
 	elseif ($question["Type"] == "text") {
 		echo "<textarea name=\"{$question["Identifier"]}\" rows=\"8\" cols=\"50\" class=\"form-control\">{$question["Answer"]}</textarea>";
@@ -152,11 +184,12 @@ else {
 ?>
 			<br>
 			<br>
-			<footer>
-				
-				&copy; Keiron-Teilo O'Shea 2014
-				<p class="pull-right"><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p>
-			</footer>
+			
+		<div id="addedfooter">
+		<div class="container">
+			<a href="http://www.aberawesome.co.uk"><p>&copy; The AWESOME Project 2014</p></a>
+		</div>
+	</div>
 
 </div>
 </body>
