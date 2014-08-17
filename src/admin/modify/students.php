@@ -20,7 +20,7 @@ function parseStudentsCSV($data) {
 		);
 	}
 	
-	if ($students[0]["UserID"] == "email") {
+	if (isset($students[0]) && $students[0]["UserID"] == "email") {
 		array_shift($students);
 	}
 	
@@ -51,10 +51,11 @@ $twig = new Twig_Environment($loader, array());
 $template = $twig->loadTemplate('students.html');
 
 $questionaireID = $_GET["questionaireID"];
-
+$alerts = array();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$data = parseStudentsCSV($_POST["csvdata"]);
 	insertStudents($data, $questionaireID);
+	$alerts[] = array("type"=>"success", "message"=>"Students inserted");
 }
 
 $stmt = new tidy_sql($db, "
@@ -67,6 +68,5 @@ $stmt = new tidy_sql($db, "
 ", "i");
 
 $rows = $stmt->query($questionaireID);
-
-echo $template->render(array("url"=>$url, "students"=>$rows));
+echo $template->render(array("url"=>$url, "students"=>$rows, "alerts"=>$alerts));
 
