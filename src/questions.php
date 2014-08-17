@@ -1,59 +1,18 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title>Questionnaire</title>
+	<title>Questionnaire | Aberystwyth University</title>
 	<link rel="icon" type="image/png" href="../../assets/favicon.png">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="../img/favicon.png">
 	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/qcss.css" rel="stylesheet">
 	<link href="css/prettyCheckable.css" rel="stylesheet">
-	
-	<style>
-		.ratetable {
-			border-spacing: 5px 0px;
-			border-collapse: separate;
-		}
-		
-		.prettyradio {
-			text-align: center;
-		}
-		
-		.prettyradio a {
-			float: none;
-			margin: auto;
-		}
-		
-		.prettyradio label {
-			float: none;
-			
-			text-align: center;
-			width: 100%;
-			margin: auto;
-		}
-			
-		img {
-			padding-top:10px;
-			display:block;
-			margin:0 auto 0;
-			padding-bottom:10px;
-}
-		
-		#addedfooter {
-	padding-top:10px;
-	text-align:right;
-}
-
-#addedfooter a {
-	color:inherit;
-}
-
-.language {
-	float:right;
-}
-	</style>
-	
-	<script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>
+			<script src="../js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="js/prettyCheckable.min.js" type="text/javascript"></script>
+	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
+
 	<script type="text/javascript">
 		$(function() {
 			$(".ratetable input[type=radio]").each(function(e) {
@@ -69,22 +28,38 @@
 
 <body>
 
-<div class="container">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      	      <div class="container">
+	        <div class="navbar-header">
+	        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"> <img src="../img/logo.png"> </a>
+        </div>
+				<div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+          <li><a href="questions.php?token=<?=$_GET["token"]?>">English</a></li>
+						<li><a href="questions.php?token=<?=$_GET["token"]?>&welsh">Welsh</a></li>
 
-<div class="language">
-<p><a href="questions.php?token=<?=$_GET["token"]?>">English</a> | <a href="questions.php?token=<?=$_GET["token"]?>&welsh">Cymraeg</a></p>
-</div>
-<img src="img/logo.png" width="40%">
+          </ul>
+        </div><!--/.nav-collapse -->
+	      </div>
+    </div>
 
-<p>This is a survey that's aimed at you. </p>
+	<div class="questionnaire">
+	<div class="container">
 
-<p>Once you press submit, your answers come back to us with no identifying information, and your unique link will stop working.</p>
+			<p>This is a survey that's aimed at you.</p>
 
-<p>The results are completely anonymous, so be as honest as you can!</p>
+			<p>Once you press submit, your answers come back to us with no identifying information, and your unique link will stop working.</p>
 
-<hr>
+			<p>The results are completely anonymous, so be as honest as you can!</p>
+
 
 <?
+
 require("lib.php");
 
 function print_question($question, $warn=false) {
@@ -94,7 +69,7 @@ function print_question($question, $warn=false) {
 		echo " style=\"border: 5px solid red;\"";
 	}
 	echo ">";
-	
+
 	if ($is_welsh) {
 		echo "<h4>{$question["QuestionText_welsh"]}</h4>";
 	}
@@ -102,7 +77,7 @@ function print_question($question, $warn=false) {
 	{
 		echo "<h4>{$question["QuestionText"]}</h4>";
 	}
-	
+
 
 	if ($question["Type"] == "rate") {
 		echo "
@@ -170,7 +145,7 @@ else {
 		}
 		else {
 			answers_submit($details, $modules);
-			
+
 			$stmt = new tidy_sql($db, "UPDATE Students SET Done=1 WHERE UserID=? AND QuestionaireID=?","si");
 			$stmt->query($details["UserID"], $details["QuestionaireID"]);
 			?>
@@ -182,9 +157,10 @@ else {
 }
 
 ?>
+</div>
 			<br>
 			<br>
-			
+
 		<div id="addedfooter">
 		<div class="container">
 			<a href="http://www.aberawesome.co.uk"><p>&copy; The AWESOME Project 2014</p></a>
@@ -192,6 +168,11 @@ else {
 	</div>
 
 </div>
+
+   <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../js/bootstrap.js"></script>
 </body>
 
 </html>
