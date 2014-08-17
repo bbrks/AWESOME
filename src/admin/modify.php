@@ -140,6 +140,54 @@ foreach($rows as $row) { ?>
 				</div>
 				
 				<div class="tab-pane" id="modules">
+<?
+function list_modules($fake=false) {
+	global $db, $questionaireID;
+	$stmt = new tidy_sql($db, "
+		SELECT ModuleID, ModuleTitle, Fake FROM Modules WHERE QuestionaireID=? AND Fake=?
+	", "ii");
+	$rows = $stmt->query($questionaireID, $fake);
+	
+	?>
+	<table class="table">
+		<thead>
+			<th>ModuleID</th>
+			<th>Module Name</th>
+			<th>Additional Questions</th>
+			<th>
+	<?if ($fake) {?>
+				<button class="btn btn-primary">Add</button>
+	<?} else {?>
+		&nbsp;
+	<?}?>
+			</th>
+		</thead>
+	<?
+	foreach($rows as $row) { ?>
+		<tr>
+			<td><?=$row["ModuleID"]?></td>
+			<td><?=$row["ModuleTitle"]?></td>
+			<td>NOT IMPLEMENTED</td>
+			<td>
+				<button class="btn btn-default btn-xs">Modify</button>
+			<?if ($fake) {?>
+				<button class="btn btn-danger btn-xs">Delete</button>
+			<?}?>
+			</td>
+		</tr>
+	<?}?>
+	</table><?
+}
+?>
+						<h2>Question Groups</h2>
+						<?list_modules(true);?>
+						
+						<h2>Modules</h2>
+						<?list_modules();?>
+						
+						
+
+					
 						<form method="post">
 						<p>The system expects a CSV, with no header (very important) with the structure:<br/>
 						Module ID, Module Name</p>
