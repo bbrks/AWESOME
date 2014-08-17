@@ -1,7 +1,7 @@
 {% extends "modify.html" %}
 
 {% set active_page = "students" %}
-
+{% set title = "Students" %}
 {% block modifycontent %}
 	<table class="table">
 		<thead>
@@ -26,7 +26,6 @@
 	<form method="post">
 		<p>The system expects a CSV, with no header (very important) with the structure:<br/>
 		Student UserID, Student Department, Module 1, Module 2, ..., Module &infin;</p>
-		<input type="hidden" name="action" value="students_csv_submit" />
 		<textarea name="csvdata" class="form-control" rows="25"></textarea>
 		<button type="submit" class="btn btn-primary form-control">Add Students</button>
 	</form>

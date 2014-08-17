@@ -20,7 +20,7 @@
 			<ul class="nav nav-pills nav-stacked">
 	{% for item in navigation %}
 				<li{% if item[0] == active_page %} class="active"{% endif %}>
-				<a href="{{ item[0] }}.php">{{item[1]}}</a></li>
+				<a href="{{ item[0] }}.php?questionaireID={{questionaireID|escape('url')}}">{{item[1]}}</a></li>
 	{% endfor %}
 			</ul>
 		</div>
