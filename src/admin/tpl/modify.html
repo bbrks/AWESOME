@@ -1,5 +1,14 @@
 {% extends "page.html" %}
 
+{# Thanks http://peter-hoffmann.com/2012/highlight-active-menu-item-with-twig-and-silex.html #}
+{% set navigation = [
+	['basic', 'Basic'],
+	['students', 'Students'],
+	['modules', 'Modules'],
+	['staff', 'Staff'],
+	['staffmodules', 'Staff Modules']
+] %}
+
 {% block pagecontent %}
 	<div class="row">
 		<div class="col-md-offset-2">
@@ -9,11 +18,10 @@
 	<div class="row">
 		<div class="col-md-2 leftcolumn">
 			<ul class="nav nav-pills nav-stacked">
-			  <li {% if active_page == "basic" %} class="active"{% endif%}><a href="#basic" role="tab" data-toggle="tab">Basic</a></li>
-			  <li {% if active_page == "students" %} class="active"{% endif%}><a href="#students" role="tab" data-toggle="tab">Students</a></li>
-			  <li {% if active_page == "modules" %} class="active"{% endif%}><a href="#modules" role="tab" data-toggle="tab">Modules</a></li>
-			  <li {% if active_page == "staff" %} class="active"{% endif%}><a href="#staff" role="tab" data-toggle="tab">Staff</a></li>
-			  <li {% if active_page == "staffmodules" %} class="active"{% endif%}><a href="#staffmodules" role="tab" data-toggle="tab">Staff Modules</a></li>
+	{% for item in navigation %}
+				<li{% if item[0] == active_page %} class="active"{% endif %}>
+				<a href="{{ item[0] }}.php">{{item[1]}}</a></li>
+	{% endfor %}
 			</ul>
 		</div>
 		<div class="col-md-10">
