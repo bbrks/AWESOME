@@ -1,1 +1,4 @@
-<? $db = new mysqli("hostname", "username","password","database"); 
+<?
+$root = realpath(dirname(__FILE__));
+$url = "http://aberawesome.co.uk/alpha/";
+$db = new mysqli("hostname", "username","password","database"); 
