@@ -68,5 +68,5 @@ $stmt = new tidy_sql($db, "
 ", "i");
 
 $rows = $stmt->query($questionaireID);
-echo $template->render(array("url"=>$url, "students"=>$rows, "alerts"=>$alerts));
+echo $template->render(array("url"=>$url, "students"=>$rows, "questionaireID"=> $questionaireID, "alerts"=>$alerts));
 
