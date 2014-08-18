@@ -26,7 +26,7 @@
 		</div>
 		<div class="col-md-10">
 			<div class="tab-content">
-				<h2>{{title}}</h2>
+				<h2 style="margin-top: 0;">{{title}}</h2>
 				{% for alert in alerts %}
 					<div class="alert alert-{{alert.type}}" role="alert">{{alert.message}}</div>
 				{% endfor %}
