@@ -13,6 +13,15 @@ function getQuestionaire($questionaireID) {
 	return $rows[0];
 }
 
+function updateQuestionaire($questionaireID, $fields) {
+	global $db;
+
+	$stmt = new tidy_sql($db, "
+		UPDATE Questionaires SET QuestionaireName=?, QuestionaireDepartment=? WHERE QuestionaireID=?", "ssi");
+
+	$stmt->query($fields["QuestionaireName"], $fields["QuestionaireDepartment"], $questionaireID);
+}
+
 Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
 $twig = new Twig_Environment($loader, array());
@@ -28,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		
 		updateQuestionaire($questionaireID, $q);
 		
-		$alerts[] = array("type"=>"success", "message"=>"Staff inserted");
+		$alerts[] = array("type"=>"success", "message"=>"Questionnaire modified");
 }
 
 $q = getQuestionaire($questionaireID);
