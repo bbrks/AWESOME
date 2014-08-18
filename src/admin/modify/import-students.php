@@ -48,7 +48,7 @@ Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
 $twig = new Twig_Environment($loader, array());
 
-$template = $twig->loadTemplate('modify-students.html');
+$template = $twig->loadTemplate('import-students.html');
 
 $questionaireID = $_GET["questionaireID"];
 $alerts = array();
