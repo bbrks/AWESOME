@@ -38,7 +38,7 @@ Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
 $twig = new Twig_Environment($loader, array());
 
-$template = $twig->loadTemplate('staffmodules.html');
+$template = $twig->loadTemplate('modify-staffmodules.html');
 
 $questionaireID = $_GET["questionaireID"];
 $alerts = array();

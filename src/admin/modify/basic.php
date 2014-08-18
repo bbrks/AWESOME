@@ -17,7 +17,7 @@ Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
 $twig = new Twig_Environment($loader, array());
 
-$template = $twig->loadTemplate('basic.html');
+$template = $twig->loadTemplate('modify-basic.html');
 
 $questionaireID = $_GET["questionaireID"];
 $alerts = array();
