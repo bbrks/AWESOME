@@ -55,9 +55,28 @@ function insertQuestion($details) {
 	}
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	if ($_POST["action"] == "add_question") {
+function deleteQuestion($questionID) {
+	global $questionaireID, $moduleID, $alerts, $db;
+	try {
+		$stmt = new tidy_sql($db, "DELETE FROM Questions WHERE QuestionID=?", "i");
+		$stmt->query($questionID);
+		
+		$alerts[] = array("type"=>"success",  "message"=>"Sucessfully deleted question");
+	}
+	catch (Exception $e) {
+		$alerts[] = array("type"=>"danger",  "message"=>"Sorry, an error occurred deleting question ({$e->getMessage()})");
+	}
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["action"])) {
+	$action = $_POST["action"];
+	if ($action == "add_question") {
 		insertQuestion($_POST);
+	}
+	if ($action == "table") { //a button within table was clicked
+		if (isset($_POST["delete"])) {
+			deleteQuestion($_POST["delete"]);
+		}
 	}
 }
 
