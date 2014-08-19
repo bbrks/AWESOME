@@ -42,8 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$alerts[] = array("type"=>"success", "message"=>"Modules inserted");
 }
 
-
-global $db, $questionaireID;
 $stmt = new tidy_sql($db, "
 	SELECT ModuleID, ModuleTitle, Fake FROM Modules WHERE QuestionaireID=? AND Fake=?
 ", "ii");
@@ -51,7 +49,6 @@ $modules = $stmt->query($questionaireID, 0);
 
 echo $template->render(array(
 	"url"=>$url, "questionaireID"=> $questionaireID, "alerts"=>$alerts,
-	"groups"=>$groups,
 	"modules"=>$modules
 ));
 
