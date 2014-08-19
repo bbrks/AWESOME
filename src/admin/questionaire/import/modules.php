@@ -47,7 +47,6 @@ global $db, $questionaireID;
 $stmt = new tidy_sql($db, "
 	SELECT ModuleID, ModuleTitle, Fake FROM Modules WHERE QuestionaireID=? AND Fake=?
 ", "ii");
-$groups = $stmt->query($questionaireID, 1);
 $modules = $stmt->query($questionaireID, 0);
 
 echo $template->render(array(
