@@ -3,7 +3,9 @@
 {% set active_page = "modules" %}
 {% set title = "Modules" %}
 {% block qcontent %}
-
+{% for alert in alerts %}
+	<div class="alert alert-{{alert.type}}" role="alert">{{alert.message}}</div>
+{% endfor %}
 <div class="modal fade" id="modal">
 	<div class="modal-dialog">
 	<div class="modal-content">
@@ -24,7 +26,7 @@
 				<label for="questionType">Type</label>
 				<select name="questionType" class="form-control">
 					<option value="rate">rate</option>
-					<option value="rate">text</option>
+					<option value="text">text</option>
 				</select>
 			</div>
 			<div class="modal-footer">

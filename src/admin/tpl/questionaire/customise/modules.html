@@ -3,7 +3,9 @@
 {% set active_page = "modules" %}
 {% set title = "Modules" %}
 {% block qcontent %}
-
+	{% for alert in alerts %}
+		<div class="alert alert-{{alert.type}}" role="alert">{{alert.message}}</div>
+	{% endfor %}
 	<h3>Question Groups</h3>
 	<table class="table">
 		<thead>

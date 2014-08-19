@@ -12,9 +12,25 @@ $questionaireID = $_GET["questionaireID"];
 $moduleID = $_GET["moduleID"];
 $alerts = array();
 
+function insertQuestion($details) {
+	global $questionaireID, $moduleID, $alerts, $db;
+	try {
+		$stmt = new tidy_sql($db, "INSERT INTO Questions (QuestionaireID, ModuleID, QuestionText, QuestionText_welsh, Type) VALUES (?,?,?,?,?)", "issss");
+		$stmt->query($questionaireID, $moduleID, $details["questionText"], $details["questionText_welsh"], $details["questionType"]);
+		
+		$alerts[] = array("type"=>"success",  "message"=>"Sucessfully added question");
+	}
+	catch (Exception $e) {
+		$alerts[] = array("type"=>"danger",  "message"=>"Sorry, an error occurred adding question ({$e->getMessage()})");
+	}
+}
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	if ($_POST["action"] == "add_question") {
+		insertQuestion($_POST);
+	}
+}
 
-global $db, $questionaireID;
 $stmt = new tidy_sql($db, "
 	SELECT QuestionID, QuestionText, QuestionText_welsh, Type FROM Questions WHERE QuestionaireID=? AND ModuleID=?
 ", "is");
