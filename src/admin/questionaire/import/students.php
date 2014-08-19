@@ -1,5 +1,5 @@
 <?
-require "../../lib.php";
+require "../../../lib.php";
 require_once "{$root}/lib/Twig/Autoloader.php";
 
 function parseStudentsCSV($data) {
