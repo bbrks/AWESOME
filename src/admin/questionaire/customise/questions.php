@@ -6,7 +6,7 @@ Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
 $twig = new Twig_Environment($loader, array());
 
-$template = $twig->loadTemplate('questionaire/customise/module.html');
+$template = $twig->loadTemplate('questionaire/customise/questions.html');
 
 $questionaireID = $_GET["questionaireID"];
 $moduleID = isset($_GET["moduleID"])?$_GET["moduleID"]:null;
