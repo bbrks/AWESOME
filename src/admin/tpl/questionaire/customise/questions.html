@@ -62,5 +62,10 @@
 		{% endfor %}
 	</table>
 	</form>
-
+	
+	{%if module.Fake==false  %}
+	
+	<p><strong>This is a module, so all global questions also apply</strong></p>
+	
+	{%endif%}
 {% endblock %}

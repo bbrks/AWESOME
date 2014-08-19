@@ -15,7 +15,7 @@ $alerts = array();
 function getModule() {
 	global $questionaireID, $moduleID, $alerts, $db;
 	if (!$moduleID) {
-		return array("ModuleID"=>"global", "ModuleTitle"=>"Repeated questions", "Fake"=>true);
+		return array("ModuleID"=>"global", "ModuleTitle"=>"Repeated questions", "Fake"=>false);
 	}
 	else {
 		$stmt = new tidy_sql($db, "
