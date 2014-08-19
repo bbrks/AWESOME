@@ -59,4 +59,14 @@ if ($version == 3) {
 	$version = 4;
 	update();
 }
+
+if ($version == 4) {
+	$stmt = new tidy_sql($db, "ALTER TABLE `Questions`
+	CHANGE `QuestionID` `QuestionID` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST,
+	COMMENT='';");
+	$stmt->query();
+	
+	$version = 5;
+	update();
+}
 echo "<strong>Finished</strong>";
