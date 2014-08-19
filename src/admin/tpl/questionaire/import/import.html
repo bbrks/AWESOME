@@ -1,12 +1,12 @@
-{% extends "questionairepage.html" %}
+{% extends "questionaire/questionaire.html" %}
 
 {# Thanks http://peter-hoffmann.com/2012/highlight-active-menu-item-with-twig-and-silex.html #}
 {% set navigation = [
-	['import-basic', 'basic', 'Basic'],
-	['import-students', 'students', 'Students'],
-	['import-modules', 'modules', 'Modules'],
-	['import-staff', 'staff', 'Staff'],
-	['import-staffmodules', 'staffmodules', 'Staff Modules']
+	['basic.php', 'basic', 'Basic'],
+	['students.php', 'students', 'Students'],
+	['modules.php', 'modules', 'Modules'],
+	['staff.php', 'staff', 'Staff'],
+	['staffmodules.php', 'staffmodules', 'Staff Modules']
 ] %}
 
 {% block qcontent %}
@@ -20,7 +20,7 @@
 			<ul class="nav nav-pills nav-stacked">
 	{% for item in navigation %}
 				<li{% if item[1] == active_page %} class="active"{% endif %}>
-				<a href="{{ item[0] }}.php?questionaireID={{questionaireID|escape('url')}}">{{item[2]}}</a></li>
+				<a href="{{ item[0] }}?questionaireID={{questionaireID|escape('url')}}">{{item[2]}}</a></li>
 	{% endfor %}
 			</ul>
 		</div>

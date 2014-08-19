@@ -1,12 +1,13 @@
-{% extends "modify.html" %}
+{% extends "questionaire/import/import.html" %}
 
-{% set active_page = "staff" %}
-{% set title = "Staff" %}
+{% set active_page = "staffmodules" %}
+{% set title = "Staff Modules" %}
 
 {% block modifycontent %}
 	<form method="post">
 		<p>The system expects a CSV, with no header (very important) with the structure:<br/>
-		Staff UserID, Staff Name</p>
+		Module ID,Staff UserID<br/>
+		This is repeated for every module</p>
 		<textarea name="csvdata" class="form-control" rows="25"></textarea>
 		<button type="submit" class="btn btn-primary form-control">Add Staff</button>
 	</form>

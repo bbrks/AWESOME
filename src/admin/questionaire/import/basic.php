@@ -1,5 +1,5 @@
 <?
-require "../../lib.php";
+require "../../../lib.php";
 require_once "{$root}/lib/Twig/Autoloader.php";
 
 function getQuestionaire($questionaireID) {
@@ -26,7 +26,7 @@ Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
 $twig = new Twig_Environment($loader, array());
 
-$template = $twig->loadTemplate('import-basic.html');
+$template = $twig->loadTemplate('questionaire/import/basic.html');
 
 $questionaireID = $_GET["questionaireID"];
 $alerts = array();

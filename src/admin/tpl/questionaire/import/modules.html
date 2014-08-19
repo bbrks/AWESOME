@@ -1,0 +1,35 @@
+{% extends "questionaire/import/import.html" %}
+
+{% set active_page = "modules" %}
+{% set title = "Modules" %}
+{% block modifycontent %}
+
+	<h3>Modules</h3>
+	<table class="table">
+		<thead>
+			<th>ModuleID</th>
+			<th>Module Name</th>
+			<th>Additional Questions</th>
+			<th>&nbsp;</th>
+		</thead>
+		
+		{% for module in modules %}
+		<tr>
+			<td>{{module.ModuleID}}</td>
+			<td>{{module.ModuleTitle}}</td>
+			<td>&nbsp;</td>
+			<td>
+				<button class="btn btn-default btn-xs">Modify</button>
+				{#<button class="btn btn-danger btn-xs">Delete</button>#}
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+	
+	<form method="post">
+		<p>The system expects a CSV, with no header (very important) with the structure:<br/>
+		Module ID, Module Name</p>
+		<textarea name="csvdata" class="form-control" rows="25"></textarea>
+		<button type="submit" class="btn btn-primary form-control">Add Modules</button>
+	</form>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "questionaire/questionaire.html" %}
+
+{% set active_page = "modules" %}
+{% set title = "Modules" %}
+{% block qcontent %}
+{% for alert in alerts %}
+	<div class="alert alert-{{alert.type}}" role="alert">{{alert.message}}</div>
+{% endfor %}
+<div class="modal fade" id="modal">
+	<div class="modal-dialog">
+	<div class="modal-content">
+		<form method="post">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title">Add Question</h4>
+			</div>
+			<div class="modal-body">
+				<input type="hidden" name="action" value="add_question" />
+					
+				<label for="questionText">QuestionText</label>
+				<input type="text" name="questionText" class="form-control" />
+				
+				<label for="questionText_welsh">Welsh QuestionText</label>
+				<input type="text" name="questionText_welsh" class="form-control" />
+				
+				<label for="questionType">Type</label>
+				<select name="questionType" class="form-control">
+					<option value="rate">rate</option>
+					<option value="text">text</option>
+				</select>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary">Add Questionaire</button>
+			</div>
+		</form>
+	</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+	<h2>{{module.ModuleID}}: {{module.ModuleTitle}}</h3>
+	<h3>Questions</h3>
+	<form method="post">
+	<input type="hidden" name="action" value="table" />
+	<table class="table">
+		<thead>
+			<th>Question Text</th>
+			<th>Type</th>
+			<th><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal">Add</button></th>
+		</thead>
+
+		{% for question in questions %}
+		<tr>
+			<td>English: {{question.QuestionText}}<br/>
+			Cymraeg: {{question.QuestionText_welsh}}</td>
+			<td>{{question.Type}}</td>
+			<td>
+				<button class="btn btn-danger btn-xs" name="delete" value="{{question.QuestionID}}">Delete</button>
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+	</form>
+
+{% endblock %}
