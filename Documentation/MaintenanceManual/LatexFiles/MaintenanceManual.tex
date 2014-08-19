@@ -1,0 +1,137 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[top=1in,bottom=1in,left=0.75in,right=0.75in]{geometry}
+\usepackage{amsmath}
+\usepackage{soul}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{lastpage} % for the number of the last page in the document
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{framed}
+\usepackage{tabularx}
+\setlength\parindent{0cm}
+\setlength{\parskip}{0.15cm}%
+\usepackage{longtable}
+\usepackage{wrapfig}
+\fancyhf{}
+\fboxrule=4pt%border thickness
+\lhead{Documentation}
+\rhead{Maintenance Manual}
+\usepackage{graphicx}
+\usepackage{subfig}
+\lfoot{\includegraphics[scale=0.35]{images/Abertiny.png}}
+\rfoot{Page \thepage\ of \pageref{LastPage}}\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[sc]{mathpazo}
+\linespread{1.05}         % Palatino needs more leading (space between lines)
+\usepackage[T1]{fontenc}
+\begin{document}
+\pagenumbering{gobble}
+
+\pagenumbering{gobble}
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+
+\includegraphics[scale=0.15]{images/Aberblack.png} \\[1.5cm] % Name of your university/college
+\textsc{\large Aberystwyth University
+ \\[0.5cm] Department of Computer Science}
+
+\
+
+\textsc{\Large Aberystwyth Web Evaluation Surveys Of Module Experiences}\\
+\HRule \\[0.4cm]
+{ \huge  Maintenance Manual}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+
+\Large \emph{Author:}\\
+Keiron \textsc{O'Shea (keo7@aber.ac.uk)}\\[1cm] % Your name 
+
+{\large August 2014}\\[2cm] % Date, change the \today to a set date if you want to be precise
+
+\vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
+
+\thispagestyle{plain}	
+
+\tableofcontents
+
+\clearpage
+
+\pagenumbering{arabic}
+
+\clearpage
+
+\section{Introduction}
+
+\subsection{Purpose of this Document}
+
+The purpose of the following document is to help answer any questions, or solve any issues which may arise from application maintainers after the implementation of the project is complete.
+
+\subsection{Scope}
+
+The following document aims to assist any maintainer working with the Aberystwyth Web Evaluation Surveys Of Module Experiences software by giving information on how the application has been designed, so that the maintaining process is both a straightforward process and something which doesn't require the need for major refactoring. The structure of the source code can be used as reference materials for future maintenance and improvements, as well as a guideline for rebuilding the application after 'hazardous' changes.
+
+It is heavily suggested that anyone who is involved in the future maintenance of the Aberystwyth Web Evaluation Surveys Of Module Experiences software.
+
+\subsection{Objectives}
+
+This document aims to meet the following requirements:
+
+\begin{itemize}
+	\item Give the reader an in-depth overview of the Aberystwyth Web Evaluation Surveys Of Module Experiences software.
+	\item Aid an maintainer of the project by improving the understandability of the application.
+\end{itemize}
+
+\clearpage
+
+\section{Program Description}
+
+This section of the document aims to give a brief description of what the Aberystwyth Web Evaluation Surveys Of Module Experiences does and how it does it.
+
+\subsection{Application Features}
+
+The Aberystwyth Web Evaluation Surveys Of Module Experiences (or AWESOME for short), is an LTEF funded web application which acts as an module questionnaire generator and collator for the monitoring and evaluation of teaching at Aberystwyth University.
+
+The system has the following features:
+
+\begin{itemize}
+	\item \textbf{Generation of student-specific questionnaires:} With the use of a standard set of questions, AWESOME can generate student-specific questionnaires whilst also giving the room for user-defined departmental or institutional questions.
+	\item\textbf{Generation of mid-term questionnaires:} It has been specified that the ability to create smaller, one question per module questionnaires must be possible.
+	\item \textbf{Automatic email distribution to students:} One a questionnaire has been deployed, the AWESOME application will then email all of the students involved in the questionnaires with their own unique URL. If students are yet to complete their questionnaires, then email reminders should be sent only to those who are yet to respond.
+	\item \textbf{No registration details required:} With the use of CSV data, AWESOME can automatically import module registration (obtained via  either AStRA (Aberystwyth Student Records and Admissions) or SAMS (Student Attendance Monitoring System)). Using this data, student specific questionnaires will be generated.
+	\item \textbf{Truly anonymous responses:} Even though the application can differentiate between those who have responded, and those of who are yet to respond it will be nearly impossible to reconstruct what student had submitted what.
+	\item \textbf{Analytics:} AWESOME can collate and represent the data on a by-module, by-department and by-scheme basis with the use of automatically generated graphs and appropriate textual responses.
+\end{itemize}
+
+\clearpage
+
+\section{Application Structure}
+
+\clearpage
+
+\section{Physical limitations of the software}
+
+\clearpage
+
+\section*{Document History}
+
+\begin{center}
+\begin{tabular}{| c | c | c | c |}
+\hline
+19-08-2014 & Initial creation & KeironO \\
+\hline
+
+\hline
+\end{tabular}
+\end{center}
+\clearpage
+
+
+\end{document}
