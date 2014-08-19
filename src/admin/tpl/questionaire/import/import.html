@@ -1,0 +1,40 @@
+{% extends "questionairepage.html" %}
+
+{# Thanks http://peter-hoffmann.com/2012/highlight-active-menu-item-with-twig-and-silex.html #}
+{% set navigation = [
+	['import-basic', 'basic', 'Basic'],
+	['import-students', 'students', 'Students'],
+	['import-modules', 'modules', 'Modules'],
+	['import-staff', 'staff', 'Staff'],
+	['import-staffmodules', 'staffmodules', 'Staff Modules']
+] %}
+
+{% block qcontent %}
+	<div class="row">
+		<div class="col-md-offset-2">
+			<h1>Modify Questionaire</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2 leftcolumn">
+			<ul class="nav nav-pills nav-stacked">
+	{% for item in navigation %}
+				<li{% if item[1] == active_page %} class="active"{% endif %}>
+				<a href="{{ item[0] }}.php?questionaireID={{questionaireID|escape('url')}}">{{item[2]}}</a></li>
+	{% endfor %}
+			</ul>
+		</div>
+		<div class="col-md-10">
+			<div class="tab-content">
+				<h2 style="margin-top: 0;">{{title}}</h2>
+				{% for alert in alerts %}
+					<div class="alert alert-{{alert.type}}" role="alert">{{alert.message}}</div>
+				{% endfor %}
+				
+				{% block modifycontent %}
+				{{content}}
+				{% endblock %}
+			</div>
+		</div>
+	</div>
+{% endblock %}
