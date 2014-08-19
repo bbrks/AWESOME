@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>{{title}}</title>
+		<link rel="icon" type="image/png" href="{{url}}/assets/favicon.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="{{url}}/css/bootstrap.min.css" rel="stylesheet">
+		<script src="{{url}}/js/jquery-1.11.0.min.js" type="text/javascript"></script>
+		<script src="{{url}}/js/bootstrap.min.js" type="text/javascript"></script>
+		<style>
+			@media (min-width: 992px){
+				.leftcolumn {
+					border-right: 1px dashed #333;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="container">
+
+		{% block pagecontent %}
+			{{ content }}
+		{% endblock %}
+
+		</div>
+	</body>
+</html>

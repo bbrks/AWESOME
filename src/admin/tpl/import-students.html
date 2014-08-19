@@ -1,0 +1,32 @@
+{% extends "modify.html" %}
+
+{% set active_page = "students" %}
+{% set title = "Students" %}
+{% block modifycontent %}
+	<table class="table">
+		<thead>
+			<th>UserID</th>
+			<th>Department</th>
+			<th>Token</th>
+			<th>Modules</th>
+			<th>Done</th>
+		</thead>
+		
+		{% for student in students %}
+		<tr>
+			<td>{{student.UserID}}</td>
+			<td>{{student.Department}}</td>
+			<td>{{student.Token}}</td>
+			<td>{{student.Modules}}</td>
+			<td>{{student.Done}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+	
+	<form method="post">
+		<p>The system expects a CSV, with no header (very important) with the structure:<br/>
+		Student UserID, Student Department, Module 1, Module 2, ..., Module &infin;</p>
+		<textarea name="csvdata" class="form-control" rows="25"></textarea>
+		<button type="submit" class="btn btn-primary form-control">Add Students</button>
+	</form>
+{% endblock %}
