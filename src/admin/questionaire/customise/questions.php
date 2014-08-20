@@ -6,16 +6,12 @@ Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
 $twig = new Twig_Environment($loader, array());
 
-$template = $twig->loadTemplate('questionaire/customise/module.html');
-
-$questionaireID = $_GET["questionaireID"];
-$moduleID = isset($_GET["moduleID"])?$_GET["moduleID"]:null;
-$alerts = array();
+$template = $twig->loadTemplate('questionaire/customise/questions.html');
 
 function getModule() {
 	global $questionaireID, $moduleID, $alerts, $db;
 	if (!$moduleID) {
-		return array("ModuleID"=>"global", "ModuleTitle"=>"Repeated questions", "Fake"=>true);
+		return array("ModuleID"=>"global", "ModuleTitle"=>"Repeated questions", "Fake"=>false);
 	}
 	else {
 		$stmt = new tidy_sql($db, "
@@ -67,6 +63,11 @@ function deleteQuestion($questionID) {
 		$alerts[] = array("type"=>"danger",  "message"=>"Sorry, an error occurred deleting question ({$e->getMessage()})");
 	}
 }
+
+$questionaireID = $_GET["questionaireID"];
+$moduleID = isset($_GET["moduleID"])?$_GET["moduleID"]:null;
+$alerts = array();
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["action"])) {
 	$action = $_POST["action"];
