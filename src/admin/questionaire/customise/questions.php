@@ -11,7 +11,7 @@ $template = $twig->loadTemplate('questionaire/customise/questions.html');
 function getModule() {
 	global $questionaireID, $moduleID, $alerts, $db;
 	if (!$moduleID) {
-		return array("ModuleID"=>"global", "ModuleTitle"=>"Repeated questions", "Fake"=>false);
+		return array("ModuleID"=>"global", "ModuleTitle"=>"Repeated questions", "Fake"=>true);
 	}
 	else {
 		$stmt = new tidy_sql($db, "

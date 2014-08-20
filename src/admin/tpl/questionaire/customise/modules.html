@@ -31,7 +31,24 @@
 		</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
-	
+
+	<h3>Global</h3>
+	<table class="table">
+		<thead>
+			<th class="col-sm-1">ModuleID</th>
+			<th>Module Name</th>
+			<th class="col-sm-3">&nbsp;</th>
+		</thead>
+		
+		<tr>
+			<td>Global</td>
+			<td>Global questions to be repeated for every module</td>
+			<td>
+				<a class="btn btn-primary btn-xs" href="{{url}}/admin/questionaire/customise/questions.php?questionaireID={{questionaireID}}">Questions</a>
+			</td>
+		</tr>
+	</table>
+
 	<h3>Question Groups</h3>
 	<form method="post">
 	<input type="hidden" name="action" value="table" />
