@@ -6,22 +6,48 @@
 	{% for alert in alerts %}
 		<div class="alert alert-{{alert.type}}" role="alert">{{alert.message}}</div>
 	{% endfor %}
+	
+	<div class="modal fade" id="modal">
+		<div class="modal-dialog">
+		<div class="modal-content">
+			<form method="post">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title">Add Group</h4>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" name="action" value="add_group" />
+						
+					<label for="groupCode">Group Code</label>
+					<input type="text" name="groupCode" class="form-control" />
+					
+					<label for="groupName">Group Name</label>
+					<input type="text" name="groupName" class="form-control" />
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Add Group</button>
+				</div>
+			</form>
+		</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	
 	<h3>Question Groups</h3>
 	<table class="table">
 		<thead>
-			<th>ModuleID</th>
+			<th class="col-sm-1">ModuleID</th>
 			<th>Module Name</th>
-			<th>Additional Questions</th>
-			<th><button class="btn btn-primary">Add</button></th>
+			<th class="col-sm-3"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal">Add</button></th>
 		</thead>
 		
 		{% for module in groups %}
 		<tr>
 			<td>{{module.ModuleID}}</td>
 			<td>{{module.ModuleTitle}}</td>
-			<td>&nbsp;</td>
 			<td>
-				<button class="btn btn-default btn-xs">Modify</button>
+				<a class="btn btn-primary btn-xs" href="{{url}}/admin/questionaire/customise/questions.php?questionaireID={{questionaireID}}&moduleID={{module.ModuleID}}">Questions</a>
+				<button class="btn btn-default btn-xs">Change Name</button>
 				<button class="btn btn-danger btn-xs">Delete</button>
 			</td>
 		</tr>
@@ -31,20 +57,17 @@
 	<h3>Modules</h3>
 	<table class="table">
 		<thead>
-			<th>ModuleID</th>
+			<th class="col-sm-1">ModuleID</th>
 			<th>Module Name</th>
-			<th>Additional Questions</th>
-			<th>&nbsp;</th>
+			<th class="col-sm-3">&nbsp;</th>
 		</thead>
 		
 		{% for module in modules %}
 		<tr>
 			<td>{{module.ModuleID}}</td>
 			<td>{{module.ModuleTitle}}</td>
-			<td>&nbsp;</td>
 			<td>
-				<button class="btn btn-default btn-xs">Modify</button>
-				{#<button class="btn btn-danger btn-xs">Delete</button>#}
+				<a class="btn btn-primary btn-xs" href="{{url}}/admin/questionaire/customise/questions.php?questionaireID={{questionaireID}}&moduleID={{module.ModuleID}}">Questions</a>
 			</td>
 		</tr>
 		{% endfor %}
