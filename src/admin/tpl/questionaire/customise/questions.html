@@ -1,7 +1,6 @@
 {% extends "questionaire/questionaire.html" %}
 
-{% set active_page = "modules" %}
-{% set title = "Modules" %}
+{% set title = "Questions" %}
 {% block qcontent %}
 {% for alert in alerts %}
 	<div class="alert alert-{{alert.type}}" role="alert">{{alert.message}}</div>
