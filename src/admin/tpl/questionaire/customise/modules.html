@@ -19,10 +19,10 @@
 					<input type="hidden" name="action" value="add_group" />
 						
 					<label for="groupCode">Group Code</label>
-					<input type="text" name="groupCode" class="form-control" />
+					<input type="text" name="ModuleID" class="form-control" />
 					
 					<label for="groupName">Group Name</label>
-					<input type="text" name="groupName" class="form-control" />
+					<input type="text" name="ModuleTitle" class="form-control" />
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -34,6 +34,8 @@
 	</div><!-- /.modal -->
 	
 	<h3>Question Groups</h3>
+	<form method="post">
+	<input type="hidden" name="action" value="table" />
 	<table class="table">
 		<thead>
 			<th class="col-sm-1">ModuleID</th>
@@ -48,12 +50,13 @@
 			<td>
 				<a class="btn btn-primary btn-xs" href="{{url}}/admin/questionaire/customise/questions.php?questionaireID={{questionaireID}}&moduleID={{module.ModuleID}}">Questions</a>
 				<button class="btn btn-default btn-xs">Change Name</button>
-				<button class="btn btn-danger btn-xs">Delete</button>
+				<button class="btn btn-danger btn-xs" name="delete" value="{{module.ModuleID}}">Delete</button>
 			</td>
 		</tr>
 		{% endfor %}
 	</table>
-
+	</form>
+	
 	<h3>Modules</h3>
 	<table class="table">
 		<thead>

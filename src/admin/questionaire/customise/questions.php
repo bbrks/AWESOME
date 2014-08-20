@@ -8,10 +8,6 @@ $twig = new Twig_Environment($loader, array());
 
 $template = $twig->loadTemplate('questionaire/customise/questions.html');
 
-$questionaireID = $_GET["questionaireID"];
-$moduleID = isset($_GET["moduleID"])?$_GET["moduleID"]:null;
-$alerts = array();
-
 function getModule() {
 	global $questionaireID, $moduleID, $alerts, $db;
 	if (!$moduleID) {
@@ -67,6 +63,11 @@ function deleteQuestion($questionID) {
 		$alerts[] = array("type"=>"danger",  "message"=>"Sorry, an error occurred deleting question ({$e->getMessage()})");
 	}
 }
+
+$questionaireID = $_GET["questionaireID"];
+$moduleID = isset($_GET["moduleID"])?$_GET["moduleID"]:null;
+$alerts = array();
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["action"])) {
 	$action = $_POST["action"];
