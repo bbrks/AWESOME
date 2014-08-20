@@ -16,14 +16,14 @@
 			<div class="modal-body">
 				<input type="hidden" name="action" value="add_question" />
 					
-				<label for="questionText">QuestionText</label>
-				<input type="text" name="questionText" class="form-control" />
+				<label for="QuestionText">QuestionText</label>
+				<input type="text" name="QuestionText" class="form-control" />
 				
-				<label for="questionText_welsh">Welsh QuestionText</label>
-				<input type="text" name="questionText_welsh" class="form-control" />
+				<label for="QuestionText_welsh">Welsh QuestionText</label>
+				<input type="text" name="QuestionText_welsh" class="form-control" />
 				
-				<label for="questionType">Type</label>
-				<select name="questionType" class="form-control">
+				<label for="QuestionType">Type</label>
+				<select name="QuestionType" class="form-control">
 					<option value="rate">rate</option>
 					<option value="text">text</option>
 				</select>
@@ -37,7 +37,16 @@
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
+	{% if module.ModuleID == "global" %}
+	<h2>Defaults</h2>
+	<form method="post">
+		<input type="hidden" name="action" value="defaults" />
+		
+		<button class="btn btn-danger btn-xs" name="type" value="full">Full</button>
+		<button class="btn btn-danger btn-xs" name="type" value="partial">Partial</button>
+	</form>
+	{% endif %}
+	
 	<h2>{{module.ModuleID}}: {{module.ModuleTitle}}</h3>
 	<form method="post">
 	<input type="hidden" name="action" value="table" />

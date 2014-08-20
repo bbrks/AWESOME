@@ -41,8 +41,8 @@ function getModuleQuestions() { //SQL's WHERE is fussy
 function insertQuestion($details) {
 	global $questionaireID, $moduleID, $alerts, $db;
 	try {
-		$stmt = new tidy_sql($db, "INSERT INTO Questions (QuestionaireID, ModuleID, QuestionText, QuestionText_welsh, Type) VALUES (?,?,?,?,?)", "issss");
-		$stmt->query($questionaireID, $moduleID, $details["questionText"], $details["questionText_welsh"], $details["questionType"]);
+		$stmt = new tidy_sql($db, "INSERT INTO Questions (QuestionaireID, ModuleID, QuestionText, QuestionText_welsh, Type, staff) VALUES (?,?,?,?,?,?)", "issssi");
+		$stmt->query($questionaireID, $moduleID, $details["QuestionText"], $details["QuestionText_welsh"], $details["QuestionType"], isset($details["Staff"])?$details["Staff"]:false);
 		
 		$alerts[] = array("type"=>"success",  "message"=>"Sucessfully added question");
 	}
@@ -77,6 +77,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["action"])) {
 	if ($action == "table") { //a button within table was clicked
 		if (isset($_POST["delete"])) {
 			deleteQuestion($_POST["delete"]);
+		}
+	}
+	if ($action == "defaults") {
+		if ($_POST["type"] == "full") {
+			insertQuestion(array(
+				"QuestionText"=>"I have learned a good deal from this module",
+				"QuestionText_welsh"=>"Rydw i wedi dysgu llawer o'r modiwl",
+				"QuestionType"=>"rate"
+			));
+			insertQuestion(array(
+				"QuestionText"=>"This module was well taught by %s",
+				"QuestionText_welsh"=>"Mae'r modiwl ei haddysgu yn dda %s",
+				"QuestionType"=>"rate",
+				"Staff"=>true
+			));
+			insertQuestion(array(
+				"QuestionText"=>"What one thing would you change to improve this module, and why?",
+				"QuestionText_welsh"=>"Gwelliannau Modiwl, a pham?",
+				"QuestionType"=>"text"
+			));
+			insertQuestion(array(
+				"QuestionText"=>"Please add any further comments on this module below",
+				"QuestionText_welsh"=>"sylwadau pellach",
+				"QuestionType"=>"text"
+			));
+		}
+		elseif ($_POST["type"] == "partial") {
+			insertQuestion(array(
+				"QuestionText"=>"This module has problems",
+				"QuestionText_welsh"=>"Mae gan y modiwl problemau",
+				"QuestionType"=>"rate"
+			));
 		}
 	}
 }

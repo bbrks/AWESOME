@@ -150,7 +150,7 @@ function getStudentModuleLecturers($details) {
 function getQuestions($details) {
 	global $db;
 
-	$stmt = new tidy_sql($db, "SELECT * from Questions WHERE Questions.QuestionaireID = ?", "i");
+	$stmt = new tidy_sql($db, "SELECT * from Questions WHERE Questions.QuestionaireID = ? ORDER BY QuestionID ASC", "i");
 
 	return $stmt->query($details["QuestionaireID"]);
 }
@@ -168,7 +168,6 @@ function getPreparedQuestions($details, $answers = array()) {
 			if ((!$question["ModuleID"] && !$module["Fake"]) || // fake modules do not have generic questions
 				strcasecmp($question["ModuleID"],$module["ModuleID"]) == 0) {
 				if ($question["Staff"] == 0) {
-
 						$question["Identifier"] = $identifier;
 
 						$module["Questions"][] = $question;
