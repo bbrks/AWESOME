@@ -150,7 +150,7 @@ function getStudentModuleLecturers($details) {
 function getQuestions($details) {
 	global $db;
 
-	$stmt = new tidy_sql($db, "SELECT * from Questions WHERE Questions.QuestionaireID IS NULL OR Questions.QuestionaireID = ?", "i");
+	$stmt = new tidy_sql($db, "SELECT * from Questions WHERE Questions.QuestionaireID = ?", "i");
 
 	return $stmt->query($details["QuestionaireID"]);
 }
