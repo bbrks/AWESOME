@@ -21,7 +21,9 @@ SELECT Modules.ModuleID,Modules.ModuleTitle,(
 	AnswerGroup.QuestionaireID=Modules.QuestionaireID
 ) as NumAnswers
 FROM Modules
+JOIN StudentsToModules ON StudentsToModules.QuestionaireID=Modules.QuestionaireID AND StudentsToModules.ModuleID=Modules.ModuleID
 WHERE Modules.QuestionaireID=?
+GROUP BY Modules.ModuleID
 ORDER BY NumAnswers DESC
 	", "i");
 $modules = $stmt->query($questionaireID);
