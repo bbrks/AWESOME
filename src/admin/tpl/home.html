@@ -1,0 +1,68 @@
+{% extends "page.html" %}
+
+{% set title = "Questionaires" %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<style>
+		.table .progress {
+			margin-bottom: 0px;
+		}
+	</style>
+{% endblock %}
+
+{% block pagecontent %}
+<div class="modal fade" id="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+	  <form method="post" action="__addquestionaire.php">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			<h4 class="modal-title">Add Questionaire</h4>
+		  </div>
+		  <div class="modal-body">
+			<p>To begin with, just fill in the name, and department</p>
+			<label for="questionaireName">Name</label>
+			<input type="text" name="questionaireName" class="form-control" />
+			<label for="questionaireDepartment">Department</label>
+			<select name="questionaireDepartment" class="form-control">
+				<option value="Art">Art</option>
+				<option value="IBERS">IBERS</option>
+				<option value="CompSci">CompSci</option>
+				<option value="Welsh">Welsh</option>
+			</select>
+			
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="submit" class="btn btn-primary">Add Questionaire</button>
+		  </div>
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+  
+<h1>Questionaires</h1>
+<table class="table table-striped">
+	<thead>
+		<th>ID</th>
+		<th>Name</th>
+		<th>Department</th>
+		<th>Answers</th>
+		<th>Total Students</th>
+		<th class="col-sm-4">Percent</th>
+		<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal">Add</button></td>
+	</thead>
+	
+	{% for questionaire in questionaires %}
+	<tr>
+		<td>{{questionaire.QuestionaireID}}</td>
+		<td>{{questionaire.QuestionaireName}}</td>
+		<td>{{questionaire.QuestionaireDepartment}}</td>
+		<td>{{questionaire.Answers}}</td>
+		<td>{{questionaire.Total}}</td>
+		<td><div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="{{questionaire.Percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{questionaire.Percent}}%;">{{questionaire.Percent}}%</div></div></td>
+		<td><a class="btn btn-default btn-xs" href="modify.php?questionaireID={{questionaire.QuestionaireID}}">Modify</a> <a class="btn btn-default btn-xs" href="results.php?questionaireID={{questionaire.QuestionaireID}}">Stats</a></td>
+	</tr>
+	{% endfor %}
+{% endblock %}
