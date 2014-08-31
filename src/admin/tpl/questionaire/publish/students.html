@@ -1,0 +1,63 @@
+{% extends "questionaire/questionaire.html" %}
+
+{% set active_page = "students" %}
+{% set title = "Students" %}
+{% block qcontent %}
+<div class="modal fade" id="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+	  <form method="post">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			<h4 class="modal-title">Email all students</h4>
+		  </div>
+		  <div class="modal-body">
+			<input type="hidden" name="action" value="email_students" />
+			
+			<label for="EmailSubject">Subject</label>
+			<input type="text" name="EmailSubject" class="form-control" value="New Survey"/>
+			
+			<label for="EmailText">Message Text</label>
+			<textarea class="form-control" rows="25">
+Hey {{ '{{' }}student_name{{ '}}' }}!
+
+A new survey has been made available to you, this has been tailored specifically to you
+Please complete it at {{ '{{' }}survey_link{{ '}}' }}.
+
+The survey is fully anonymous and completing it will stop these reminder emails from being sent.
+Read more about us at http://aberawesome.co.uk/!
+</textarea>
+			
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="submit" class="btn btn-primary">Email all</button>
+		  </div>
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+
+	<button  class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modal">Email all</button>
+
+	<table class="table">
+		<thead>
+			<th>UserID</th>
+			<th>Department</th>
+			<th>Token</th>
+			<th>Modules</th>
+			<th>Done</th>
+		</thead>
+		
+		{% for student in students %}
+		<tr>
+			<td>{{student.UserID}}</td>
+			<td>{{student.Department}}</td>
+			<td>{{student.Token}}</td>
+			<td>{{student.Modules}}</td>
+			<td>{{student.Done}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+{% endblock %}
