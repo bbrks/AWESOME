@@ -8,6 +8,19 @@ $twig = new Twig_Environment($loader, array());
 
 $template = $twig->loadTemplate('home.html'); 
 
+function insertQuestionaire($details) {
+	global $questionaireID, $alerts, $db;
+	try {
+		$stmt = new tidy_sql($db, "INSERT INTO Questionaires (QuestionaireName, QuestionaireDepartment) VALUES (?,?)", "ss");
+		$stmt->query($questionaireID, $details["questionaireName"], $details["questionaireDepartment"]);
+		
+		$alerts[] = array("type"=>"success",  "message"=>"Sucessfully added questionnairep");
+	}
+	catch (Exception $e) {
+		$alerts[] = array("type"=>"danger",  "message"=>"Sorry, an error occurred adding questionnaire ({$e->getMessage()})");
+	}
+}
+
 function getQuestionaires() {
 	global $db;
 
@@ -31,6 +44,13 @@ function getQuestionaires() {
 	}
 
 	return $rows;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["action"])) {
+	$action = $_POST["action"];
+	if ($action == "add_questionaire") {
+		insertQuestionaire($_POST);
+	}
 }
 
 $questionaires = getQuestionaires();
