@@ -1,0 +1,30 @@
+{% extends "questionaire/questionaire.html" %}
+
+{% set title = "Modules" %}
+
+{% block javascripts %}
+	{{ parent() }}
+	
+	<script src="{{url}}/js/Chart.min.js" type="text/javascript"></script>
+{% endblock %}
+
+{% block qcontent %}
+	{% for alert in alerts %}
+		<div class="alert alert-{{alert.type}}" role="alert">{{alert.message}}</div>
+	{% endfor %}
+
+	<table class="table">
+		<thead>
+			<td>Module ID</td>
+			<th>Module Title</th>
+			<th>Num Answers</th>
+		</thead>
+		{% for module in modules %}
+			<tr>
+				<td>{{module.ModuleID}}</td>
+				<td><a href="{{url}}/admin/questionaire/results/moduleresults.php?questionaireID={{questionaireID}}&moduleID={{module.ModuleID}}">{{module.ModuleTitle}}</a></td>
+				<td>{{module.NumAnswers}}</td>
+			</tr>
+		{% endfor %}
+	</table>
+{% endblock %}
