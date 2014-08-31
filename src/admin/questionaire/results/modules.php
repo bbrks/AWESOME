@@ -19,12 +19,17 @@ SELECT Modules.ModuleID,Modules.ModuleTitle,(
 	JOIN AnswerGroup ON Answers.AnswerID=AnswerGroup.AnswerID
 	WHERE Answers.ModuleID=Modules.ModuleID AND
 	AnswerGroup.QuestionaireID=Modules.QuestionaireID
-) as NumAnswers
+	) as NumAnswers, (
+		SELECT COUNT(*)
+		FROM StudentsToModules
+		WHERE StudentsToModules.QuestionaireID=Modules.QuestionaireID AND
+		StudentsToModules.ModuleID=Modules.ModuleID
+	) as TotalStudents
 FROM Modules
 JOIN StudentsToModules ON StudentsToModules.QuestionaireID=Modules.QuestionaireID AND StudentsToModules.ModuleID=Modules.ModuleID
 WHERE Modules.QuestionaireID=?
 GROUP BY Modules.ModuleID
-ORDER BY NumAnswers DESC
+ORDER BY NumAnswers/TotalStudents,NumAnswers DESC
 	", "i");
 $modules = $stmt->query($questionaireID);
 

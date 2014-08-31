@@ -22,12 +22,24 @@
 			<td>Module ID</td>
 			<th>Module Title</th>
 			<th>Num Answers</th>
+			<th>Total Students</th>
+			<th class="col-sm-3">Percent</th>
 		</thead>
 		{% for module in modules %}
+			{% if module.NumAnswers == 0 %}
+				{% set percent = 0 %}
+			{% else %}
+				{% set percent = (module.TotalStudents/module.NumAnswers)*100 %}
+			{% endif %}
+			
 			<tr {% if module.NumAnswers == 0 %} class="disabled-row" {% endif %}>
 				<td>{{module.ModuleID}}</td>
 				<td><a href="{{url}}/admin/questionaire/results/moduleresults.php?questionaireID={{questionaireID}}&moduleID={{module.ModuleID}}">{{module.ModuleTitle}}</a></td>
 				<td><strong>{{module.NumAnswers}}</strong></td>
+				<td><strong>{{module.TotalStudents}}</strong></td>
+				<td>
+					<div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{min(percent,100)}}%;">{{percent|round}}%</div></div>
+				</td>
 			</tr>
 		{% endfor %}
 	</table>
