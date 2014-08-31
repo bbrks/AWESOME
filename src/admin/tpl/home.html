@@ -68,7 +68,7 @@
 		<td>{{questionaire.QuestionaireDepartment}}</td>
 		<td>{{questionaire.Answers}}</td>
 		<td>{{questionaire.Total}}</td>
-		<td><div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="{{questionaire.Percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{min(questionaire.Percent,100)}}%;">{{questionaire.Percent}}%</div></div></td>
+		<td><div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="{{questionaire.Percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{min(questionaire.Percent,100)}}%;">{{questionaire.Percent|round}}%</div></div></td>
 		<td>
 			<a class="btn btn-default btn-xs" href="{{url}}/admin/questionaire/import/basic.php?questionaireID={{questionaire.QuestionaireID}}">Modify</a>
 			<a class="btn btn-default btn-xs" href="{{url}}/admin/questionaire/results/modules.php?questionaireID={{questionaire.QuestionaireID}}">Stats</a>
