@@ -13,12 +13,15 @@ $alerts = array();
 
 
 $stmt = new tidy_sql($db, "
-	SELECT Modules.ModuleID,Modules.ModuleTitle,COUNT(DISTINCT AnswerGroup.AnswerID) as NumAnswers FROM Modules
-	JOIN StudentsToModules ON StudentsToModules.ModuleID = Modules.ModuleID AND StudentsToModules.QuestionaireID = Modules.QuestionaireID
-	LEFT JOIN Answers ON Answers.ModuleID = Modules.ModuleID
-	LEFT JOIN AnswerGroup ON AnswerGroup.QuestionaireID = Modules.QuestionaireID
-	WHERE Modules.QuestionaireID=?
-	GROUP BY Modules.ModuleID
+SELECT Modules.ModuleID,Modules.ModuleTitle,(
+	SELECT COUNT(DISTINCT Answers.AnswerID)
+	FROM Answers
+	JOIN AnswerGroup ON AnswerGroup.QuestionaireID=(SELECT Modules.QuestionaireID)
+	WHERE Answers.ModuleID=Modules.ModuleID
+) as NumAnswers
+FROM Modules
+WHERE Modules.QuestionaireID=?
+ORDER BY NumAnswers DESC
 	", "i");
 $modules = $stmt->query($questionaireID);
 
