@@ -5,8 +5,8 @@ if (!isset($_SESSION["admin_user"])) {
 	header("location: login.php");
 	exit("login ffs");
 }
-
-include "lib-admin.php";
+require "../../../lib.php";
+include "../../lib-admin.php";
 
 $questionaireID = $_GET["questionaireID"];
 

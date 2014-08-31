@@ -6,7 +6,7 @@ if (!isset($_SESSION["admin_user"])) {
 	exit("login ffs");
 }
 
-include "lib-admin.php";
+include "../../lib-admin.php";
 
 $questionaireID = $_GET["questionaireID"];
 $moduleID = $_GET["moduleID"];

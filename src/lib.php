@@ -85,6 +85,7 @@ class tidy_sql {
 				$result[] = $c;
 			}
 			return $result;
+			isset($result)?$result:array();
 		}
 		
 	}
