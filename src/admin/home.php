@@ -12,7 +12,7 @@ function insertQuestionaire($details) {
 	global $questionaireID, $alerts, $db;
 	try {
 		$stmt = new tidy_sql($db, "INSERT INTO Questionaires (QuestionaireName, QuestionaireDepartment) VALUES (?,?)", "ss");
-		$stmt->query($questionaireID, $details["questionaireName"], $details["questionaireDepartment"]);
+		$stmt->query($details["questionaireName"], $details["questionaireDepartment"]);
 		
 		$alerts[] = array("type"=>"success",  "message"=>"Sucessfully added questionnairep");
 	}
