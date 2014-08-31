@@ -42,8 +42,14 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div>
-  
+
+{% for alert in alerts %}
+	<div class="alert alert-{{alert.type}}" role="alert">{{alert.message}}</div>
+{% endfor %}
+
 <h1>Questionaires</h1>
+<form method="post">
+<input type="hidden" name="action" value="table" />
 <table class="table table-striped">
 	<thead>
 		<th>ID</th>
@@ -62,11 +68,14 @@
 		<td>{{questionaire.QuestionaireDepartment}}</td>
 		<td>{{questionaire.Answers}}</td>
 		<td>{{questionaire.Total}}</td>
-		<td><div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="{{questionaire.Percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{questionaire.Percent}}%;">{{questionaire.Percent}}%</div></div></td>
+		<td><div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="{{questionaire.Percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{min(questionaire.Percent,100)}}%;">{{questionaire.Percent}}%</div></div></td>
 		<td>
 			<a class="btn btn-default btn-xs" href="{{url}}/admin/questionaire/import/basic.php?questionaireID={{questionaire.QuestionaireID}}">Modify</a>
 			<a class="btn btn-default btn-xs" href="{{url}}/admin/questionaire/results/modules.php?questionaireID={{questionaire.QuestionaireID}}">Stats</a>
+			<button class="btn btn-danger btn-xs" type="submit" name="delete" value="{{questionaire.QuestionaireID}}">Delete</button>
 		</td>
 	</tr>
 	{% endfor %}
+</table>
+</form>
 {% endblock %}
