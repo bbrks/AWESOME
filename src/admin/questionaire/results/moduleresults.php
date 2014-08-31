@@ -1,78 +1,62 @@
 <?php
-session_start();
+require "../../../lib.php";
+require_once "{$root}/lib/Twig/Autoloader.php";
 
-if (!isset($_SESSION["admin_user"])) {
-	header("location: login.php");
-	exit("login ffs");
-}
+Twig_Autoloader::register();
+$loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
+$twig = new Twig_Environment($loader, array());
 
-include "../../lib-admin.php";
+$template = $twig->loadTemplate('questionaire/results/moduleresults.html');
 
 $questionaireID = $_GET["questionaireID"];
 $moduleID = $_GET["moduleID"];
 
-?>
-<!DOCTYPE HTML>
-<html>
-<head>
-	<title>Questionnaire</title>
-	<link rel="icon" type="image/png" href="../../assets/favicon.png">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="../css/bootstrap.min.css" rel="stylesheet">
-	<script src="../js/jquery-1.11.0.min.js" type="text/javascript"></script>
-	<script src="../js/bootstrap.min.js" type="text/javascript"></script>
-	<script src="../js/Chart.min.js" type="text/javascript"></script>
-	<style>
-		.table .progress {
-			margin-bottom: 0px;
-		}
-	</style>
-	
-</head>
+$alerts = array();
 
-<body>
-	<?
+function getResults($moduleID, $questionaireID) {
+	global $db;
 	
-	$results = getResults($moduleID, $questionaireID);
-	//print_r($results);
-	foreach($results as $key=>$module) {
-		echo "<h3>{$module[0]["QuestionText"]}</h3>";
-		
-		if ($module[0]["Type"] == "text") {
-			foreach ($module as $result) {
-				echo ($result["NumValue"] . $result["TextValue"])."<br />";
-			}
+	$stmt = new tidy_sql($db, "
+		SELECT Answers.AnswerID, Answers.QuestionID, Staff.UserID as StaffID, REPLACE(Questions.QuestionText, '%s', CASE WHEN Staff.Name is NULL THEN '' ELSE Staff.Name END) AS QuestionText, Questions.Type, Answers.NumValue, Answers.TextValue FROM Answers
+		JOIN AnswerGroup on Answers.AnswerID=AnswerGroup.AnswerID
+		LEFT JOIN Questions ON Answers.QuestionID = Questions.QuestionID /*AND Questions.QuestionaireID = AnswerGroup.QuestionaireID*/
+		LEFT JOIN Staff ON Answers.StaffID = Staff.UserID AND AnswerGroup.QuestionaireID = Staff.QuestionaireID
+		WHERE AnswerGroup.QuestionaireID=?
+		AND Answers.ModuleID=?", "is");
+	
+	$rows = $stmt->query($questionaireID, $moduleID);
+	
+	$results = array();
+	foreach($rows as $row) {
+		$id = $row["QuestionID"];
+		if ($row["StaffID"]) {
+			$id .= "_".$row["StaffID"];
 		}
-		elseif ($module[0]["Type"] == "rate") {
-			$data = array(
-				"labels"=> array(1,2,3,4,5),
-				"datasets"=>array(
-					array(
-							"value"=>0,
-							"color"=>"#F7464A",
-							"data"=>array(0,0,0,0,0)
-						)
-					)
+		if (!isset($results[$id]))
+			$results[$id] = array(
+				"QuestionID"=>$row["QuestionID"],
+				"QuestionText"=>$row["QuestionText"],
+				"QuestionType"=>$row["Type"],
+				"StaffID"=>$row["StaffID"],
+				"Key"=>$id,
+				"Results"=>array(),
+				"Summary"=>array(0,0,0,0,0)
 			);
-				
-			foreach ($module as $result) {
-				$data["datasets"][0]["data"][$result["NumValue"]-1]++;
-			}
-			?>
-			<canvas id="<?=$key?>" width="400" height="400"></canvas>
-			<script>
-				var ctx = document.getElementById("<?=$key?>").getContext("2d");
-				var myNewChart = new Chart(ctx).Bar(<? echo json_encode($data); ?>);
-				
-				
-			</script>
-			<?
+		$results[$id]["Results"][] = array(
+			"AnswerID"=>$row["AnswerID"],
+			"Value"=>$row["NumValue"]?$row["NumValue"]:$row["TextValue"]
+		);
+		
+		if ($row["Type"] == "rate") {
+			$results[$id]["Summary"][$row["NumValue"]-1] += 1;
 		}
 	}
-	
-	
-	?>
-	
-	
-</body>
-</html>
+	return $results;
+}
+
+$results = getResults($moduleID, $questionaireID);
+//print_r($results);
+echo $template->render(array(
+	"url"=>$url, "questionaireID"=> $questionaireID, "alerts"=>$alerts, "moduleID"=>$moduleID,
+	"questions"=>$results
+));
