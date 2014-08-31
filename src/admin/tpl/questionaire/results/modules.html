@@ -2,6 +2,16 @@
 
 {% set title = "Modules" %}
 
+{% block stylesheets %}
+{{ parent() }}
+
+<style>
+	.disabled-row {
+		opacity: 0.4;
+	}
+</style>
+{% endblock %}
+
 {% block qcontent %}
 	{% for alert in alerts %}
 		<div class="alert alert-{{alert.type}}" role="alert">{{alert.message}}</div>
@@ -14,7 +24,7 @@
 			<th>Num Answers</th>
 		</thead>
 		{% for module in modules %}
-			<tr>
+			<tr {% if module.NumAnswers == 0 %} class="disabled-row" {% endif %}>
 				<td>{{module.ModuleID}}</td>
 				<td><a href="{{url}}/admin/questionaire/results/moduleresults.php?questionaireID={{questionaireID}}&moduleID={{module.ModuleID}}">{{module.ModuleTitle}}</a></td>
 				<td><strong>{{module.NumAnswers}}</strong></td>
