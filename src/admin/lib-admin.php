@@ -1,5 +1,6 @@
 <?php
-require "../lib.php";
+
+require dirname(__FILE__)."/../lib.php";
 
 function getQuestionaires() {
 	global $db;
