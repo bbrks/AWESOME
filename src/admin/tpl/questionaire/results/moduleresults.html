@@ -14,7 +14,13 @@
 		
 		function doBarChart(key, data) {
 			var graphdata = {
-				"labels": [1,2,3,4,5],
+				"labels": [
+					"Strongly Disagree", //1
+					"Agree",             //2
+					"Neutral",           //3
+					"Disagree",          //4
+					"Strongly Agree"     //5
+				],
 				"datasets":[
 					{
 						"value":0,
@@ -29,31 +35,32 @@
 		}
 		
 		function doPieChart(key, data) {
+			//data is 0 indexed, data[0] = 1, data[1] = 2, etc
 			var graphdata = [
 				{
 					"value": data[0],
 					"color": "#FF0000",
-					"label": "1"
+					"label": "Strongly Disagree" //1
 				},
 				{
 					"value": data[1],
 					"color": "#FF7700",
-					"label": "2"
+					"label": "Agree" //2
 				},
 								{
 					"value": data[2],
 					"color": "#FFFF00",
-					"label": "3"
+					"label": "Neutral" //3
 				},
 								{
 					"value": data[3],
 					"color": "#88FF00",
-					"label": "4"
+					"label": "Agree" //4
 				},
 								{
 					"value": data[4],
 					"color": "#00FF00",
-					"label": "5"
+					"label": "Strongly Agree" //5
 				},
 			]
 			
