@@ -2,12 +2,6 @@
 
 {% set title = "Modules" %}
 
-{% block javascripts %}
-	{{ parent() }}
-	
-	<script src="{{url}}/js/Chart.min.js" type="text/javascript"></script>
-{% endblock %}
-
 {% block qcontent %}
 	{% for alert in alerts %}
 		<div class="alert alert-{{alert.type}}" role="alert">{{alert.message}}</div>
