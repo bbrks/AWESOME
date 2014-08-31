@@ -16,8 +16,9 @@ $stmt = new tidy_sql($db, "
 SELECT Modules.ModuleID,Modules.ModuleTitle,(
 	SELECT COUNT(DISTINCT Answers.AnswerID)
 	FROM Answers
-	JOIN AnswerGroup ON AnswerGroup.QuestionaireID=(SELECT Modules.QuestionaireID)
-	WHERE Answers.ModuleID=Modules.ModuleID
+	JOIN AnswerGroup ON Answers.AnswerID=AnswerGroup.AnswerID
+	WHERE Answers.ModuleID=Modules.ModuleID AND
+	AnswerGroup.QuestionaireID=Modules.QuestionaireID
 ) as NumAnswers
 FROM Modules
 WHERE Modules.QuestionaireID=?
