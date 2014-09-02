@@ -17,6 +17,7 @@ function output_timer() {
 	$benchmark->db_percent = ($benchmark->db_time/$benchmark->total_time)*100;
 	echo "<!-- Benchmark/stats ;) times are in seconds\n";
 	print_r($benchmark);
+	echo "mysqlnd enabled: " . (function_exists('mysqli_stmt_get_result')?"true":"false") ."\n";
 	echo "-->";
 }
 
