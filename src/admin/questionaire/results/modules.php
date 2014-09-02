@@ -24,7 +24,8 @@ SELECT Modules.ModuleID,Modules.ModuleTitle,(
 		FROM StudentsToModules
 		WHERE StudentsToModules.QuestionaireID=Modules.QuestionaireID AND
 		StudentsToModules.ModuleID=Modules.ModuleID
-	) as TotalStudents
+	) as TotalStudents,
+	Fake
 FROM Modules
 LEFT JOIN StudentsToModules ON StudentsToModules.QuestionaireID=Modules.QuestionaireID AND StudentsToModules.ModuleID=Modules.ModuleID
 WHERE Modules.QuestionaireID=? AND (Modules.Fake = true OR StudentsToModules.ModuleID is not null)

@@ -40,9 +40,19 @@
 				<td>{{module.ModuleID}}</td>
 				<td><a href="{{url}}/admin/questionaire/results/moduleresults.php?questionaireID={{questionaireID}}&moduleID={{module.ModuleID}}">{{module.ModuleTitle}}</a></td>
 				<td><strong>{{module.NumAnswers}}</strong></td>
-				<td><strong>{{module.TotalStudents}}</strong></td>
+				<td><strong>
+					{% if module.Fake %}
+						All
+					{% else %}
+						{{module.TotalStudents}}
+					{% endif %}
+				</strong></td>
 				<td>
+					{% if module.Fake %}
+						N/A
+					{% else %}
 					<div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{min(percent,100)}}%;">{{percent|round}}%</div></div>
+					{% endif %}
 				</td>
 			</tr>
 		{% endfor %}
