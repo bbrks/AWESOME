@@ -31,7 +31,7 @@
 			}
 			
 			var ctx = document.getElementById(key).getContext("2d");
-			var myNewChart = new Chart(ctx).Bar(graphdata);
+			var myNewChart = new Chart(ctx).Bar(graphdata, {animationSteps : 1});
 		}
 		
 		function doPieChart(key, data) {
@@ -65,7 +65,7 @@
 			]
 			
 			var ctx = document.getElementById(key).getContext("2d");
-			var myNewChart = new Chart(ctx).Pie(graphdata);
+			var myNewChart = new Chart(ctx).Pie(graphdata, {animationSteps : 1});
 		}
 	</script>
 {% endblock %}
