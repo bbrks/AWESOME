@@ -30,10 +30,10 @@
 			<th class="col-sm-3">Percent</th>
 		</thead>
 		{% for module in modules %}
-			{% if module.NumAnswers == 0 %}
+			{% if module.TotalStudents == 0 %}
 				{% set percent = 0 %}
 			{% else %}
-				{% set percent = (module.TotalStudents/module.NumAnswers)*100 %}
+				{% set percent = (module.NumAnswers/module.TotalStudents)*100 %}
 			{% endif %}
 			
 			<tr {% if module.NumAnswers == 0 %} class="disabled-row" {% endif %}>
