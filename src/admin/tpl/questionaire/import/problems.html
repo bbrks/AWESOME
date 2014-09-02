@@ -23,5 +23,38 @@
 		{% endfor %}
 	</table>
 	
-
+	<h3>Missing staff assigned to modules</h3>
+	<p>The following staff have been assigned to modules, their name as not been defined so will show up as blank within the questionnaire</p>
+	<table class="table">
+		<thead>
+			<th>User ID</th>
+			<th>Modules</th>
+			<th>Action</th>
+		</thead>
+		
+		{% for staff in missingstaff %}
+		<tr>
+			<td>{{staff.UserID}}</td>
+			<td>{{staff.Modules}}</td>
+			<td>Delete button here</td>
+		</tr>
+		{% endfor %}
+	</table>
+	
+	<h3>Students with no modules</h3>
+	<p>The following students have no modules, these students will have no questions</p>
+	<table class="table">
+		<thead>
+			<th>User ID</th>
+			<th>Action</th>
+		</thead>
+		
+		{% for student in studentswomodules %}
+		<tr>
+			<td>{{student.UserID}}</td>
+			<td>Delete button here</td>
+		</tr>
+		{% endfor %}
+	</table>
+	
 {% endblock %}

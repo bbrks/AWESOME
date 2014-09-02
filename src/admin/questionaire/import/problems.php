@@ -24,9 +24,38 @@ GROUP BY StudentsToModules.ModuleID", "i");
 	return $results;
 }
 
+function getMissingStaff($questionaireID) {
+	global $db;
+	
+	$stmt = new tidy_sql($db, "
+SELECT StaffToModules.UserID, GROUP_CONCAT(DISTINCT StaffToModules.ModuleID ORDER BY StaffToModules.ModuleID ASC SEPARATOR ' ') AS Modules FROM StaffToModules
+LEFT JOIN Staff ON StaffToModules.UserID=Staff.UserID AND StaffToModules.QuestionaireID=Staff.QuestionaireID
+WHERE Staff.Name IS NULL
+AND StaffToModules.QuestionaireID=?
+GROUP BY StaffToModules.UserID", "i");
+	$results = $stmt->query($questionaireID);
+	return $results;
+}
+
+function getStudentsWOModules($questionaireID) {
+	global $db;
+	
+	$stmt = new tidy_sql($db, "
+SELECT UserID FROM Students
+LEFT JOIN StudentsToModules USING (UserID, QuestionaireID)
+WHERE StudentsToModules.UserID IS NULL
+AND QuestionaireID=?", "i");
+	$results = $stmt->query($questionaireID);
+	return $results;
+}
+
 $missingmodules = getMissingModules($questionaireID);
+$missingstaff = getMissingStaff($questionaireID);
+$studentsWOModules = getStudentsWOModules($questionaireID);
 
 echo $template->render(array(
 	"url"=>$url, "questionaireID"=> $questionaireID, "alerts"=>$alerts,
-	"missingmodules"=>$missingmodules
+	"missingmodules"=>$missingmodules,
+	"missingstaff"=>$missingstaff,
+	"studentswomodules"=>$studentsWOModules
 )); 
