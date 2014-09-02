@@ -1,0 +1,27 @@
+{% extends "questionaire/import/import.html" %}
+
+{% set active_page = "problems" %}
+{% set title = "Problems" %}
+{% block modifycontent %}
+
+	<h3>Missing modules with students assigned</h3>
+	<p>The following modules have students assigned, but do not have a name defined.
+	This causes issues as the questionnaire and results pages are not able to display these</p>
+	<table class="table">
+		<thead>
+			<th>Module ID</th></th>
+			<th>Students</th>
+			<th>Action</th>
+		</thead>
+		
+		{% for module in missingmodules %}
+		<tr>
+			<td>{{module.ModuleID}}</td>
+			<td>{{module.Students}}</td>
+			<td>Delete button here</td>
+		</tr>
+		{% endfor %}
+	</table>
+	
+
+{% endblock %}
