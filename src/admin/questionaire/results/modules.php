@@ -26,8 +26,8 @@ SELECT Modules.ModuleID,Modules.ModuleTitle,(
 		StudentsToModules.ModuleID=Modules.ModuleID
 	) as TotalStudents
 FROM Modules
-JOIN StudentsToModules ON StudentsToModules.QuestionaireID=Modules.QuestionaireID AND StudentsToModules.ModuleID=Modules.ModuleID
-WHERE Modules.QuestionaireID=?
+LEFT JOIN StudentsToModules ON StudentsToModules.QuestionaireID=Modules.QuestionaireID AND StudentsToModules.ModuleID=Modules.ModuleID
+WHERE Modules.QuestionaireID=? AND (Modules.Fake = true OR StudentsToModules.ModuleID is not null)
 GROUP BY Modules.ModuleID
 ORDER BY NumAnswers/TotalStudents,NumAnswers DESC
 	", "i");
