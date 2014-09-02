@@ -1,16 +1,30 @@
 <?
+$benchmark = (object)array(
+	"db_preparetime" => 0,
+	"db_querytime" => 0,
+	"db_numqueries" => 0,
+	"db_numresults" => 0,
+);
+
 $start = microtime(true);
 register_shutdown_function('output_timer');
 function output_timer() {
-	global $start;
-	echo "<!-- Page generated in ". (microtime(true)-$start) ." seconds! :D -->";
+	global $start, $benchmark;
+	$benchmark->total_time = microtime(true)-$start;
+	$benchmark->db_time = $benchmark->db_preparetime+$benchmark->db_querytime;
+	$benchmark->php_time = $benchmark->total_time - $benchmark->db_time;
+	$benchmark->php_percent = ($benchmark->php_time/$benchmark->total_time)*100;
+	$benchmark->db_percent = ($benchmark->db_time/$benchmark->total_time)*100;
+	echo "<!-- Benchmark/stats ;) times are in seconds\n";
+	print_r($benchmark);
+	echo "-->";
 }
 
 global $db;
 
 require "db.php";
 if ($db->connect_errno)
-	throw "Failed to connect";
+	throw new Exception("Failed to connect");
 
 class tidy_sql {
 	public $db;
@@ -20,15 +34,24 @@ class tidy_sql {
 	public $errno;
 	
 	public function tidy_sql($db, $query, $types = "") {
+		global $benchmark;
 		$this->db = $db;
 		$this->types = $types;
 		
-		if (!$this->stmt = $db->prepare($query)) {
+		$s = microtime(true);
+		$result = $this->stmt = $db->prepare($query);
+		$benchmark->db_preparetime += microtime(true)-$s;
+		
+		if (!$result) {
 			throw new Exception("SQL prepare: ".strval($db->errno)." - ".$db->error);
 		}
 	}
 	
 	public function query() {
+		global $benchmark;
+		$s = microtime(true);
+		$benchmark->db_numqueries ++;
+		
 		$args = func_get_args();
 		if (count($args) > 0) {
 			//param args, bind_param works by reference
@@ -40,6 +63,9 @@ class tidy_sql {
 		}
 		
 		$exec = $this->stmt->execute();
+		
+		$benchmark->db_querytime += microtime(true)-$s;
+		
 		if ($this->stmt->errno != 0) {
 			$message = "SQL Execute: ".strval($this->stmt->errno)." - ".$this->stmt->error;
 			$this->stmt->reset();
@@ -58,14 +84,17 @@ class tidy_sql {
 	
 
 	public function getRows() {
+		global $benchmark;
+		$s = microtime(true);
 		
+		$output;
 		if (function_exists("mysqli_stmt_get_result")) {
 			$result = $this->stmt->get_result();
 			$rows = array();
 			while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
 				$rows[] = $row;
 			}
-			return $rows;
+			$output = $rows;
 		}
 		
 		else { //mysqlnd not being used, error prone :(
@@ -84,9 +113,12 @@ class tidy_sql {
 				}
 				$result[] = $c;
 			}
-			return isset($result)?$result:array();
+			$output = isset($result)?$result:array();
 		}
 		
+		$benchmark->db_querytime += microtime(true)-$s;
+		$benchmark->db_numresults += count($output);
+		return $output;
 	}
 }
 
