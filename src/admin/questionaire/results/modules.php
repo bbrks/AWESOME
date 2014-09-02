@@ -29,7 +29,7 @@ FROM Modules
 LEFT JOIN StudentsToModules ON StudentsToModules.QuestionaireID=Modules.QuestionaireID AND StudentsToModules.ModuleID=Modules.ModuleID
 WHERE Modules.QuestionaireID=? AND (Modules.Fake = true OR StudentsToModules.ModuleID is not null)
 GROUP BY Modules.ModuleID
-ORDER BY NumAnswers/TotalStudents,NumAnswers DESC
+ORDER BY NumAnswers/TotalStudents DESC,NumAnswers DESC
 	", "i");
 $modules = $stmt->query($questionaireID);
 
