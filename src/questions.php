@@ -6,9 +6,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" href="../img/favicon.png">
 	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<link href="css/qcss.css" rel="stylesheet">
 	<link href="css/prettyCheckable.css" rel="stylesheet">
-			<script src="../js/jquery.min.js"></script>
+	<link href="css/qcss.css" rel="stylesheet">
+	<script src="js/jquery-1.11.0.min.js"></script>
 	<script src="js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="js/prettyCheckable.min.js" type="text/javascript"></script>
 	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
@@ -16,7 +16,7 @@
 	<script type="text/javascript">
 		$(function() {
 			$(".ratetable input[type=radio]").each(function(e) {
-					$(this).prettyCheckable({
+				$(this).prettyCheckable({
 					"customClass": "prettyrate",
 					"labelPosition": "left"
 				});
