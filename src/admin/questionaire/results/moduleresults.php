@@ -54,9 +54,20 @@ function getResults($moduleID, $questionaireID) {
 	return $results;
 }
 
+function getModuleDetails($questionaireID, $moduleID) {
+	global $db;
+	
+	$stmt = new tidy_sql($db, "SELECT * FROM Modules WHERE QuestionaireID=? AND ModuleID=?", "is");
+	$results = $stmt->query($questionaireID, $moduleID);
+	return $results[0];
+}
+
 $results = getResults($moduleID, $questionaireID);
+$module = getModuleDetails($questionaireID, $moduleID);
+
 //print_r($results);
 echo $template->render(array(
 	"url"=>$url, "questionaireID"=> $questionaireID, "alerts"=>$alerts, "moduleID"=>$moduleID,
+	"module"=>$module,
 	"questions"=>$results
 ));
