@@ -66,16 +66,16 @@
 	
 	{% for questionnaire in questionnaires %}
 	<tr>
-		<td>{{questionnaire.QuestionnaireID}}</td>
-		<td>{{questionnaire.QuestionnaireName}}</td>
-		<td>{{questionnaire.QuestionnaireDepartment}}</td>
+		<td>{{questionnaire.QuestionaireID}}</td>
+		<td>{{questionnaire.QuestionaireName}}</td>
+		<td>{{questionnaire.QuestionaireDepartment}}</td>
 		<td>{{questionnaire.Answers}}</td>
 		<td>{{questionnaire.Total}}</td>
 		<td><div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="{{questionnaire.Percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{min(questionnaire.Percent,100)}}%;">{{questionnaire.Percent|round}}%</div></div></td>
 		<td>
-			<a class="btn btn-default btn-xs" href="{{url}}/admin/questionnaire/import/basic.php?questionnaireID={{questionnaire.QuestionnaireID}}">Modify</a>
-			<a class="btn btn-default btn-xs" href="{{url}}/admin/questionnaire/results/modules.php?questionnaireID={{questionnaire.QuestionnaireID}}">Stats</a>
-			<button class="btn btn-danger btn-xs" type="submit" name="delete" value="{{questionnaire.QuestionnaireID}}">Delete</button>
+			<a class="btn btn-default btn-xs" href="{{url}}/admin/questionnaire/import/basic.php?questionnaireID={{questionnaire.QuestionaireID}}">Modify</a>
+			<a class="btn btn-default btn-xs" href="{{url}}/admin/questionnaire/results/modules.php?questionnaireID={{questionnaire.QuestionaireID}}">Stats</a>
+			<button class="btn btn-danger btn-xs" type="submit" name="delete" value="{{questionnaire.QuestionaireID}}">Delete</button>
 		</td>
 	</tr>
 	{% endfor %}
