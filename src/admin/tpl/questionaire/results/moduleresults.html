@@ -75,19 +75,21 @@
 		<div class="alert alert-{{alert.type}}" role="alert">{{alert.message}}</div>
 	{% endfor %}
 	
-	<h1>Results for {{module.ModuleID}}: {{module.ModuleTitle}}</h1>
+	<h3>Results for {{module.ModuleID}}: {{module.ModuleTitle}}</h3>
 	
 
 	{% for question in questions %}
-		<h3>{{question.QuestionText}}</h3>
+		<h4>{{question.QuestionText}}</h4>
 		
 		{% if question.QuestionType == "text" %}
 			{% for result in question.Results %}
 				{{result.Value}}<br/>
 			{% endfor %}
 		{% elseif question.QuestionType == "rate" %}
-		<canvas id="{{question.Key}}_bar" width="400" height="400"></canvas>
-		<canvas id="{{question.Key}}_pie" width="400" height="400"></canvas>
+		<center>
+		<canvas id="{{question.Key}}_bar" width="300" height="300"></canvas>
+		<canvas id="{{question.Key}}_pie" width="300" height="300"></canvas>
+		</center>
 		<script>
 			doChart("{{question.Key}}",{{question.Summary|json_encode()}});
 		</script>

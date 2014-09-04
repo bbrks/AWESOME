@@ -11,22 +11,20 @@
 
 {% endblock %}
 
+{% block questionnaireworkflow %}
+        <li><a href="{{url}}admin/questionaire/import/basic.php?questionaireID={{questionaireID}}">Import</a></li>
+		<li><a href="{{url}}admin/questionaire/customise/modules.php?questionaireID={{questionaireID}}">Customise</a></li>
+		<li><a href="{{url}}admin/questionaire/publish/students.php?questionaireID={{questionaireID}}">Publish</a></li>
+		<li><a href="{{url}}/admin/questionaire/results/modules.php?questionaireID={{questionaireID}}">Results</a></li>
 
+{% endblock %}
 
 {% block pagecontent %}
-<div>
-<div id="flow">
-<a href="{{url}}admin/questionaire/import/basic.php?questionaireID={{questionaireID}}">Import</a>
-<span class="glyphicon glyphicon-chevron-right"></span>
-<a href="{{url}}admin/questionaire/customise/modules.php?questionaireID={{questionaireID}}">Customise</a>
-<span class="glyphicon glyphicon-chevron-right"></span>
-<a href="{{url}}admin/questionaire/publish/students.php?questionaireID={{questionaireID}}">Publish</a>
-<span class="glyphicon glyphicon-chevron-right"></span>
-<a href="{{url}}/admin/questionaire/results/modules.php?questionaireID={{questionaireID}}">Results</a>
-</div>
-</div>
+<a href="{{url}}/admin/home.php"><button type="button" class="btn btn-sm btn-warning pull-right">Go back</button></a>
 
-<a href="{{url}}/admin/home.php"><button type="button" class="btn btn-sm btn-warning pull-right">Home</button></a>
+
+
+
 
 
 	{% block qcontent %}

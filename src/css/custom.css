@@ -55,3 +55,8 @@ color:inherit;
   width:120px;
   margin:-12px;
 }
+
+canvas {
+	margin-left: 15px;
+	margin-right: 15px;
+}
