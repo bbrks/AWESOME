@@ -1,0 +1,57 @@
+html,
+
+body {
+  color: #000;
+  -webkit-font-smoothing: antialiased;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 992px){
+	.leftcolumn {
+		border-right: 1px dashed #333;	}
+	}
+
+.lazydrop {
+	margin-top:55px;
+}
+
+#addedfooter {
+padding-top:10px;
+float:right;
+text-align:right;
+}
+
+#addedfooter a {
+	display:block;
+}
+
+#addedfooter a {
+color:inherit;
+}
+
+.navbar-inverse {
+	background-color:#FC0;
+	border-color: transparent;
+	color:#000;
+}
+
+.navbar-inverse .navbar-brand {
+	color: #000;
+}
+
+.centered {
+	text-align:center;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+	color: #000;
+}
+
+.navbar-inverse .active {
+	background-color:#FC0;
+}
+
+.navbar-inverse img {
+  width:120px;
+  margin:-12px;
+}
