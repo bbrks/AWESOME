@@ -1,18 +1,18 @@
-{% extends "questionaire/import/import.html" %}
+{% extends "questionnaire/import/import.html" %}
 
 {% set active_page = "basic" %}
 {% set title = "Basic" %}
 
 {% block modifycontent %}
 	<form method="post">
-		<label for="questionaireName">Name</label>
-		<input type="text" name="questionaireName" class="form-control" value="{{questionaire.name}}"/>
-		<label for="questionaireDepartment">Department</label>
-		<select name="questionaireDepartment" class="form-control">
-			<option value="Art" {% if questionaire.department == "Art" %} selected{% endif %}>Art</option>
-			<option value="IBERS" {% if questionaire.department == "IBERS" %} selected{% endif %}>IBERS</option>
-			<option value="CompSci" {% if questionaire.department == "CompSci" %} selected{% endif %}>CompSci</option>
-			<option value="Welsh" {% if questionaire.department == "Welsh" %} selected{% endif %}>Welsh</option>
+		<label for="questionnaireName">Name</label>
+		<input type="text" name="questionnaireName" class="form-control" value="{{questionnaire.name}}"/>
+		<label for="questionnaireDepartment">Department</label>
+		<select name="questionnaireDepartment" class="form-control">
+			<option value="Art" {% if questionnaire.department == "Art" %} selected{% endif %}>Art</option>
+			<option value="IBERS" {% if questionnaire.department == "IBERS" %} selected{% endif %}>IBERS</option>
+			<option value="CompSci" {% if questionnaire.department == "CompSci" %} selected{% endif %}>CompSci</option>
+			<option value="Welsh" {% if questionnaire.department == "Welsh" %} selected{% endif %}>Welsh</option>
 		</select>
 		<button type="submit" class="btn btn-primary form-control">Modify Questionaire</button>
 	</form>

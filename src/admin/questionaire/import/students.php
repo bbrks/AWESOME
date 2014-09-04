@@ -27,7 +27,7 @@ function parseStudentsCSV($data) {
 	return $students;
 }
 
-function insertStudents($students, $questionaireID) {
+function insertStudents($students, $questionnaireID) {
 	global $db;
 	$dbstudent = new tidy_sql($db, "INSERT IGNORE INTO Students (UserID, Department, QuestionaireID, Token, Done) VALUES (?, ?, ?, ?, ?) ", "ssisi");
 	$dbmodules = new tidy_sql($db, "REPLACE INTO StudentsToModules (UserID, ModuleID, QuestionaireID) VALUES (?, ?, ?)", "ssi");
@@ -35,10 +35,10 @@ function insertStudents($students, $questionaireID) {
 		$token = bin2hex(openssl_random_pseudo_bytes(16));
 		$done = false;
 
-		$dbstudent->query($student["UserID"], $student["Department"], $questionaireID, $token, $done);
+		$dbstudent->query($student["UserID"], $student["Department"], $questionnaireID, $token, $done);
 		
 		foreach($student["Modules"] as $module) {
-			$dbmodules->query($student["UserID"], $module, $questionaireID);
+			$dbmodules->query($student["UserID"], $module, $questionnaireID);
 		}
 
 	}
@@ -48,13 +48,13 @@ Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
 $twig = new Twig_Environment($loader, array());
 
-$template = $twig->loadTemplate('questionaire/import/students.html');
+$template = $twig->loadTemplate('questionnaire/import/students.html');
 
-$questionaireID = $_GET["questionaireID"];
+$questionnaireID = $_GET["questionnaireID"];
 $alerts = array();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$data = parseStudentsCSV($_POST["csvdata"]);
-	insertStudents($data, $questionaireID);
+	insertStudents($data, $questionnaireID);
 	$alerts[] = array("type"=>"success", "message"=>"Students inserted");
 }
 
@@ -67,6 +67,6 @@ $stmt = new tidy_sql($db, "
 	ORDER BY Students.Done DESC
 ", "i");
 
-$rows = $stmt->query($questionaireID);
-echo $template->render(array("url"=>$url, "students"=>$rows, "questionaireID"=> $questionaireID, "alerts"=>$alerts));
+$rows = $stmt->query($questionnaireID);
+echo $template->render(array("url"=>$url, "students"=>$rows, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts));
 

@@ -6,16 +6,16 @@ Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
 $twig = new Twig_Environment($loader, array());
 
-$template = $twig->loadTemplate('questionaire/customise/modules.html');
+$template = $twig->loadTemplate('questionnaire/customise/modules.html');
 
-$questionaireID = $_GET["questionaireID"];
+$questionnaireID = $_GET["questionnaireID"];
 $alerts = array();
 
 function insertGroup($details) {
-	global $questionaireID, $alerts, $db;
+	global $questionnaireID, $alerts, $db;
 	try {
 		$stmt = new tidy_sql($db, "INSERT INTO Modules (QuestionaireID, ModuleID, ModuleTitle, Fake) VALUES (?,?,?,1)", "iss");
-		$stmt->query($questionaireID, $details["ModuleID"], $details["ModuleTitle"]);
+		$stmt->query($questionnaireID, $details["ModuleID"], $details["ModuleTitle"]);
 		
 		$alerts[] = array("type"=>"success",  "message"=>"Sucessfully added question group");
 	}
@@ -25,16 +25,16 @@ function insertGroup($details) {
 }
 
 function deleteGroup($moduleID) {
-	global $questionaireID, $alerts, $db;
+	global $questionnaireID, $alerts, $db;
 	try {
 		$stmt = new tidy_sql($db, "DELETE FROM Questions WHERE QuestionaireID=? AND ModuleID=?", "is");
-		$stmt->query($questionaireID, $moduleID);
+		$stmt->query($questionnaireID, $moduleID);
 		
 		$alerts[] = array("type"=>"success",  "message"=>"Sucessfully deleted modules questions");
 		
 		try {
 			$stmt = new tidy_sql($db, "DELETE FROM Modules WHERE QuestionaireID=? AND ModuleID=?", "is");
-			$stmt->query($questionaireID, $moduleID);
+			$stmt->query($questionnaireID, $moduleID);
 			
 			$alerts[] = array("type"=>"success",  "message"=>"Sucessfully deleted the module");
 		}
@@ -63,11 +63,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["action"])) {
 $stmt = new tidy_sql($db, "
 	SELECT ModuleID, ModuleTitle, Fake FROM Modules WHERE QuestionaireID=? AND Fake=?
 ", "ii");
-$groups = $stmt->query($questionaireID, 1);
-$modules = $stmt->query($questionaireID, 0);
+$groups = $stmt->query($questionnaireID, 1);
+$modules = $stmt->query($questionnaireID, 0);
 
 echo $template->render(array(
-	"url"=>$url, "questionaireID"=> $questionaireID, "alerts"=>$alerts,
+	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
 	"groups"=>$groups,
 	"modules"=>$modules
 ));

@@ -6,10 +6,10 @@ Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
 $twig = new Twig_Environment($loader, array());
 
-$template = $twig->loadTemplate('questionaire/customise/questions.html');
+$template = $twig->loadTemplate('questionnaire/customise/questions.html');
 
 function getModule() {
-	global $questionaireID, $moduleID, $alerts, $db;
+	global $questionnaireID, $moduleID, $alerts, $db;
 	if (!$moduleID) {
 		return array("ModuleID"=>"global", "ModuleTitle"=>"Repeated questions", "Fake"=>true);
 	}
@@ -17,32 +17,32 @@ function getModule() {
 		$stmt = new tidy_sql($db, "
 			SELECT ModuleID, ModuleTitle, Fake FROM Modules WHERE QuestionaireID=? AND ModuleID=?
 		", "is");
-		$module = $stmt->query($questionaireID, $moduleID);
+		$module = $stmt->query($questionnaireID, $moduleID);
 		return $module[0];
 	}
 }
 
 function getModuleQuestions() { //SQL's WHERE is fussy
-	global $questionaireID, $moduleID, $alerts, $db;
+	global $questionnaireID, $moduleID, $alerts, $db;
 	if (!$moduleID) {
 		$stmt = new tidy_sql($db, "
 			SELECT QuestionID, QuestionText, QuestionText_welsh, Type FROM Questions WHERE QuestionaireID=? AND ModuleID is NULL
 		", "i");
-		return $stmt->query($questionaireID);
+		return $stmt->query($questionnaireID);
 	}
 	else {
 		$stmt = new tidy_sql($db, "
 			SELECT QuestionID, QuestionText, QuestionText_welsh, Type FROM Questions WHERE QuestionaireID=? AND ModuleID=?
 		", "is");
-		return $stmt->query($questionaireID, $moduleID);
+		return $stmt->query($questionnaireID, $moduleID);
 	}
 }
 
 function insertQuestion($details) {
-	global $questionaireID, $moduleID, $alerts, $db;
+	global $questionnaireID, $moduleID, $alerts, $db;
 	try {
 		$stmt = new tidy_sql($db, "INSERT INTO Questions (QuestionaireID, ModuleID, QuestionText, QuestionText_welsh, Type, staff) VALUES (?,?,?,?,?,?)", "issssi");
-		$stmt->query($questionaireID, $moduleID, $details["QuestionText"], $details["QuestionText_welsh"], $details["QuestionType"], isset($details["Staff"])?$details["Staff"]:false);
+		$stmt->query($questionnaireID, $moduleID, $details["QuestionText"], $details["QuestionText_welsh"], $details["QuestionType"], isset($details["Staff"])?$details["Staff"]:false);
 		
 		$alerts[] = array("type"=>"success",  "message"=>"Sucessfully added question");
 	}
@@ -52,7 +52,7 @@ function insertQuestion($details) {
 }
 
 function deleteQuestion($questionID) {
-	global $questionaireID, $moduleID, $alerts, $db;
+	global $questionnaireID, $moduleID, $alerts, $db;
 	try {
 		$stmt = new tidy_sql($db, "DELETE FROM Questions WHERE QuestionID=?", "i");
 		$stmt->query($questionID);
@@ -64,7 +64,7 @@ function deleteQuestion($questionID) {
 	}
 }
 
-$questionaireID = $_GET["questionaireID"];
+$questionnaireID = $_GET["questionnaireID"];
 $moduleID = isset($_GET["moduleID"])?$_GET["moduleID"]:null;
 $alerts = array();
 
@@ -117,7 +117,7 @@ $module = getModule();
 $questions = getModuleQuestions();
 
 echo $template->render(array(
-	"url"=>$url, "questionaireID"=> $questionaireID, "alerts"=>$alerts,
+	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
 	"questions"=>$questions,
 	"module"=>$module
 ));

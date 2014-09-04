@@ -1,4 +1,4 @@
-{% extends "questionaire/questionaire.html" %}
+{% extends "questionnaire/questionnaire.html" %}
 
 {% set title = "Modules" %}
 
@@ -44,7 +44,7 @@
 			
 			<tr {% if module.NumAnswers == 0 %} class="disabled-row" {% endif %}>
 				<td>{{module.ModuleID}}</td>
-				<td><a href="{{url}}/admin/questionaire/results/moduleresults.php?questionaireID={{questionaireID}}&moduleID={{module.ModuleID}}">{{module.ModuleTitle}}</a></td>
+				<td><a href="{{url}}/admin/questionnaire/results/moduleresults.php?questionnaireID={{questionnaireID}}&moduleID={{module.ModuleID}}">{{module.ModuleTitle}}</a></td>
 				<td><strong>{{module.NumAnswers}}</strong></td>
 				<td><strong>
 					{% if module.Fake %}

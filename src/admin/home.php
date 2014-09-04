@@ -9,10 +9,10 @@ $twig = new Twig_Environment($loader, array());
 $template = $twig->loadTemplate('home.html'); 
 
 function insertQuestionaire($details) {
-	global $questionaireID, $alerts, $db;
+	global $questionnaireID, $alerts, $db;
 	try {
 		$stmt = new tidy_sql($db, "INSERT INTO Questionaires (QuestionaireName, QuestionaireDepartment) VALUES (?,?)", "ss");
-		$stmt->query($details["questionaireName"], $details["questionaireDepartment"]);
+		$stmt->query($details["questionnaireName"], $details["questionnaireDepartment"]);
 		
 		$alerts[] = array("type"=>"success",  "message"=>"Sucessfully added questionnairep");
 	}
@@ -21,11 +21,11 @@ function insertQuestionaire($details) {
 	}
 }
 
-function deleteQuestionaire($questionaireID) {
+function deleteQuestionaire($questionnaireID) {
 	global $alerts, $db;
 	try {
 		$stmt = new tidy_sql($db, "DELETE Answers FROM Answers INNER JOIN AnswerGroup WHERE AnswerGroup.QuestionaireID=?", "i");
-		$stmt->query($questionaireID);
+		$stmt->query($questionnaireID);
 		
 		$alerts[] = array("type"=>"success",  "message"=>"Sucessfully deleted Answers");
 	}
@@ -36,7 +36,7 @@ function deleteQuestionaire($questionaireID) {
 	
 	try {
 		$stmt = new tidy_sql($db, "DELETE FROM AnswerGroup WHERE QuestionaireID=?", "i");
-		$stmt->query($questionaireID);
+		$stmt->query($questionnaireID);
 		
 		$alerts[] = array("type"=>"success",  "message"=>"Sucessfully deleted AnswerGroups");
 	}
@@ -47,7 +47,7 @@ function deleteQuestionaire($questionaireID) {
 	
 	try {
 		$stmt = new tidy_sql($db, "DELETE FROM Questions WHERE QuestionaireID=?", "i");
-		$stmt->query($questionaireID);
+		$stmt->query($questionnaireID);
 		
 		$alerts[] = array("type"=>"success",  "message"=>"Sucessfully deleted Questions");
 	}
@@ -58,7 +58,7 @@ function deleteQuestionaire($questionaireID) {
 	
 	try {
 		$stmt = new tidy_sql($db, "DELETE FROM StaffToModules WHERE QuestionaireID=?", "i");
-		$stmt->query($questionaireID);
+		$stmt->query($questionnaireID);
 		
 		$alerts[] = array("type"=>"success",  "message"=>"Sucessfully deleted Staff Modules");
 	}
@@ -69,7 +69,7 @@ function deleteQuestionaire($questionaireID) {
 	
 	try {
 		$stmt = new tidy_sql($db, "DELETE FROM Staff WHERE QuestionaireID=?", "i");
-		$stmt->query($questionaireID);
+		$stmt->query($questionnaireID);
 		
 		$alerts[] = array("type"=>"success",  "message"=>"Sucessfully deleted Staff");
 	}
@@ -80,7 +80,7 @@ function deleteQuestionaire($questionaireID) {
 	
 	try {
 		$stmt = new tidy_sql($db, "DELETE FROM StudentsToModules WHERE QuestionaireID=?", "i");
-		$stmt->query($questionaireID);
+		$stmt->query($questionnaireID);
 		
 		$alerts[] = array("type"=>"success",  "message"=>"Sucessfully deleted Student Modules");
 	}
@@ -91,7 +91,7 @@ function deleteQuestionaire($questionaireID) {
 	
 	try {
 		$stmt = new tidy_sql($db, "DELETE FROM Students WHERE QuestionaireID=?", "i");
-		$stmt->query($questionaireID);
+		$stmt->query($questionnaireID);
 		
 		$alerts[] = array("type"=>"success",  "message"=>"Sucessfully deleted Students");
 	}
@@ -102,7 +102,7 @@ function deleteQuestionaire($questionaireID) {
 	
 	try {
 		$stmt = new tidy_sql($db, "DELETE FROM Modules WHERE QuestionaireID=?", "i");
-		$stmt->query($questionaireID);
+		$stmt->query($questionnaireID);
 		
 		$alerts[] = array("type"=>"success",  "message"=>"Sucessfully deleted Modules");
 	}
@@ -113,7 +113,7 @@ function deleteQuestionaire($questionaireID) {
 	
 	try {
 		$stmt = new tidy_sql($db, "DELETE FROM Questionaires WHERE QuestionaireID=?", "i");
-		$stmt->query($questionaireID);
+		$stmt->query($questionnaireID);
 		
 		$alerts[] = array("type"=>"success",  "message"=>"Sucessfully deleted Questionaire (finally :D)");
 	}
@@ -141,8 +141,8 @@ function getQuestionaires() {
 	");
 	$rows = $stmt->query();
 	
-	foreach ($rows as &$questionaire) {
-		$questionaire["Percent"] = $questionaire["Total"]==0?0:($questionaire["Answers"]/$questionaire["Total"])*100;
+	foreach ($rows as &$questionnaire) {
+		$questionnaire["Percent"] = $questionnaire["Total"]==0?0:($questionnaire["Answers"]/$questionnaire["Total"])*100;
 	}
 
 	return $rows;
@@ -152,7 +152,7 @@ $alerts = array();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["action"])) {
 	$action = $_POST["action"];
-	if ($action == "add_questionaire") {
+	if ($action == "add_questionnaire") {
 		insertQuestionaire($_POST);
 	}
 	if ($action == "table") { //a button within table was clicked
@@ -162,9 +162,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["action"])) {
 	}
 }
 
-$questionaires = getQuestionaires();
+$questionnaires = getQuestionaires();
 
 echo $template->render(array(
 	"url"=>$url,"alerts"=>$alerts,
-	"questionaires"=>$questionaires
+	"questionnaires"=>$questionnaires
 ));

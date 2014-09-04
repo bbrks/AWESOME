@@ -2,49 +2,49 @@
 require "../../../lib.php";
 require_once "{$root}/lib/Twig/Autoloader.php";
 
-function getQuestionaire($questionaireID) {
+function getQuestionaire($questionnaireID) {
 	global $db;
 
 	$stmt = new tidy_sql($db, "
 		SELECT * FROM Questionaires WHERE QuestionaireID=?", "i");
 
-	$rows = $stmt->query($questionaireID);
+	$rows = $stmt->query($questionnaireID);
 	
 	return $rows[0];
 }
 
-function updateQuestionaire($questionaireID, $fields) {
+function updateQuestionaire($questionnaireID, $fields) {
 	global $db;
 
 	$stmt = new tidy_sql($db, "
 		UPDATE Questionaires SET QuestionaireName=?, QuestionaireDepartment=? WHERE QuestionaireID=?", "ssi");
 
-	$stmt->query($fields["QuestionaireName"], $fields["QuestionaireDepartment"], $questionaireID);
+	$stmt->query($fields["QuestionaireName"], $fields["QuestionaireDepartment"], $questionnaireID);
 }
 
 Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
 $twig = new Twig_Environment($loader, array());
 
-$template = $twig->loadTemplate('questionaire/import/basic.html');
+$template = $twig->loadTemplate('questionnaire/import/basic.html');
 
-$questionaireID = $_GET["questionaireID"];
+$questionnaireID = $_GET["questionnaireID"];
 $alerts = array();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		$q = array();
-		$q["QuestionaireName"] = $_POST["questionaireName"];
-		$q["QuestionaireDepartment"] = $_POST["questionaireDepartment"];
+		$q["QuestionaireName"] = $_POST["questionnaireName"];
+		$q["QuestionaireDepartment"] = $_POST["questionnaireDepartment"];
 		
-		updateQuestionaire($questionaireID, $q);
+		updateQuestionaire($questionnaireID, $q);
 		
 		$alerts[] = array("type"=>"success", "message"=>"Questionnaire modified");
 }
 
-$q = getQuestionaire($questionaireID);
+$q = getQuestionaire($questionnaireID);
 
 echo $template->render(array(
-	"url"=>$url, "questionaireID"=> $questionaireID, "alerts"=>$alerts,
-	"questionaire"=>array("name"=>$q["QuestionaireName"], "department"=>$q["QuestionaireDepartment"])
+	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
+	"questionnaire"=>array("name"=>$q["QuestionaireName"], "department"=>$q["QuestionaireDepartment"])
 ));
 
 

@@ -6,12 +6,12 @@ Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
 $twig = new Twig_Environment($loader, array());
 
-$template = $twig->loadTemplate('questionaire/import/problems.html');
+$template = $twig->loadTemplate('questionnaire/import/problems.html');
 
-$questionaireID = $_GET["questionaireID"];
+$questionnaireID = $_GET["questionnaireID"];
 $alerts = array();
 
-function getMissingModules($questionaireID) {
+function getMissingModules($questionnaireID) {
 	global $db;
 	
 	$stmt = new tidy_sql($db, "
@@ -20,11 +20,11 @@ LEFT JOIN Modules ON StudentsToModules.ModuleID=Modules.ModuleID AND StudentsToM
 WHERE Modules.ModuleID IS NULL
 AND StudentsToModules.QuestionaireID=?
 GROUP BY StudentsToModules.ModuleID", "i");
-	$results = $stmt->query($questionaireID);
+	$results = $stmt->query($questionnaireID);
 	return $results;
 }
 
-function getMissingStaff($questionaireID) {
+function getMissingStaff($questionnaireID) {
 	global $db;
 	
 	$stmt = new tidy_sql($db, "
@@ -33,11 +33,11 @@ LEFT JOIN Staff ON StaffToModules.UserID=Staff.UserID AND StaffToModules.Questio
 WHERE Staff.Name IS NULL
 AND StaffToModules.QuestionaireID=?
 GROUP BY StaffToModules.UserID", "i");
-	$results = $stmt->query($questionaireID);
+	$results = $stmt->query($questionnaireID);
 	return $results;
 }
 
-function getStudentsWOModules($questionaireID) {
+function getStudentsWOModules($questionnaireID) {
 	global $db;
 	
 	$stmt = new tidy_sql($db, "
@@ -45,16 +45,16 @@ SELECT UserID FROM Students
 LEFT JOIN StudentsToModules USING (UserID, QuestionaireID)
 WHERE StudentsToModules.UserID IS NULL
 AND QuestionaireID=?", "i");
-	$results = $stmt->query($questionaireID);
+	$results = $stmt->query($questionnaireID);
 	return $results;
 }
 
-$missingmodules = getMissingModules($questionaireID);
-$missingstaff = getMissingStaff($questionaireID);
-$studentsWOModules = getStudentsWOModules($questionaireID);
+$missingmodules = getMissingModules($questionnaireID);
+$missingstaff = getMissingStaff($questionnaireID);
+$studentsWOModules = getStudentsWOModules($questionnaireID);
 
 echo $template->render(array(
-	"url"=>$url, "questionaireID"=> $questionaireID, "alerts"=>$alerts,
+	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
 	"missingmodules"=>$missingmodules,
 	"missingstaff"=>$missingstaff,
 	"studentswomodules"=>$studentsWOModules

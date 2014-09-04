@@ -22,11 +22,11 @@
 		  </div>
 		  <div class="modal-body">
 			<p>To begin with, just fill in the name, and department</p>
-			<input type="hidden" name="action" value="add_questionaire" />
-			<label for="questionaireName">Name</label>
-			<input type="text" name="questionaireName" class="form-control" />
-			<label for="questionaireDepartment">Department</label>
-			<select name="questionaireDepartment" class="form-control">
+			<input type="hidden" name="action" value="add_questionnaire" />
+			<label for="questionnaireName">Name</label>
+			<input type="text" name="questionnaireName" class="form-control" />
+			<label for="questionnaireDepartment">Department</label>
+			<select name="questionnaireDepartment" class="form-control">
 				<option value="Art">Art</option>
 				<option value="IBERS">IBERS</option>
 				<option value="CompSci">CompSci</option>
@@ -64,18 +64,18 @@
 		<th><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal">Add</button></th>
 	</thead>
 	
-	{% for questionaire in questionaires %}
+	{% for questionnaire in questionnaires %}
 	<tr>
-		<td>{{questionaire.QuestionaireID}}</td>
-		<td>{{questionaire.QuestionaireName}}</td>
-		<td>{{questionaire.QuestionaireDepartment}}</td>
-		<td>{{questionaire.Answers}}</td>
-		<td>{{questionaire.Total}}</td>
-		<td><div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="{{questionaire.Percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{min(questionaire.Percent,100)}}%;">{{questionaire.Percent|round}}%</div></div></td>
+		<td>{{questionnaire.QuestionaireID}}</td>
+		<td>{{questionnaire.QuestionaireName}}</td>
+		<td>{{questionnaire.QuestionaireDepartment}}</td>
+		<td>{{questionnaire.Answers}}</td>
+		<td>{{questionnaire.Total}}</td>
+		<td><div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="{{questionnaire.Percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{min(questionnaire.Percent,100)}}%;">{{questionnaire.Percent|round}}%</div></div></td>
 		<td>
-			<a class="btn btn-default btn-xs" href="{{url}}/admin/questionaire/import/basic.php?questionaireID={{questionaire.QuestionaireID}}">Modify</a>
-			<a class="btn btn-default btn-xs" href="{{url}}/admin/questionaire/results/modules.php?questionaireID={{questionaire.QuestionaireID}}">Stats</a>
-			<button class="btn btn-danger btn-xs" type="submit" name="delete" value="{{questionaire.QuestionaireID}}">Delete</button>
+			<a class="btn btn-default btn-xs" href="{{url}}/admin/questionnaire/import/basic.php?questionnaireID={{questionnaire.QuestionaireID}}">Modify</a>
+			<a class="btn btn-default btn-xs" href="{{url}}/admin/questionnaire/results/modules.php?questionnaireID={{questionnaire.QuestionaireID}}">Stats</a>
+			<button class="btn btn-danger btn-xs" type="submit" name="delete" value="{{questionnaire.QuestionaireID}}">Delete</button>
 		</td>
 	</tr>
 	{% endfor %}

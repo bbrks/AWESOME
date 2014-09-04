@@ -6,12 +6,12 @@ Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
 $twig = new Twig_Environment($loader, array());
 
-$template = $twig->loadTemplate('questionaire/results/modules.html');
+$template = $twig->loadTemplate('questionnaire/results/modules.html');
 
-$questionaireID = $_GET["questionaireID"];
+$questionnaireID = $_GET["questionnaireID"];
 $alerts = array();
 
-function getModulesList($questionaireID) {
+function getModulesList($questionnaireID) {
 	global $db;
 	
 	$stmt = new tidy_sql($db, "
@@ -35,23 +35,23 @@ function getModulesList($questionaireID) {
 	ORDER BY Modules.Fake DESC,NumAnswers/TotalStudents DESC,NumAnswers DESC
 		", "i");
 		
-	$modules = $stmt->query($questionaireID);
+	$modules = $stmt->query($questionnaireID);
 	return $modules;
 }
 
-function getTotalQuestionnaireStudents($questionaireID) {
+function getTotalQuestionnaireStudents($questionnaireID) {
 	global $db;
 	
 	$stmt = new tidy_sql($db, "SELECT COUNT(DISTINCT UserID) as total FROM Students WHERE QuestionaireID=?", "i");
-	$info = $stmt->query($questionaireID);
+	$info = $stmt->query($questionnaireID);
 	return $info[0]["total"];
 }
 
-$modules = getModulesList($questionaireID);
-$totalstudents = getTotalQuestionnaireStudents($questionaireID);
+$modules = getModulesList($questionnaireID);
+$totalstudents = getTotalQuestionnaireStudents($questionnaireID);
 
 echo $template->render(array(
-	"url"=>$url, "questionaireID"=> $questionaireID, "alerts"=>$alerts,
+	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
 	"totalstudents"=>$totalstudents,
 	"modules"=>$modules
 ));

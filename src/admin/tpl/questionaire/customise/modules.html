@@ -1,4 +1,4 @@
-{% extends "questionaire/questionaire.html" %}
+{% extends "questionnaire/questionnaire.html" %}
 
 {% set title = "Modules" %}
 {% block qcontent %}
@@ -44,7 +44,7 @@
 			<td>Global</td>
 			<td>Global questions to be repeated for every module</td>
 			<td>
-				<a class="btn btn-primary btn-xs" href="{{url}}/admin/questionaire/customise/questions.php?questionaireID={{questionaireID}}">Questions</a>
+				<a class="btn btn-primary btn-xs" href="{{url}}/admin/questionnaire/customise/questions.php?questionnaireID={{questionnaireID}}">Questions</a>
 			</td>
 		</tr>
 	</table>
@@ -64,7 +64,7 @@
 			<td>{{module.ModuleID}}</td>
 			<td>{{module.ModuleTitle}}</td>
 			<td>
-				<a class="btn btn-primary btn-xs" href="{{url}}/admin/questionaire/customise/questions.php?questionaireID={{questionaireID}}&moduleID={{module.ModuleID}}">Questions</a>
+				<a class="btn btn-primary btn-xs" href="{{url}}/admin/questionnaire/customise/questions.php?questionnaireID={{questionnaireID}}&moduleID={{module.ModuleID}}">Questions</a>
 				<button class="btn btn-default btn-xs">Change Name</button>
 				<button class="btn btn-danger btn-xs" name="delete" value="{{module.ModuleID}}">Delete</button>
 			</td>
@@ -86,7 +86,7 @@
 			<td>{{module.ModuleID}}</td>
 			<td>{{module.ModuleTitle}}</td>
 			<td>
-				<a class="btn btn-primary btn-xs" href="{{url}}/admin/questionaire/customise/questions.php?questionaireID={{questionaireID}}&moduleID={{module.ModuleID}}">Questions</a>
+				<a class="btn btn-primary btn-xs" href="{{url}}/admin/questionnaire/customise/questions.php?questionnaireID={{questionnaireID}}&moduleID={{module.ModuleID}}">Questions</a>
 			</td>
 		</tr>
 		{% endfor %}

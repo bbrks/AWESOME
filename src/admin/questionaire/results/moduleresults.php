@@ -6,14 +6,14 @@ Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
 $twig = new Twig_Environment($loader, array());
 
-$template = $twig->loadTemplate('questionaire/results/moduleresults.html');
+$template = $twig->loadTemplate('questionnaire/results/moduleresults.html');
 
-$questionaireID = $_GET["questionaireID"];
+$questionnaireID = $_GET["questionnaireID"];
 $moduleID = $_GET["moduleID"];
 
 $alerts = array();
 
-function getResults($moduleID, $questionaireID) {
+function getResults($moduleID, $questionnaireID) {
 	global $db;
 	
 	$stmt = new tidy_sql($db, "
@@ -24,7 +24,7 @@ function getResults($moduleID, $questionaireID) {
 		WHERE AnswerGroup.QuestionaireID=?
 		AND Answers.ModuleID=?", "is");
 	
-	$rows = $stmt->query($questionaireID, $moduleID);
+	$rows = $stmt->query($questionnaireID, $moduleID);
 	
 	$results = array();
 	foreach($rows as $row) {
@@ -54,20 +54,20 @@ function getResults($moduleID, $questionaireID) {
 	return $results;
 }
 
-function getModuleDetails($questionaireID, $moduleID) {
+function getModuleDetails($questionnaireID, $moduleID) {
 	global $db;
 	
 	$stmt = new tidy_sql($db, "SELECT * FROM Modules WHERE QuestionaireID=? AND ModuleID=?", "is");
-	$results = $stmt->query($questionaireID, $moduleID);
+	$results = $stmt->query($questionnaireID, $moduleID);
 	return $results[0];
 }
 
-$results = getResults($moduleID, $questionaireID);
-$module = getModuleDetails($questionaireID, $moduleID);
+$results = getResults($moduleID, $questionnaireID);
+$module = getModuleDetails($questionnaireID, $moduleID);
 
 //print_r($results);
 echo $template->render(array(
-	"url"=>$url, "questionaireID"=> $questionaireID, "alerts"=>$alerts, "moduleID"=>$moduleID,
+	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts, "moduleID"=>$moduleID,
 	"module"=>$module,
 	"questions"=>$results
 ));

@@ -19,11 +19,11 @@ function parseModulesCSV($data) {
 	return $modules;
 }
 
-function insertModules($modules, $questionaireID) {
+function insertModules($modules, $questionnaireID) {
 	global $db;
 	$dbmodule = new tidy_sql($db, "REPLACE INTO Modules (ModuleID, QuestionaireID, ModuleTitle) VALUES (?, ?, ?)", "sis");
 	foreach($modules as $module) {
-		$dbmodule->query($module["ModuleID"], $questionaireID, $module["ModuleTitle"]);
+		$dbmodule->query($module["ModuleID"], $questionnaireID, $module["ModuleTitle"]);
 	}
 }
 
@@ -32,23 +32,23 @@ Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
 $twig = new Twig_Environment($loader, array());
 
-$template = $twig->loadTemplate('questionaire/import/modules.html');
+$template = $twig->loadTemplate('questionnaire/import/modules.html');
 
-$questionaireID = $_GET["questionaireID"];
+$questionnaireID = $_GET["questionnaireID"];
 $alerts = array();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$data = parseModulesCSV($_POST["csvdata"]);
-	insertModules($data, $questionaireID);
+	insertModules($data, $questionnaireID);
 	$alerts[] = array("type"=>"success", "message"=>"Modules inserted");
 }
 
 $stmt = new tidy_sql($db, "
 	SELECT ModuleID, ModuleTitle, Fake FROM Modules WHERE QuestionaireID=? AND Fake=?
 ", "ii");
-$modules = $stmt->query($questionaireID, 0);
+$modules = $stmt->query($questionnaireID, 0);
 
 echo $template->render(array(
-	"url"=>$url, "questionaireID"=> $questionaireID, "alerts"=>$alerts,
+	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
 	"modules"=>$modules
 ));
 

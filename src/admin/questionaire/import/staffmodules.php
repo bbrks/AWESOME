@@ -23,12 +23,12 @@ function parseStaffModulesCSV($data) {
 	return $staffmodules;
 }
 
-function insertStaffModules($staffmodules, $questionaireID) {
+function insertStaffModules($staffmodules, $questionnaireID) {
 	global $db;
 	$dbsmodule = new tidy_sql($db, "REPLACE INTO StaffToModules (ModuleID, UserID, QuestionaireID) VALUES (?, ?, ?)", "ssi");
 	foreach($staffmodules as $module) {
 		foreach($module["Staff"] as $staff) {
-			$dbsmodule->query($module["ModuleID"], $staff, $questionaireID);
+			$dbsmodule->query($module["ModuleID"], $staff, $questionnaireID);
 		}
 	}
 }
@@ -38,19 +38,19 @@ Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
 $twig = new Twig_Environment($loader, array());
 
-$template = $twig->loadTemplate('questionaire/import/staffmodules.html');
+$template = $twig->loadTemplate('questionnaire/import/staffmodules.html');
 
-$questionaireID = $_GET["questionaireID"];
+$questionnaireID = $_GET["questionnaireID"];
 $alerts = array();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$data = parseStaffModulesCSV($_POST["csvdata"]);
-	insertStaffModules($data, $questionaireID);
+	insertStaffModules($data, $questionnaireID);
 	$alerts[] = array("type"=>"success", "message"=>"Staff modules inserted");
 }
 
 
 echo $template->render(array(
-	"url"=>$url, "questionaireID"=> $questionaireID, "alerts"=>$alerts
+	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts
 ));
 
 
