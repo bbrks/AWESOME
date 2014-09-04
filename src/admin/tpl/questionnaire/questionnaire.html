@@ -11,6 +11,10 @@
 
 {% endblock %}
 
+{% block goback %}
+	<li><a href="{{url}}/admin/home.php">Questionnaires</a></li>
+{% endblock %}
+
 {% block questionnaireworkflow %}
         <li><a href="{{url}}admin/questionnaire/import/basic.php?questionnaireID={{questionnaireID}}">Import</a></li>
 		<li><a href="{{url}}admin/questionnaire/customise/modules.php?questionnaireID={{questionnaireID}}">Customise</a></li>
@@ -20,7 +24,6 @@
 {% endblock %}
 
 {% block pagecontent %}
-<a href="{{url}}/admin/home.php"><button type="button" class="btn btn-sm btn-warning pull-right">Go back</button></a>
 
 
 
