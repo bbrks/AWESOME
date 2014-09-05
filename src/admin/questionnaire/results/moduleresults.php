@@ -62,6 +62,10 @@ function getModuleDetails($questionnaireID, $moduleID) {
 	return $results[0];
 }
 
+function calculateMean($questionnaireID, $moduleID) {
+	
+}
+
 $results = getResults($moduleID, $questionnaireID);
 $module = getModuleDetails($questionnaireID, $moduleID);
 
