@@ -67,7 +67,10 @@
 global $is_welsh;
 
 	if ($is_welsh) {
-			echo "<p>When Rhodri can be bothered, the Welsh will go here.</p>";
+			echo "<p>Mae'r arolwg hon wedi ei anelu atoch chi.</p>
+			
+			<p>Unwaith i chi wasgu 'Cyflwyno', bydd eich atebion yn dychwelyd atom yn gyfrinachol a bydd eich cysylltiad unigryw yn dod i ben.</p>
+<p></p>Mae'r canlyniadau yn hollol ddienw felly byddwch yn gwbl onest!</p>";
 	}
 	
 	else {
@@ -154,7 +157,16 @@ function print_form($modules, $warn=false) {
 		}
 	}
 	//echo "<input type=\"submit\" value=\"Submit survey!\" /></form>";
+	global $is_welsh;
+	
+	if($is_welsh) {
+	echo "<br><div class=\"pull-right\"><button type=\"submit\" class=\"btn btn-lg btn-success\" id=\"submit\"\">Cyflwyno'r arolwg</button></div>";
+}
+
+else {
 	echo "<br><div class=\"pull-right\"><button type=\"submit\" class=\"btn btn-lg btn-success\" id=\"submit\"\">Submit Survey</button></div>";
+
+}
 }
 
 $details = getStudentDetails($token);
