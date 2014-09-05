@@ -62,11 +62,24 @@
 	<div class="questionnaire">
 	<div class="container">
 
-			<p>This is a survey that's aimed at you.</p>
+<?
+
+global $is_welsh;
+
+	if ($is_welsh) {
+			echo "<p>When Rhodri can be bothered, the Welsh will go here.</p>";
+	}
+	
+	else {
+			echo "<p>This is a survey that's aimed at you.</p>
 
 			<p>Once you press submit, your answers come back to us with no identifying information, and your unique link will stop working.</p>
 
-			<p>The results are completely anonymous, so be as honest as you can!</p>
+			<p>The results are completely anonymous, so be as honest as you can!</p>";
+	}
+?>
+
+			
 
 
 <?
@@ -100,15 +113,29 @@ function print_question($question, $warn=false) {
 				<th><label for=\"{$question["Identifier"]}_5\">5</label></th>
 				<th></th>
 			</thead>
-			<tr>
+			<tr>"; //fixthis to ifwelsh
+			
+			if ($is_welsh) {
+				echo "
+				<td>Anghytuno'n Gryf</td>
+				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" id=\"{$question["Identifier"]}_1\" value=\"1\" ". ($question["Answer"]==1?"checked=\"true\"":"") ."></td>
+				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" id=\"{$question["Identifier"]}_2\" value=\"2\" ". ($question["Answer"]==2?"checked=\"true\"":"") ."></td>
+				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" id=\"{$question["Identifier"]}_3\" value=\"3\" ". ($question["Answer"]==3?"checked=\"true\"":"") ."></td>
+				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" id=\"{$question["Identifier"]}_4\" value=\"4\" ". ($question["Answer"]==4?"checked=\"true\"":"") ."></td>
+				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" id=\"{$question["Identifier"]}_5\" value=\"5\" ". ($question["Answer"]==5?"checked=\"true\"":"") ."></td>
+				<td>Cytuno'n Gryf</td>"; }
+				
+				else {
+					echo "
 				<td>Strongly Disagree</td>
 				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" id=\"{$question["Identifier"]}_1\" value=\"1\" ". ($question["Answer"]==1?"checked=\"true\"":"") ."></td>
 				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" id=\"{$question["Identifier"]}_2\" value=\"2\" ". ($question["Answer"]==2?"checked=\"true\"":"") ."></td>
 				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" id=\"{$question["Identifier"]}_3\" value=\"3\" ". ($question["Answer"]==3?"checked=\"true\"":"") ."></td>
 				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" id=\"{$question["Identifier"]}_4\" value=\"4\" ". ($question["Answer"]==4?"checked=\"true\"":"") ."></td>
 				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" id=\"{$question["Identifier"]}_5\" value=\"5\" ". ($question["Answer"]==5?"checked=\"true\"":"") ."></td>
-				<td>Strongly Agree</td>
-			</tr>
+				<td>Strongly Agree</td>";
+				}
+			echo "</tr>
 		</table>
 		";
 	}
