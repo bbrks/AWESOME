@@ -9,7 +9,6 @@
 	<script type="text/javascript">
 		function doChart(key, data) {
 			doBarChart(key+"_bar", data);
-			doPieChart(key+"_pie", data);
 		}
 		
 		function doBarChart(key, data) {
@@ -32,41 +31,7 @@
 			
 			var ctx = document.getElementById(key).getContext("2d");
 			var myNewChart = new Chart(ctx).Bar(graphdata, {animationSteps : 1});
-		}
-		
-		function doPieChart(key, data) {
-			//data is 0 indexed, data[0] = 1, data[1] = 2, etc
-			var graphdata = [
-				{
-					"value": data[0],
-					"color": "#FF0000",
-					"label": "Strongly Disagree" //1
-				},
-				{
-					"value": data[1],
-					"color": "#FF7700",
-					"label": "Disagree" //2
-				},
-								{
-					"value": data[2],
-					"color": "#FFFF00",
-					"label": "Neutral" //3
-				},
-								{
-					"value": data[3],
-					"color": "#88FF00",
-					"label": "Agree" //4
-				},
-								{
-					"value": data[4],
-					"color": "#00FF00",
-					"label": "Strongly Agree" //5
-				},
-			]
-			
-			var ctx = document.getElementById(key).getContext("2d");
-			var myNewChart = new Chart(ctx).Pie(graphdata, {animationSteps : 1});
-		}
+		}		
 	</script>
 {% endblock %}
 
@@ -88,7 +53,7 @@
 		{% elseif question.QuestionType == "rate" %}
 		<center>
 		<canvas id="{{question.Key}}_bar" width="300" height="300"></canvas>
-		<canvas id="{{question.Key}}_pie" width="300" height="300"></canvas>
+		<h5>Mean:</h5>
 		</center>
 		<script>
 			doChart("{{question.Key}}",{{question.Summary|json_encode()}});

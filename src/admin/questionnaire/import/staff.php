@@ -42,9 +42,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		$alerts[] = array("type"=>"success", "message"=>"Staff inserted");
 }
 
+function getStaff($questionnaireID) {
+global $db;
+$stmt = new tidy_sql($db, "SELECT * FROM Staff WHERE QuestionaireID=?", "i");
+return $stmt->query($questionnaireID);
+}
+
+$staff = getStaff($questionnaireID);
+
+
 
 echo $template->render(array(
-	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts
+	"staff"=>$staff, "url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts
 ));
 
 

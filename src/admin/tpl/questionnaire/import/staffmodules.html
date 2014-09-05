@@ -4,6 +4,27 @@
 {% set title = "Staff Modules" %}
 
 {% block modifycontent %}
+
+	<table class="table">
+		<thead>
+			<th>ModuleID</th>
+			<th>UserID</th>
+			<th>&nbsp;</th>
+		</thead>
+		
+		{% for staffToModules in staffToModules %}
+		<tr>
+			<td>{{staffToModules.ModuleID}}</td>
+			<td>{{staffToModules.UserID}}</td>
+			<td>&nbsp;</td>
+			<td>
+				<button class="btn btn-default btn-xs">Modify</button>
+				{#<button class="btn btn-danger btn-xs">Delete</button>#}
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+
 	<form method="post">
 		<p>The system expects a CSV, with no header (very important) with the structure:<br/>
 		Module ID,Staff UserID<br/>

@@ -48,9 +48,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$alerts[] = array("type"=>"success", "message"=>"Staff modules inserted");
 }
 
+function getStaffModules($questionnaireID) {
+	global $db;
+	$stmt = new tidy_sql($db, "SELECT * FROM StaffToModules WHERE QuestionaireID=?", "i");
+	return $stmt->query($questionnaireID);
+}
+
+$staffToModules = getStaffModules($questionnaireID);
 
 echo $template->render(array(
-	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts
+	"staffToModules"=>$staffToModules,"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts
 ));
 
 
