@@ -1,3 +1,10 @@
+<?
+	require("lib.php");
+	$token = $_GET["token"];
+	$is_welsh = isset($_GET["welsh"]);
+
+?>
+
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -28,8 +35,9 @@
 
 <body>
 
+
     <div class="navbar navbar-inverse navbar-fixed-top">
-      	      <div class="container">
+		<div class="container">
 	        <div class="navbar-header">
 	        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="icon-bar"></span>
@@ -40,10 +48,13 @@
         </div>
 				<div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-          <li><a href="questions.php?token=<?=$_GET["token"]?>">English</a></li>
-						<li><a href="questions.php?token=<?=$_GET["token"]?>&welsh">Welsh</a></li>
-
-          </ul>
+			<?  if ($is_welsh) { ?>
+	<li><a href="questions.php?token=<?=$token?>">Saesneg</a></li>
+	<li><a href="questions.php?token=<?=$token?>&welsh">Cymraeg</a></li>
+<?	} else { ?>
+	<li><a href="questions.php?token=<?=$token?>">English</a></li>
+	<li><a href="questions.php?token=<?=$token?>&welsh">Welsh</a></li>
+<? } ?>
         </div><!--/.nav-collapse -->
 	      </div>
     </div>
@@ -59,8 +70,6 @@
 
 
 <?
-
-require("lib.php");
 
 function print_question($question, $warn=false) {
 	global $is_welsh;
@@ -120,8 +129,6 @@ function print_form($modules, $warn=false) {
 	//echo "<input type=\"submit\" value=\"Submit survey!\" /></form>";
 	echo "<br><div class=\"pull-right\"><button type=\"submit\" class=\"btn btn-lg btn-success\" id=\"submit\"\">Submit Survey</button></div>";
 }
-$token = $_GET["token"];
-$is_welsh = isset($_GET["welsh"]);
 
 $details = getStudentDetails($token);
 
