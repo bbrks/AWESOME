@@ -1,4 +1,11 @@
 <?
+/*
+ * @ (#) questions.php 1.0 07/09/2014
+ * 
+ * Author: Keiron-Teilo O'Shea <keo7@aber.ac.uk> 
+ * 	
+ */
+ 
 	require("lib.php");
 	$token = $_GET["token"];
 	$is_welsh = isset($_GET["welsh"]);
@@ -30,6 +37,12 @@
 			});
 		})
 	</script>
+	
+	<style>
+		textarea {
+			resize:vertical;
+		}
+	</style>
 </head>
 
 
@@ -93,7 +106,7 @@ function print_question($question, $warn=false) {
 	if ($warn == true && !answer_filled($question)) {
 		echo " style=\"border: 5px solid red;\"";
 	}
-	echo ">";
+	echo">";
 
 	if ($is_welsh) {
 		echo "<h4>{$question["QuestionText_welsh"]}</h4>";
@@ -113,10 +126,10 @@ function print_question($question, $warn=false) {
 				<th><label for=\"{$question["Identifier"]}_2\">2</label></th>
 				<th><label for=\"{$question["Identifier"]}_3\">3</label></th>
 				<th><label for=\"{$question["Identifier"]}_4\">4</label></th>
-				<th><label for=\"{$question["Identifier"]}_5\">5</label></th>
+				<th><label for=\"{$question["Identifier"]}_5\">5</label></t1h>
 				<th></th>
 			</thead>
-			<tr>"; //fixthis to ifwelsh
+			<tr>";
 			
 			if ($is_welsh) {
 				echo "
@@ -126,7 +139,9 @@ function print_question($question, $warn=false) {
 				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" id=\"{$question["Identifier"]}_3\" value=\"3\" ". ($question["Answer"]==3?"checked=\"true\"":"") ."></td>
 				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" id=\"{$question["Identifier"]}_4\" value=\"4\" ". ($question["Answer"]==4?"checked=\"true\"":"") ."></td>
 				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" id=\"{$question["Identifier"]}_5\" value=\"5\" ". ($question["Answer"]==5?"checked=\"true\"":"") ."></td>
-				<td>Cytuno'n Gryf</td>"; }
+				<td>Cytuno'n Gryf</td>
+				
+				"; }
 				
 				else {
 					echo "
@@ -143,7 +158,9 @@ function print_question($question, $warn=false) {
 		";
 	}
 	elseif ($question["Type"] == "text") {
-		echo "<textarea name=\"{$question["Identifier"]}\" rows=\"8\" cols=\"50\" class=\"form-control\">{$question["Answer"]}</textarea>";
+		echo "<textarea name=\"{$question["Identifier"]}\" rows=\"5\" class=\"form-control\" placeholder=\"(Optional)\" >{$question["Answer"]}</textarea>
+		
+		";
 	}
 	echo "</div>";
 }
@@ -156,7 +173,6 @@ function print_form($modules, $warn=false) {
 			print_question($question, $warn);
 		}
 	}
-	//echo "<input type=\"submit\" value=\"Submit survey!\" /></form>";
 	global $is_welsh;
 	
 	if($is_welsh) {

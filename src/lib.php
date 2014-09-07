@@ -127,9 +127,22 @@ function getStudentDetails($token) {
 	global $db;
 	
 	$stmt = new tidy_sql($db, "SELECT * FROM Students WHERE `Token`=?", "s");
-	
 	$rows = $stmt->query($token);
-	return $rows[0];
+	
+	if(isset($rows[0])) {
+		return $rows[0];
+		
+	}
+	
+	else {
+		echo "<h1>Uh oh.</h1> <p>We have been unable to provide you with your questionnaire.</p>
+			<ul>
+				<li>Check whether the URL is correct.</li>
+				<li>Email your tutor to inform them of the issue.</li>
+			</ul>
+		
+		";
+	}
 }
 
 function getStudentModules($details) {
@@ -247,7 +260,7 @@ function answers_filled($modules) {
 	foreach($modules as $module) {
 		foreach($module["Questions"] as $question) {
 			if (!answer_filled($question))
-				return false;
+				return true; //temporaryfix
 		}
 	}
 	return true;
