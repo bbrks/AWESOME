@@ -1,4 +1,17 @@
 <?
+/**
+ * @file questions-funcs.php
+ * @version 1.0
+ * @date 07/09/2014
+ * @author Keiron-Teilo O'Shea <keo7@aber.ac.uk> 
+ * 	
+ * This contains the data orientated functions for questions.php (the questionnaire itself)
+ * 
+ * getPreparedQuestions(), getStudentDetails(), answer_filled(),
+ *     answers_filled() and answers_submit() are the main functions, the rest
+ *     should be considered private.
+ * 
+ */ 
 
 /**
  * @param String $token The user token, provided by user in the GET request
@@ -126,6 +139,18 @@ function getQuestions($details) {
  *     this stores the answers into the questionnaire array to allow
  *     for easy validation + submission.
  * 
+ * getPreparedQuestions() aggregates the data from getQuestions, getStudentModules() (and in turn getStudentModuleLecturers())
+ * 
+ * It uses the data from getStudentModules() almost as-is, it goes through
+ *     and creates a "questions" array within consisting of questions from getQuestions. For this,
+ *     it iterates through each of the questions checks if they are elligible
+ *     (correct moduleid, or is fake) - if so it appends it onto this array,
+ *     unless it's for staff where it repeats it for each staff member.
+ * 
+ * Each of these questions contains a few bits of additional information, such as the identifier,
+ *      the answer (if the user provided one), along with the staff name (if it's a staff question).
+ * 
+ * 
  * @returns an array listing out module details, with an inner list of the questions (inside "Questions")
  *     if answers have been provided, these will be stored within "Answer" within each of the questions.
  */
@@ -138,6 +163,9 @@ function getPreparedQuestions($details, $answers = array()) {
 		$module["Questions"] = array();
 
 		foreach($questions as $question) {
+			//a unique identifier is generated, this is used for the names of form elements
+			//  this allows for easy identification when reading results
+			//  this consists of moduleid_questionid, and if there's a staff member they are appended onto the end
 			$identifier = "{$module["ModuleID"]}_{$question["QuestionID"]}";
 			if ((!$question["ModuleID"] && !$module["Fake"]) || // fake modules do not have generic questions
 				strcasecmp($question["ModuleID"],$module["ModuleID"]) == 0) {
@@ -197,7 +225,7 @@ function answer_filled($question) {
  * Executes answer_filled for each question,
  *     returns true if every question is correct, false if not
  * 
- * @param Array $question Questions array (from getPreparedQuestions(...))
+ * @param Array $modules Modules array (from getPreparedQuestions(...))
  * 
  * @returns true/false
  */
@@ -217,7 +245,8 @@ function answers_filled($modules) {
  * It creates a unique answergroup for the whole set, and then adds
  *     the answers into the db with answergroup as a fk.
  * 
- * @param Array $question Questions array (from getPreparedQuestions(...))
+ * @param Array $details User details (Questionnaire ID, UserID)
+ * @param Array $modules Modules array (from getPreparedQuestions(...))
  */
 function answers_submit($details, $modules) {
 	global $db;
