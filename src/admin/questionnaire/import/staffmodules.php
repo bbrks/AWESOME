@@ -1,8 +1,23 @@
 <?
+/**
+ * @file
+ * @version 1.0
+ * @date 07/09/2014
+ * @author Keiron-Teilo O'Shea <keo7@aber.ac.uk> 
+ * 	
+ */
+
 require "../../../lib.php";
 require_once "{$root}/lib/Twig/Autoloader.php";
 
 
+/**
+ * Parse CSV data into an array.
+ * 
+ * @param string $data Raw CSV data
+ * 
+ * @returns list of parsed staff modules (ModuleID, Semester, Staff array)
+ */
 function parseStaffModulesCSV($data) {
 	$lines = explode("\n",$data);
 	$staffmodules = array();
@@ -23,6 +38,13 @@ function parseStaffModulesCSV($data) {
 	return $staffmodules;
 }
 
+/**
+ * 
+ * Add array of staff modules into database
+ * 
+ * @param parsed-staff $staffmodules The list of parsed staff (from parseStaffModulesCSV())
+ * @param int $questionnaireID The questionnaire ID
+ */
 function insertStaffModules($staffmodules, $questionnaireID) {
 	global $db;
 	$dbsmodule = new tidy_sql($db, "REPLACE INTO StaffToModules (ModuleID, UserID, QuestionaireID) VALUES (?, ?, ?)", "ssi");
@@ -33,6 +55,18 @@ function insertStaffModules($staffmodules, $questionnaireID) {
 	}
 }
 
+/**
+ * Get staff module list from database
+ * 
+ * @param int $questionnaireID The questionnaire ID
+ * 
+ * @returns List of all staff modules (ModuleID, UserID, QuestionaireID)
+ */
+function getStaffModules($questionnaireID) {
+	global $db;
+	$stmt = new tidy_sql($db, "SELECT * FROM StaffToModules WHERE QuestionaireID=?", "i");
+	return $stmt->query($questionnaireID);
+}
 
 Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
@@ -46,12 +80,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$data = parseStaffModulesCSV($_POST["csvdata"]);
 	insertStaffModules($data, $questionnaireID);
 	$alerts[] = array("type"=>"success", "message"=>"Staff modules inserted");
-}
-
-function getStaffModules($questionnaireID) {
-	global $db;
-	$stmt = new tidy_sql($db, "SELECT * FROM StaffToModules WHERE QuestionaireID=?", "i");
-	return $stmt->query($questionnaireID);
 }
 
 $staffToModules = getStaffModules($questionnaireID);

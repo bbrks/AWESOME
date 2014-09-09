@@ -1,4 +1,12 @@
 <?
+/**
+ * @file
+ * @version 1.0
+ * @date 07/09/2014
+ * @author Keiron-Teilo O'Shea <keo7@aber.ac.uk> 
+ * 	
+ */
+
 require "../../../lib.php";
 require_once "{$root}/lib/Twig/Autoloader.php";
 
@@ -11,6 +19,11 @@ $template = $twig->loadTemplate('questionnaire/customise/modules.html');
 $questionnaireID = $_GET["questionnaireID"];
 $alerts = array();
 
+/**
+ * Add a new question group
+ * 
+ * @param array $details Group details (QuestionnaireID, ModuleID, ModuleTitle)
+ */
 function insertGroup($details) {
 	global $questionnaireID, $alerts, $db;
 	try {
@@ -24,6 +37,12 @@ function insertGroup($details) {
 	}
 }
 
+
+/**
+ * delete question group
+ * 
+ * @param String $moduleID The moduleID to delete.
+ */
 function deleteGroup($moduleID) {
 	global $questionnaireID, $alerts, $db;
 	try {
@@ -47,6 +66,23 @@ function deleteGroup($moduleID) {
 	}
 }
 
+
+/**
+ * Lists questiongroups from db
+ * 
+ * @param int $questionnaireID The questionnaire ID to select modules from.
+ */
+function getModules($questionnaireID) {
+	global $db;
+	$stmt = new tidy_sql($db, "
+		SELECT ModuleID, ModuleTitle, Fake FROM Modules WHERE QuestionaireID=? AND Fake=?
+	", "ii");
+	$groups = $stmt->query($questionnaireID, 1);
+	$modules = $stmt->query($questionnaireID, 0);
+	
+	return array($groups, $modules);
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["action"])) {
 	$action = $_POST["action"];
 	if ($action == "add_group") {
@@ -59,12 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["action"])) {
 	}
 }
 
-
-$stmt = new tidy_sql($db, "
-	SELECT ModuleID, ModuleTitle, Fake FROM Modules WHERE QuestionaireID=? AND Fake=?
-", "ii");
-$groups = $stmt->query($questionnaireID, 1);
-$modules = $stmt->query($questionnaireID, 0);
+list($groups, $modules) = getModules($questionnaireID);
 
 echo $template->render(array(
 	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,

@@ -1,4 +1,13 @@
 <?
+/**
+ * @file
+ * @version 1.0
+ * @date 07/09/2014
+ * @author Keiron-Teilo O'Shea <keo7@aber.ac.uk> 
+ * 	
+ * Admin homepage, this lists out every questionnaire and allows creating new ones + nuking old ones.
+ */
+
 require "../lib.php";
 require_once "{$root}/lib/Twig/Autoloader.php";
 
@@ -8,19 +17,37 @@ $twig = new Twig_Environment($loader, array());
 
 $template = $twig->loadTemplate('home.html'); 
 
+/**
+ * 
+ * Add a new questionnaire to the database.
+ * @param Array $details (questionaireID, QuestionaireDepartment)
+ * @returns new questionnaire id
+ */
 function insertQuestionaire($details) {
 	global $questionnaireID, $alerts, $db;
 	try {
 		$stmt = new tidy_sql($db, "INSERT INTO Questionaires (QuestionaireName, QuestionaireDepartment) VALUES (?,?)", "ss");
 		$stmt->query($details["questionnaireName"], $details["questionnaireDepartment"]);
 		
-		$alerts[] = array("type"=>"success",  "message"=>"Sucessfully added questionnairep");
+		$alerts[] = array("type"=>"success",  "message"=>"Sucessfully added questionnaire");
+		
+		return $db->insert_id;
 	}
 	catch (Exception $e) {
 		$alerts[] = array("type"=>"danger",  "message"=>"Sorry, an error occurred adding questionnaire ({$e->getMessage()})");
 	}
 }
 
+/**
+ * 
+ * Nukes a questionnaire, and all its children from orbit.
+ * 
+ * Deletes all Answers, AnswerGroups, Questions, StaffToModules, Staff,
+ *     StudentsToModules, Students, Modules, Questionnaires WHERE QuestionaireID=?
+ *     in that order.
+ * 
+ * @param Int $questionnaireID The questionnaire ID
+ */
 function deleteQuestionaire($questionnaireID) {
 	global $alerts, $db;
 	try {
@@ -123,6 +150,13 @@ function deleteQuestionaire($questionnaireID) {
 	}
 }
 
+
+/**
+ * 
+ * @returns Returns a list of every questionnaire,
+ *     containing all their data (ID, Name, Dept), along with the
+ *     Answer Count, and the total students.
+ */
 function getQuestionaires() {
 	global $db;
 
@@ -153,7 +187,8 @@ $alerts = array();
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["action"])) {
 	$action = $_POST["action"];
 	if ($action == "add_questionnaire") {
-		insertQuestionaire($_POST);
+		$id = insertQuestionaire($_POST);
+		//todo: add a redirect, or let user manually go into modify?
 	}
 	if ($action == "table") { //a button within table was clicked
 		if (isset($_POST["delete"])) {

@@ -1,4 +1,12 @@
 <?
+/**
+ * @file
+ * @version 1.0
+ * @date 07/09/2014
+ * @author Keiron-Teilo O'Shea <keo7@aber.ac.uk> 
+ * 	
+ */
+
 require "../../../lib.php";
 require_once "{$root}/lib/Twig/Autoloader.php";
 
@@ -11,6 +19,14 @@ $template = $twig->loadTemplate('questionnaire/import/problems.html');
 $questionnaireID = $_GET["questionnaireID"];
 $alerts = array();
 
+
+/**
+ * Get list of modules with students enrolled, with missing definitions
+ * 
+ * @param int $questionnaireID The questionnaire ID
+ * 
+ * @returns List of modules (ModuleID, students list)
+ */
 function getMissingModules($questionnaireID) {
 	global $db;
 	
@@ -24,6 +40,14 @@ GROUP BY StudentsToModules.ModuleID", "i");
 	return $results;
 }
 
+
+/**
+ * Get list of modules with staff, with missing names
+ * 
+ * @param int $questionnaireID The questionnaire ID
+ * 
+ * @returns List of modules (UserID, module list)
+ */
 function getMissingStaff($questionnaireID) {
 	global $db;
 	
@@ -37,6 +61,13 @@ GROUP BY StaffToModules.UserID", "i");
 	return $results;
 }
 
+/**
+ * Get list of students, with no modules
+ * 
+ * @param int $questionnaireID The questionnaire ID
+ * 
+ * @returns List of students (UserID)
+ */
 function getStudentsWOModules($questionnaireID) {
 	global $db;
 	

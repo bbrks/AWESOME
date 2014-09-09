@@ -1,4 +1,12 @@
 <?
+/**
+ * @file
+ * @version 1.0
+ * @date 07/09/2014
+ * @author Keiron-Teilo O'Shea <keo7@aber.ac.uk> 
+ * 	
+ */
+
 require "../../../lib.php";
 require_once "{$root}/lib/Twig/Autoloader.php";
 
@@ -11,6 +19,14 @@ $template = $twig->loadTemplate('questionnaire/results/modules.html');
 $questionnaireID = $_GET["questionnaireID"];
 $alerts = array();
 
+
+/**
+ * Retrieves list of modules from database
+ * 
+ * @param int $questionnaireID Questionnaire ID to list students from
+ * 
+ * @returns array of modules (ModuleID, ModuleTitle, NumAnswers, TotalStudents)
+ */
 function getModulesList($questionnaireID) {
 	global $db;
 	
@@ -39,6 +55,13 @@ function getModulesList($questionnaireID) {
 	return $modules;
 }
 
+/**
+ * Retrieves list of modules from database
+ * 
+ * @param int $questionnaireID Questionnaire ID to get count from
+ * 
+ * @returns an integer stating the total student count.
+ */
 function getTotalQuestionnaireStudents($questionnaireID) {
 	global $db;
 	

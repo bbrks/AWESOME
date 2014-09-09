@@ -1,4 +1,12 @@
 <?php
+/**
+ * @file
+ * @version 1.0
+ * @date 07/09/2014
+ * @author Keiron-Teilo O'Shea <keo7@aber.ac.uk> 
+ * 	
+ */
+
 ob_start();
 session_start();
 

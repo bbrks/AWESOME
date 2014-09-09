@@ -1,8 +1,22 @@
 <?
+/**
+ * @file
+ * @version 1.0
+ * @date 07/09/2014
+ * @author Keiron-Teilo O'Shea <keo7@aber.ac.uk> 
+ * 	
+ */
+
 require "../../../lib.php";
 require_once "{$root}/lib/Twig/Autoloader.php";
 
-
+/**
+ * Parse CSV data into an array.
+ * 
+ * @param string $data Raw CSV data
+ * 
+ * @returns list of parsed modules: (ModuleID, Title)
+ */
 function parseModulesCSV($data) {
 	$lines = explode("\n",$data);
 	$modules = array();
@@ -19,14 +33,37 @@ function parseModulesCSV($data) {
 	return $modules;
 }
 
+/**
+ * 
+ * Add array of modules into database
+ * 
+ * @param parsed-modules $modules The list of parsed modules (from parseModulesCSV())
+ * @param int $questionnaireID The questionnaire ID
+ */
 function insertModules($modules, $questionnaireID) {
 	global $db;
-	$dbmodule = new tidy_sql($db, "REPLACE INTO Modules (ModuleID, QuestionaireID, ModuleTitle) VALUES (?, ?, ?)", "sis");
+	$dbmodule = new tidy_sql($db, "
+REPLACE INTO Modules (ModuleID, QuestionaireID, ModuleTitle) VALUES (?, ?, ?)", "sis");
 	foreach($modules as $module) {
 		$dbmodule->query($module["ModuleID"], $questionnaireID, $module["ModuleTitle"]);
 	}
 }
 
+
+/**
+ * Get module list from database
+ * 
+ * @param int $questionnaireID The questionnaire ID
+ * 
+ * @returns List of all modules (ModuleID, ModuleTitle)
+ */
+function getModules($questionnaireID) {
+	global $db;
+	$stmt = new tidy_sql($db, "
+SELECT ModuleID, ModuleTitle FROM Modules WHERE QuestionaireID=? AND Fake=0", "i");
+	$modules = $stmt->query($questionnaireID);
+	return $modules;
+}
 
 Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
@@ -42,10 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$alerts[] = array("type"=>"success", "message"=>"Modules inserted");
 }
 
-$stmt = new tidy_sql($db, "
-	SELECT ModuleID, ModuleTitle, Fake FROM Modules WHERE QuestionaireID=? AND Fake=?
-", "ii");
-$modules = $stmt->query($questionnaireID, 0);
+$modules = getModules($questionnaireID);
 
 echo $template->render(array(
 	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,

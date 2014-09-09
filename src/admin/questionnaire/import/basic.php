@@ -1,7 +1,21 @@
 <?
+/**
+ * @file
+ * @version 1.0
+ * @date 07/09/2014
+ * @author Keiron-Teilo O'Shea <keo7@aber.ac.uk> 
+ * 	
+ */
+
 require "../../../lib.php";
 require_once "{$root}/lib/Twig/Autoloader.php";
 
+
+/**
+ * @param int $questionnaireID The questionnaire ID
+ * 
+ * @returns The questionnaire database record.
+ */
 function getQuestionaire($questionnaireID) {
 	global $db;
 
@@ -12,6 +26,12 @@ function getQuestionaire($questionnaireID) {
 	
 	return $rows[0];
 }
+
+/**
+ * @param int $questionnaireID The questionnaire ID
+ * @param array $fields The new questionnaire data:
+ *     (QuestionnaireName, QurstionnaireDepartment, QuestionnaireID)
+ */
 
 function updateQuestionaire($questionnaireID, $fields) {
 	global $db;

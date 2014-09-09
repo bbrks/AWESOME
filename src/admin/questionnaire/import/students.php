@@ -1,7 +1,23 @@
 <?
+/**
+ * @file
+ * @version 1.0
+ * @date 07/09/2014
+ * @author Keiron-Teilo O'Shea <keo7@aber.ac.uk> 
+ * 	
+ */
+
 require "../../../lib.php";
 require_once "{$root}/lib/Twig/Autoloader.php";
 
+
+/**
+ * Parse CSV data into an array.
+ * 
+ * @param string $data Raw CSV data
+ * 
+ * @returns list of parsed students (UserID, Department, Year, Modules array)
+ */
 function parseStudentsCSV($data) {
 	$lines = explode("\n",$data);
 	$students = array();
@@ -27,6 +43,14 @@ function parseStudentsCSV($data) {
 	return $students;
 }
 
+
+/**
+ * 
+ * Add array of students into database
+ * 
+ * @param parsed-students $stidents The list of parsed students (from parseStudentsCSV())
+ * @param int $questionnaireID The questionnaire ID
+ */
 function insertStudents($students, $questionnaireID) {
 	global $db;
 	$dbstudent = new tidy_sql($db, "INSERT IGNORE INTO Students (UserID, Department, QuestionaireID, Token, Done) VALUES (?, ?, ?, ?, ?) ", "ssisi");
@@ -44,6 +68,27 @@ function insertStudents($students, $questionnaireID) {
 	}
 }
 
+/**
+ * Get student list from database
+ * 
+ * @param int $questionnaireID The questionnaire ID
+ * 
+ * @returns List of all students (UserID, Department, Token, Module List, Done)
+ */
+function getStudents($questionnaireID) {
+	global $db;
+	$stmt = new tidy_sql($db, "
+		SELECT Students.UserID, Students.Department, Students.Token, GROUP_CONCAT(DISTINCT ModuleID ORDER BY ModuleID ASC SEPARATOR ' ') AS Modules, Students.Done
+		FROM Students
+		JOIN StudentsToModules ON StudentsToModules.UserID=Students.UserID AND StudentsToModules.QuestionaireID=Students.QuestionaireID 
+		WHERE Students.QuestionaireID=?
+		GROUP BY Students.UserID
+		ORDER BY Students.Done DESC
+	", "i");
+	$rows = $stmt->query($questionnaireID);
+	return $rows;
+}
+
 Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
 $twig = new Twig_Environment($loader, array());
@@ -58,15 +103,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$alerts[] = array("type"=>"success", "message"=>"Students inserted");
 }
 
-$stmt = new tidy_sql($db, "
-	SELECT Students.UserID, Students.Department, Students.Token, GROUP_CONCAT(DISTINCT ModuleID ORDER BY ModuleID ASC SEPARATOR ' ') AS Modules, Students.Done
-	FROM Students
-	JOIN StudentsToModules ON StudentsToModules.UserID=Students.UserID AND StudentsToModules.QuestionaireID=Students.QuestionaireID 
-	WHERE Students.QuestionaireID=?
-	GROUP BY Students.UserID
-	ORDER BY Students.Done DESC
-", "i");
 
-$rows = $stmt->query($questionnaireID);
-echo $template->render(array("url"=>$url, "students"=>$rows, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts));
+$students = getStudents($questionnaireID);
+
+echo $template->render(array("url"=>$url, "students"=>$students, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts));
 

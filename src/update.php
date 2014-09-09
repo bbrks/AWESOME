@@ -1,5 +1,13 @@
 <?
-
+/**
+ * @file
+ * @version 1.0
+ * @date 07/09/2014
+ * @author Keiron-Teilo O'Shea <keo7@aber.ac.uk> 
+ * 	
+ * Versioning for the database, update the database to newer formats.
+ */
+ 
 include "lib.php";
 
 $stmt = new tidy_sql($db, "SELECT `value` FROM Config WHERE `key`='version'");

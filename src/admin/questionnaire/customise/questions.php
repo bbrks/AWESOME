@@ -1,4 +1,12 @@
 <?
+/**
+ * @file
+ * @version 1.0
+ * @date 07/09/2014
+ * @author Keiron-Teilo O'Shea <keo7@aber.ac.uk> 
+ * 	
+ */
+
 require "../../../lib.php";
 require_once "{$root}/lib/Twig/Autoloader.php";
 
@@ -8,6 +16,11 @@ $twig = new Twig_Environment($loader, array());
 
 $template = $twig->loadTemplate('questionnaire/customise/questions.html');
 
+/**
+ * get module details from db (used for title)
+ * 
+ * @returns Module ID, ModuleTitle, Fake
+ */
 function getModule() {
 	global $questionnaireID, $moduleID, $alerts, $db;
 	if (!$moduleID) {
@@ -22,6 +35,11 @@ function getModule() {
 	}
 }
 
+
+/**
+ * retrieve questions from db for this module
+ * 
+ */
 function getModuleQuestions() { //SQL's WHERE is fussy
 	global $questionnaireID, $moduleID, $alerts, $db;
 	if (!$moduleID) {
@@ -38,6 +56,11 @@ function getModuleQuestions() { //SQL's WHERE is fussy
 	}
 }
 
+/**
+ * Add a new question
+ * 
+ * @param array $details Question details (QuestionText, QuestionText_welsh, QuestionType, Staff)
+ */
 function insertQuestion($details) {
 	global $questionnaireID, $moduleID, $alerts, $db;
 	try {
@@ -51,6 +74,11 @@ function insertQuestion($details) {
 	}
 }
 
+/**
+ * Deletes question
+ * 
+ * @param int $questionID Question ID
+ */
 function deleteQuestion($questionID) {
 	global $questionnaireID, $moduleID, $alerts, $db;
 	try {
