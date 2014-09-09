@@ -1,12 +1,14 @@
 <?
-/*
- * @ (#) questions.php 1.0 07/09/2014
- * 
- * Author: Keiron-Teilo O'Shea <keo7@aber.ac.uk> 
+/**
+ * @file questions.php
+ * @version 1.0
+ * @date 07/09/2014
+ * @author Keiron-Teilo O'Shea <keo7@aber.ac.uk> 
  * 	
  */
  
-	require("lib.php");
+	require_once("lib.php");
+	require_once("questions-funcs.php");
 	$token = $_GET["token"];
 	$is_welsh = isset($_GET["welsh"]);
 

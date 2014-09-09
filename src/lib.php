@@ -1,4 +1,25 @@
 <?
+/**
+ * @file lib.php
+ * @version 1.0
+ * @date 07/09/2014
+ * @author Keiron-Teilo O'Shea <keo7@aber.ac.uk> 
+ * 	
+ * This contains library functions that are useful for every page:
+ * 
+ *  - benchmark, just outputs data on page end
+ * 
+ *  - tidy_sql class which abstracts mysqli's prepared statements.
+ *       Prepared statements are used as it reduces the likelyhood of
+ *       exploits down to 0, as no data is being concatenated to the query at all
+ */ 
+
+//initialise db connection
+require "db.php";
+if ($db->connect_errno)
+	throw new Exception("Failed to connect");
+
+///stores benchmark data after page load
 $benchmark = (object)array(
 	"db_preparetime" => 0,
 	"db_querytime" => 0,
@@ -6,8 +27,48 @@ $benchmark = (object)array(
 	"db_numresults" => 0,
 );
 
+///stores the time page started loading
 $start = microtime(true);
+
 register_shutdown_function('output_timer');
+
+/**
+ * This is ran at the end of page load, it generates benchmark 
+ *  data that is appended to the end of every page
+ * 
+ * Example output:
+ *	  <!-- Benchmark/stats ;) times are in seconds
+ *	stdClass Object
+ *	(
+ *		[db_preparetime] => 0.00033783912658691
+ *		[db_querytime] => 0.00038003921508789
+ *		[db_numqueries] => 4
+ *		[db_numresults] => 129
+ *		[total_time] => 0.0026710033416748
+ *		[db_time] => 0.0007178783416748
+ *		[php_time] => 0.001953125
+ *		[php_percent] => 73.123270552531
+ *		[db_percent] => 26.876729447469
+ *	)
+ *	mysqlnd enabled: true
+ *	-->
+ * 
+ * prepare-time is the time spent within mysqli->prepare
+ * querytime is the time sent executing queries and retrieving their results
+ * 
+ * numberqueries is the number of ->query calls
+ * numberresults is the total rowcount returned from query
+ * 
+ * total_time is the time of whole page including db
+ * php_time is calculated by subtracting the time spent in db from the total
+ * this is then used to calculate the percentage split
+ * 
+ * 
+ * mysqlnd is documented as it improves the code reliability and speed
+ * 	if it's available, if it is not available, #
+ *  a hacky method of querying is used as a fallback that requires many roundtrips
+ *  betweeen the mysql server
+ */
 function output_timer() {
 	global $start, $benchmark;
 	$benchmark->total_time = microtime(true)-$start;
@@ -21,19 +82,26 @@ function output_timer() {
 	echo "-->";
 }
 
-global $db;
 
-require "db.php";
-if ($db->connect_errno)
-	throw new Exception("Failed to connect");
-
+/**
+ * A mysqli prepared statements wrapper, makes mysqli prepared statements easier to use
+ * which are beneficial from a both a security perspective and performance if doing a lot of queries.
+ */
 class tidy_sql {
-	public $db;
-	public $types;
-	public $stmt;
-	public $error;
-	public $errno;
+	private $db;
+	private $types;
+	private $stmt;
 	
+	
+	/**
+	 * Constructor, prepares the query
+	 * 
+	 * @param MySqli $db mysqli object
+	 * @param String $query query, ? for any data.
+	 *      Look at <http://php.net/manual/en/mysqli.prepare.php> for more info.
+	 * @param String $types The types, i for int, d for double, s for string, b for blob
+	 *      Look at <http://php.net/manual/en/mysqli-stmt.bind-param.php> for more info.
+	 */
 	public function tidy_sql($db, $query, $types = "") {
 		global $benchmark;
 		$this->db = $db;
@@ -48,6 +116,13 @@ class tidy_sql {
 		}
 	}
 	
+	/** Binds values, executes the query and returns the data.
+	 * 
+	 * @pre Params: The values for the fields specified in the query string (using ?),
+	 *      it uses func_get_args() to retrieve the args, so shows as accepting none (unfortunately).
+	 * 
+	 * @returns Returns a multidimensional array containing the results. First array is the row, inner array is indexed by the column names.
+	 */
 	public function query() {
 		global $benchmark;
 		$s = microtime(true);
@@ -83,8 +158,17 @@ class tidy_sql {
 		}
 	}
 	
-
-	public function getRows() {
+	/* This is only used within the query() func.
+	 * 
+	 * Retrieves all rows for the current query, with the inner array indexed by key
+	 * 
+	 * The function uses mysqlnd (mysql native driver) if available,
+	 *   if not, it falls back to a hack that retrieves the column names
+	 *   and retrieves the whole row by index and maps the two together
+	 * 
+	 * @returns Returns a multidimensional array containing the results. First array is the row, inner array is indexed by the column names.
+	 */
+	private function getRows() {
 		global $benchmark;
 		$s = microtime(true);
 		
@@ -120,180 +204,5 @@ class tidy_sql {
 		$benchmark->db_querytime += microtime(true)-$s;
 		$benchmark->db_numresults += count($output);
 		return $output;
-	}
-}
-
-function getStudentDetails($token) {
-	global $db;
-	
-	$stmt = new tidy_sql($db, "SELECT * FROM Students WHERE `Token`=?", "s");
-	$rows = $stmt->query($token);
-	
-	if(isset($rows[0])) {
-		return $rows[0];
-		
-	}
-	
-	else {
-		echo "<h1>Uh oh.</h1> <p>We have been unable to provide you with your questionnaire.</p>
-			<ul>
-				<li>Check whether the URL is correct.</li>
-				<li>Email your tutor to inform them of the issue.</li>
-			</ul>
-		
-		";
-	}
-}
-
-function getStudentModules($details) {
-	global $db;
-
-	$stmt = new tidy_sql($db, "
-SELECT Modules.ModuleID AS ModuleID, Modules.ModuleTitle as ModuleTitle, Modules.Fake AS Fake
-FROM Modules
-
-LEFT JOIN StudentsToModules ON StudentsToModules.ModuleID = Modules.ModuleID
-	AND StudentsToModules.QuestionaireID = Modules.QuestionaireID
-WHERE (StudentsToModules.UserID=? OR Modules.Fake = true)
-AND Modules.QuestionaireID = ?
-GROUP BY Modules.ModuleID
-	", "ss");
-
-	$rows = $stmt->query($details["UserID"], $details["QuestionaireID"]);
-	
-	$lecturers = getStudentModuleLecturers($details);
-	foreach ($rows as &$row) {
-		if (array_key_exists($row["ModuleID"], $lecturers)) {
-			$row["Staff"] = $lecturers[$row["ModuleID"]];
-		}
-		else {
-			$row["Staff"] = Array();
-		}
-	}
-
-	return $rows;
-}
-
-function getStudentModuleLecturers($details) {
-	global $db;
-
-	$stmt = new tidy_sql($db, "
-		SELECT StaffToModules.ModuleID AS ModuleID, StaffToModules.UserID AS StaffID, Staff.Name as StaffName
-		FROM Staff
-		RIGHT JOIN StaffToModules ON StaffToModules.UserID = Staff.UserID AND StaffToModules.QuestionaireID = Staff.QuestionaireID
-		WHERE StaffToModules.QuestionaireID=?", "i");
-
-
-	$rows = $stmt->query($details["QuestionaireID"]);
-
-	$lecturers = array();
-	foreach($rows as $row) {
-		$lecturers[$row["ModuleID"]][] = $row;
-	}
-	return $lecturers;
-}
-
-function getQuestions($details) {
-	global $db;
-
-	$stmt = new tidy_sql($db, "SELECT * from Questions WHERE Questions.QuestionaireID = ? ORDER BY QuestionID ASC", "i");
-
-	return $stmt->query($details["QuestionaireID"]);
-}
-
-function getPreparedQuestions($details, $answers = array()) {
-	$questions = getQuestions($details);
-	$modules = getStudentModules($details);
-
-	foreach($modules as $mkey => &$module) {
-
-		$module["Questions"] = array();
-
-		foreach($questions as $question) {
-			$identifier = "{$module["ModuleID"]}_{$question["QuestionID"]}";
-			if ((!$question["ModuleID"] && !$module["Fake"]) || // fake modules do not have generic questions
-				strcasecmp($question["ModuleID"],$module["ModuleID"]) == 0) {
-				if ($question["Staff"] == 0) {
-						$question["Identifier"] = $identifier;
-
-						$module["Questions"][] = $question;
-				}
-				else {
-					foreach($module["Staff"] as $staff) {
-						$mquestion = $question; //copy question
-						$staff_identifier = "{$identifier}_{$staff["StaffID"]}";
-
-						$mquestion["Identifier"] = $staff_identifier;
-						$mquestion["QuestionText"] = sprintf($question["QuestionText"], $staff["StaffName"]);
-						$mquestion["QuestionText_welsh"] = sprintf($question["QuestionText_welsh"], $staff["StaffName"]);
-						$mquestion["StaffID"] = $staff["StaffID"];
-						$module["Questions"][] = $mquestion;
-					}
-				}
-			}
-		}
-		foreach($module["Questions"] as $key => $question) {
-			if (array_key_exists($question["Identifier"], $answers)) {
-				$module["Questions"][$key]["Answer"] = $answers[$question["Identifier"]];
-			}
-			else {
-				$module["Questions"][$key]["Answer"] = "";
-			}
-		}
-	}
-	return $modules;
-}
-
-function answer_filled($question) {
-	if ($question["Answer"] == "") {
-		return false;
-	}
-	elseif ($question["Type"] == "rate") {
-		if ($question["Answer"] < 1 || $question["Answer"] > 5) {
-			return false;
-		}
-	}
-	return true;
-}
-
-function answers_filled($modules) {
-	foreach($modules as $module) {
-		foreach($module["Questions"] as $question) {
-			if (!answer_filled($question))
-				return true; //temporaryfix
-		}
-	}
-	return true;
-}
-
-function answers_submit($details, $modules) {
-	global $db;
-	$db->autocommit(false);
-
-	$stmt = new tidy_sql($db, "INSERT INTO AnswerGroup (QuestionaireID) VALUES (?)", "i");
-	$stmt->query($details["QuestionaireID"]);
-
-	$answerID = $db->insert_id;
-
-	$stmt = new tidy_sql($db, "INSERT INTO Answers (AnswerID, QuestionID, ModuleID, StaffID, NumValue, TextValue) VALUES (?,?,?,?,?,?)", "iissis");
-	foreach($modules as $module) {
-		foreach($module["Questions"] as $question) {
-			$StaffID = "";
-			$NumValue = null;
-			$TextValue = null;
-			if ($question["Staff"] == 1)
-				$StaffID = $question["StaffID"];
-			if ($question["Type"] == "rate") {
-				$NumValue = $question["Answer"];
-			}
-			elseif ($question["Type"] == "text") {
-				$TextValue = $question["Answer"];
-			}
-
-			$stmt->query($answerID, $question["QuestionID"], $module["ModuleID"], $StaffID, $NumValue, $TextValue);
-		}
-	}
-	if (!$db->commit()) {
-		$db->rollback();
 	}
 }
