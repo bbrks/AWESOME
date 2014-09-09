@@ -1,5 +1,11 @@
 <?
 
+/**
+ * @param String $token The user token, provided by user in the GET request
+ * 
+ * @returns The student database record
+ */
+
 function getStudentDetails($token) {
 	global $db;
 	
@@ -22,6 +28,13 @@ function getStudentDetails($token) {
 	}
 }
 
+
+/**
+ * @param Array $details User details (Questionnaire ID, UserID)
+ * 
+ * @returns array listing the students modules
+ * 		(ModuleID, ModuleToken, Fake)
+ */
 function getStudentModules($details) {
 	global $db;
 
@@ -61,8 +74,12 @@ GROUP BY Modules.ModuleID
 	return $rows;
 }
 
-
-
+/**
+ * @param Array $details User details (Questionnaire ID, UserID)
+ * 
+ * @returns array indexed by ModuleId, containing staff details
+ * 		$result[ModuleID] = (StaffID, StaffName)
+ */
 function getStudentModuleLecturers($details) {
 	global $db;
 	/*
@@ -89,6 +106,12 @@ function getStudentModuleLecturers($details) {
 	return $lecturers;
 }
 
+
+/**
+ * @param Array $details User details (Questionnaire ID, UserID)
+ * 
+ * @returns array listing out every question for the questionnaire.
+ */
 function getQuestions($details) {
 	global $db;
 
@@ -97,6 +120,15 @@ function getQuestions($details) {
 	return $stmt->query($details["QuestionaireID"]);
 }
 
+/**
+ * @param Array $details User details (Questionnaire ID, UserID)
+ * @param Array $answers (optional) The answers user has provided,
+ *     this stores the answers into the questionnaire array to allow
+ *     for easy validation + submission.
+ * 
+ * @returns an array listing out module details, with an inner list of the questions (inside "Questions")
+ *     if answers have been provided, these will be stored within "Answer" within each of the questions.
+ */
 function getPreparedQuestions($details, $answers = array()) {
 	$questions = getQuestions($details);
 	$modules = getStudentModules($details);
@@ -140,6 +172,14 @@ function getPreparedQuestions($details, $answers = array()) {
 	return $modules;
 }
 
+/**
+ * Tests if an individual question has been answered correctly,
+ *     the code performs different checks based on the type of question
+ * 
+ * @param Array $question Question details array
+ * 
+ * @returns true/false
+ */
 function answer_filled($question) {
 	if ($question["Answer"] == "") {
 		return false;
@@ -152,6 +192,15 @@ function answer_filled($question) {
 	return true;
 }
 
+
+/**
+ * Executes answer_filled for each question,
+ *     returns true if every question is correct, false if not
+ * 
+ * @param Array $question Questions array (from getPreparedQuestions(...))
+ * 
+ * @returns true/false
+ */
 function answers_filled($modules) {
 	foreach($modules as $module) {
 		foreach($module["Questions"] as $question) {
@@ -162,6 +211,14 @@ function answers_filled($modules) {
 	return true;
 }
 
+/**
+ * Stores all the answers into the database
+ * 
+ * It creates a unique answergroup for the whole set, and then adds
+ *     the answers into the db with answergroup as a fk.
+ * 
+ * @param Array $question Questions array (from getPreparedQuestions(...))
+ */
 function answers_submit($details, $modules) {
 	global $db;
 	$db->autocommit(false);
@@ -179,6 +236,9 @@ function answers_submit($details, $modules) {
 			$TextValue = null;
 			if ($question["Staff"] == 1)
 				$StaffID = $question["StaffID"];
+				
+			//todo: make an isnumeric type func.
+			// the question types have different datatypes, so are stored into different database columns.
 			if ($question["Type"] == "rate") {
 				$NumValue = $question["Answer"];
 			}
