@@ -1,0 +1,11 @@
+<?
+// copy this file as db.php and adjust the settings below to match your setup:
+
+$url = "http://aberawesome.co.uk/alpha/";
+$db = new mysqli("hostname", "username","password","database"); 
+
+
+
+//this should not change under normal usage:
+$root = realpath(dirname(__FILE__));
+
