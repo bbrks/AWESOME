@@ -59,41 +59,32 @@
           </button>
           <a class="navbar-brand" href="#"> <img src="./img/logo.png"> </a>
         </div>
-				<div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-			<?  if ($is_welsh) { ?>
-	<li><a href="questions.php?token=<?=$token?>">Saesneg</a></li>
-	<li><a href="questions.php?token=<?=$token?>&welsh">Cymraeg</a></li>
-<?	} else { ?>
-	<li><a href="questions.php?token=<?=$token?>">English</a></li>
-	<li><a href="questions.php?token=<?=$token?>&welsh">Welsh</a></li>
-<? } ?>
-        </div><!--/.nav-collapse -->
-	      </div>
-    </div>
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav navbar-right">
+<?  if ($is_welsh): ?>
+				<li><a href="questions.php?token=<?=$token?>">Saesneg</a></li>
+				<li><a href="questions.php?token=<?=$token?>&welsh">Cymraeg</a></li>
+<?	else: ?>
+				<li><a href="questions.php?token=<?=$token?>">English</a></li>
+				<li><a href="questions.php?token=<?=$token?>&welsh">Welsh</a></li>
+<?  endif; ?>
+			</ul>
+		</div>
+	</div>
+	</div>
 
 	<div class="questionnaire">
 	<div class="container">
 
-<?
-
-global $is_welsh;
-
-	if ($is_welsh) {
-			echo "<p>Mae'r arolwg hon wedi ei anelu atoch chi.</p>
-			
-			<p>Unwaith i chi wasgu 'Cyflwyno', bydd eich atebion yn dychwelyd atom yn gyfrinachol a bydd eich cysylltiad unigryw yn dod i ben.</p>
-<p></p>Mae'r canlyniadau yn hollol ddienw felly byddwch yn gwbl onest!</p>";
-	}
-	
-	else {
-			echo "<p>This is a survey that's aimed at you.</p>
-
-			<p>Once you press submit, your answers come back to us with no identifying information, and your unique link will stop working.</p>
-
-			<p>The results are completely anonymous, so be as honest as you can!</p>";
-	}
-?>
+<? if ($is_welsh): ?>
+	<p>Mae'r arolwg hon wedi ei anelu atoch chi.</p>
+	<p>Unwaith i chi wasgu 'Cyflwyno', bydd eich atebion yn dychwelyd atom yn gyfrinachol a bydd eich cysylltiad unigryw yn dod i ben.</p>
+	<p></p>Mae'r canlyniadau yn hollol ddienw felly byddwch yn gwbl onest!</p>
+<? else: ?>
+	<p>This is a survey that's aimed at you.</p>
+	<p>Once you press submit, your answers come back to us with no identifying information, and your unique link will stop working.</p>
+	<p>The results are completely anonymous, so be as honest as you can!</p>
+<? endif; ?>
 
 			
 
@@ -188,9 +179,9 @@ else {
 $details = getStudentDetails($token);
 
 if ($details["Done"]) {
-	?>
+?>
 	<h1>You have already done this questionnaire.</h1>
-	<?
+<?
 }
 else {
 	$user = $details["UserID"];
