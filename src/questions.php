@@ -3,10 +3,10 @@
  * @file
  * @version 1.0
  * @date 07/09/2014
- * @author Keiron-Teilo O'Shea <keo7@aber.ac.uk> 
- * 	
+ * @author Keiron-Teilo O'Shea <keo7@aber.ac.uk>
+ *
  */
- 
+
 	require_once("lib.php");
 	require_once("questions-funcs.php");
 	$token = $_GET["token"];
@@ -39,7 +39,7 @@
 			});
 		})
 	</script>
-	
+
 	<style>
 		textarea {
 			resize:vertical;
@@ -88,7 +88,7 @@
 	<p>The results are completely anonymous, so be as honest as you can!</p>
 <? endif; ?>
 
-			
+
 
 
 <?
@@ -123,7 +123,7 @@ function print_question($question, $warn=false) {
 				<th></th>
 			</thead>
 			<tr>";
-			
+
 			if ($is_welsh) {
 				echo "
 				<td>Anghytuno'n Gryf</td>
@@ -133,9 +133,9 @@ function print_question($question, $warn=false) {
 				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" id=\"{$question["Identifier"]}_4\" value=\"4\" ". ($question["Answer"]==4?"checked=\"true\"":"") ."></td>
 				<td><input type=\"radio\" name=\"{$question["Identifier"]}\" id=\"{$question["Identifier"]}_5\" value=\"5\" ". ($question["Answer"]==5?"checked=\"true\"":"") ."></td>
 				<td>Cytuno'n Gryf</td>
-				
+
 				"; }
-				
+
 				else {
 					echo "
 				<td>Strongly Disagree</td>
@@ -152,7 +152,7 @@ function print_question($question, $warn=false) {
 	}
 	elseif ($question["Type"] == "text") {
 		echo "<textarea name=\"{$question["Identifier"]}\" rows=\"5\" class=\"form-control\" placeholder=\"(Optional)\" >{$question["Answer"]}</textarea>
-		
+
 		";
 	}
 	echo "</div>";
@@ -167,7 +167,7 @@ function print_form($modules, $warn=false) {
 		}
 	}
 	global $is_welsh;
-	
+
 	if($is_welsh) {
 	echo "<br><div class=\"pull-right\"><button type=\"submit\" class=\"btn btn-lg btn-success\" id=\"submit\"\">Cyflwyno'r arolwg</button></div>";
 }

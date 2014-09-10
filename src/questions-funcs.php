@@ -3,31 +3,31 @@
  * @file
  * @version 1.0
  * @date 07/09/2014
- * @author Keiron-Teilo O'Shea <keo7@aber.ac.uk> 
- * 	
+ * @author Keiron-Teilo O'Shea <keo7@aber.ac.uk>
+ *
  * This contains the data orientated functions for questions.php (the questionnaire itself)
- * 
+ *
  * getPreparedQuestions(), getStudentDetails(), answer_filled(),
  *     answers_filled() and answers_submit() are the main functions, the rest
  *     should be considered private.
- * 
- */ 
+ *
+ */
 
 /**
  * @param String $token The user token, provided by user in the GET request
- * 
+ *
  * @returns The student database record
  */
 
 function getStudentDetails($token) {
 	global $db;
-	
+
 	$stmt = new tidy_sql($db, "SELECT * FROM Students WHERE `Token`=?", "s");
 	$rows = $stmt->query($token);
-	
+
 	if(isset($rows[0])) {
 		return $rows[0];
-		
+
 	}
 	//todo: move into questions.php
 	else {
@@ -36,7 +36,7 @@ function getStudentDetails($token) {
 				<li>Check whether the URL is correct.</li>
 				<li>Email your tutor to inform them of the issue.</li>
 			</ul>
-		
+
 		";
 	}
 }
@@ -44,7 +44,7 @@ function getStudentDetails($token) {
 
 /**
  * @param Array $details User details (Questionnaire ID, UserID)
- * 
+ *
  * @returns array listing the students modules
  * 		(ModuleID, ModuleToken, Fake)
  */
@@ -59,7 +59,7 @@ function getStudentModules($details) {
 	 *  An inner join would do the first goal, but not the second
 	 *    so we simulate it by doing a left join (matches all other students)
 	 *    and filter it down using a where to either the student or where fake=true
-	 * 
+	 *
 	 */
 	$stmt = new tidy_sql($db, "
 SELECT Modules.ModuleID AS ModuleID, Modules.ModuleTitle as ModuleTitle, Modules.Fake AS Fake
@@ -73,7 +73,7 @@ GROUP BY Modules.ModuleID
 	", "ss");
 
 	$rows = $stmt->query($details["UserID"], $details["QuestionaireID"]);
-	
+
 	$lecturers = getStudentModuleLecturers($details);
 	foreach ($rows as &$row) {
 		if (array_key_exists($row["ModuleID"], $lecturers)) {
@@ -89,7 +89,7 @@ GROUP BY Modules.ModuleID
 
 /**
  * @param Array $details User details (Questionnaire ID, UserID)
- * 
+ *
  * @returns array indexed by ModuleId, containing staff details
  * 		$result[ModuleID] = (StaffID, StaffName)
  */
@@ -99,7 +99,7 @@ function getStudentModuleLecturers($details) {
 	 * The goal of this one is to retrieve a list of staff paired against
 	 *   each module, it was originally written to filter down to student
 	 *   but added too much complexity.
-	 * 
+	 *
 	 * The join is right, to allow for some tolerance for incomplete data,
 	 *   a missing staff name will simply make their name show as blank.
 	 */
@@ -122,7 +122,7 @@ function getStudentModuleLecturers($details) {
 
 /**
  * @param Array $details User details (Questionnaire ID, UserID)
- * 
+ *
  * @returns array listing out every question for the questionnaire.
  */
 function getQuestions($details) {
@@ -138,19 +138,19 @@ function getQuestions($details) {
  * @param Array $answers (optional) The answers user has provided,
  *     this stores the answers into the questionnaire array to allow
  *     for easy validation + submission.
- * 
+ *
  * getPreparedQuestions() aggregates the data from getQuestions, getStudentModules() (and in turn getStudentModuleLecturers())
- * 
+ *
  * It uses the data from getStudentModules() almost as-is, it goes through
  *     and creates a "questions" array within consisting of questions from getQuestions. For this,
  *     it iterates through each of the questions checks if they are elligible
  *     (correct moduleid, or is fake) - if so it appends it onto this array,
  *     unless it's for staff where it repeats it for each staff member.
- * 
+ *
  * Each of these questions contains a few bits of additional information, such as the identifier,
  *      the answer (if the user provided one), along with the staff name (if it's a staff question).
- * 
- * 
+ *
+ *
  * @returns an array listing out module details, with an inner list of the questions (inside "Questions")
  *     if answers have been provided, these will be stored within "Answer" within each of the questions.
  */
@@ -202,17 +202,15 @@ function getPreparedQuestions($details, $answers = array()) {
 
 /**
  * Tests if an individual question has been answered correctly,
- *     the code performs different checks based on the type of question
+ *     the code performs different checks based on the type of question.
  * 
+ *
  * @param Array $question Question details array
- * 
+ *
  * @returns true/false
  */
 function answer_filled($question) {
-	if ($question["Answer"] == "") {
-		return false;
-	}
-	elseif ($question["Type"] == "rate") {
+	if ($question["Type"] == "rate") {
 		if ($question["Answer"] < 1 || $question["Answer"] > 5) {
 			return false;
 		}
@@ -224,16 +222,16 @@ function answer_filled($question) {
 /**
  * Executes answer_filled for each question,
  *     returns true if every question is correct, false if not
- * 
+ *
  * @param Array $modules Modules array (from getPreparedQuestions(...))
- * 
+ *
  * @returns true/false
  */
 function answers_filled($modules) {
 	foreach($modules as $module) {
 		foreach($module["Questions"] as $question) {
 			if (!answer_filled($question))
-				return true; //temporaryfix
+				return false;
 		}
 	}
 	return true;
@@ -241,10 +239,10 @@ function answers_filled($modules) {
 
 /**
  * Stores all the answers into the database
- * 
+ *
  * It creates a unique answergroup for the whole set, and then adds
  *     the answers into the db with answergroup as a fk.
- * 
+ *
  * @param Array $details User details (Questionnaire ID, UserID)
  * @param Array $modules Modules array (from getPreparedQuestions(...))
  */
@@ -265,7 +263,7 @@ function answers_submit($details, $modules) {
 			$TextValue = null;
 			if ($question["Staff"] == 1)
 				$StaffID = $question["StaffID"];
-				
+
 			//todo: make an isnumeric type func.
 			// the question types have different datatypes, so are stored into different database columns.
 			if ($question["Type"] == "rate") {
@@ -281,4 +279,4 @@ function answers_submit($details, $modules) {
 	if (!$db->commit()) {
 		$db->rollback();
 	}
-} 
+}
