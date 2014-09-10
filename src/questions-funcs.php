@@ -203,7 +203,7 @@ function getPreparedQuestions($details, $answers = array()) {
 /**
  * Tests if an individual question has been answered correctly,
  *     the code performs different checks based on the type of question.
- * 
+ *
  *
  * @param Array $question Question details array
  *
