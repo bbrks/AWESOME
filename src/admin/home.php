@@ -5,7 +5,7 @@
  * @date 07/09/2014
  * @author Keiron-Teilo O'Shea <keo7@aber.ac.uk> 
  * 	
- * Admin homepage, this lists out every questionnaire and allows creating new ones + nuking old ones.
+ * Admin homepage, this is the administrator portal used by staff members in order to create and manage questionnaires.
  */
 
 require "../lib.php";
@@ -40,7 +40,7 @@ function insertQuestionaire($details) {
 
 /**
  * 
- * Nukes a questionnaire, and all its children from orbit.
+ * Nukes a questionnaire, and all its children from orbit - provides adequate error messages if unable to sucessfuly perform the operation.
  * 
  * Deletes all Answers, AnswerGroups, Questions, StaffToModules, Staff,
  *     StudentsToModules, Students, Modules, Questionnaires WHERE QuestionaireID=?
