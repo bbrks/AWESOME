@@ -27,29 +27,9 @@
 			<input type="text" name="questionnaireName" class="form-control" />
 			<label for="questionnaireDepartment">Department</label>
 			<select name="questionnaireDepartment" class="form-control">
-				<option value="F">ART</option>
-				<option value="I">BIOLOGICAL SCIENCES</option>
-				<option value="N">COMPUTER SCIENCE</option>
-				<option value="Z">CONTINUING EDUCATION</option>
-				<option value="U">DIS</option>
-				<option value="B">EDUCATION</option>
-				<option value="C">ENGLISH</option>
-				<option value="D">EUROPEAN LANGUAGES</option>
-				<option value="X">EXTERNAL</option>
-				<option value="P">GEOGRAPHY AND EARTH SCIENCES</option>
-				<option value="E">HISTORY AND WELSH HISTORY</option>
-				<option value="I">IBERS</option>
-				<option value="K">INTERNATIONAL POLITICS</option>
-				<option value="V">LANGUAGE AND LEARNING</option>
-				<option value="L">LAW</option>
-				<option value="Y">MANAGEMENT AND BUSINESS</option>
-				<option value="M">MATHEMATICS</option>
-				<option value="T">MATHEMATICS AND PHYSICS</option>
-				<option value="W">PSYCHOLOGY</option>
-				<option value="I">RURAL SCIENCES</option>
-				<option value="Q">SPORTS SCIENCES</option>
-				<option value="A">THEATRE, FILM AND TV</option>
-				<option value="G">WELSH</option>
+{%				for department in departments %}
+				<option value="{{department.DepartmentCode}}">{{department.DepartmentName}}</option>
+{%				endfor %}
 			</select>
 			
 			<label for="questionnaireSemester">Semester</label>
@@ -87,7 +67,7 @@
 		<th><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal">Create Questionnaire</button></th>
 	</thead>
 	
-	{% for questionnaire in questionnaires %}
+{%	for questionnaire in questionnaires %}
 	<tr>
 		<td>{{questionnaire.QuestionaireID}}</td>
 		<td>{{questionnaire.QuestionaireName}}</td>
@@ -101,7 +81,7 @@
 			<button class="btn btn-danger btn-xs" type="submit" name="delete" value="{{questionnaire.QuestionaireID}}">Delete</button>
 		</td>
 	</tr>
-	{% endfor %}
+{%	endfor %}
 </table>
 </form>
 

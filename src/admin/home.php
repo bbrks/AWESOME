@@ -185,6 +185,20 @@ function getQuestionaires() {
 	return $rows;
 }
 
+/**
+ * Note: identical to function in modify.php, move to centralised location?
+ *
+ * @returns Returns a list of valid department names,
+ *      format: (departmentcode, departmentname)
+ * 
+ */
+function getDepartments() {
+	global $db;
+	
+	$stmt = new tidy_sql($db, "SELECT DepartmentCode, DepartmentName FROM Departments WHERE enabled=true","");
+	return $stmt->query();
+}
+
 $alerts = array();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["action"])) {
@@ -201,8 +215,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["action"])) {
 }
 
 $questionnaires = getQuestionaires();
-
+$departments = getDepartments();
 echo $template->render(array(
 	"url"=>$url,"alerts"=>$alerts,
-	"questionnaires"=>$questionnaires
+	"questionnaires"=>$questionnaires,
+	"departments"=>$departments
 ));
