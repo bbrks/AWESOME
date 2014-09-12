@@ -1,3 +1,8 @@
 db.php
 Documentation/doxygen/
 .directory
+
+#eclipse files
+.buildpath
+.project
+.settings
