@@ -17,7 +17,6 @@ $twig = new Twig_Environment($loader, array());
 
 $template = $twig->loadTemplate('home.html'); 
 
-$alerts = array();
 
 /**
  * 

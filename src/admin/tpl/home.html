@@ -60,9 +60,6 @@
 				<p><input type="radio" name="semesterpicker" value="Semester Both"> Semester One and Two </p>
 				<p><input type="radio" name="semesterpicker" value="Semester Special"> Special Event </p>
 			</form>
-			{% for alert in alerts %}
-				<div class="alert alert-{{alert.type}}" role="alert">{{alert.message}}</div>
-			{% endfor %}
 		  </div>
 		  <div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
