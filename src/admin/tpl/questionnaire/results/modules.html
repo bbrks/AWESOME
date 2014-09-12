@@ -21,6 +21,8 @@
 		<div class="alert alert-{{alert.type}}" role="alert">{{alert.message}}</div>
 	{% endfor %}
 
+    <a href="{{url}}/admin/questionnaire/results/allmoduleresults.php?questionnaireID={{questionnaireID}}"><button type="button" class="btn btn-sm btn-primary pull-right">View all results</button></a>
+
 	<table class="table">
 		<thead>
 			<th>Module ID</th>
