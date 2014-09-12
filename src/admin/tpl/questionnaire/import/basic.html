@@ -9,10 +9,29 @@
 		<input type="text" name="questionnaireName" class="form-control" value="{{questionnaire.name}}"/>
 		<label for="questionnaireDepartment">Department</label>
 		<select name="questionnaireDepartment" class="form-control">
-			<option value="Art" {% if questionnaire.department == "Art" %} selected{% endif %}>Art</option>
-			<option value="IBERS" {% if questionnaire.department == "IBERS" %} selected{% endif %}>IBERS</option>
-			<option value="CompSci" {% if questionnaire.department == "CompSci" %} selected{% endif %}>CompSci</option>
-			<option value="Welsh" {% if questionnaire.department == "Welsh" %} selected{% endif %}>Welsh</option>
+			<option value="F" {% if questionnaire.department == "ART" %} selected{% endif %}>ART</option>
+				<option value="I" {% if questionnaire.department == "BIOLOGICAL SCIENCES" %} selected{% endif %}> BIOLOGICAL SCIENCES</option>
+				<option value="N" {% if questionnaire.department == "COMPUTER SCIENCE" %} selected{% endif %}>COMPUTER SCIENCE</option>
+				<option value="Z" {% if questionnaire.department == "CONTINUING EDUCATION" %} selected{% endif %}>CONTINUING EDUCATION</option>
+				<option value="U" {% if questionnaire.department == "DIS" %} selected{% endif %}>DIS</option>
+				<option value="B" {% if questionnaire.department == "EDUCATION" %} selected{% endif %}>EDUCATION</option>
+				<option value="C" {% if questionnaire.department == "ENGLISH" %} selected{% endif %}>ENGLISH</option>
+				<option value="D" {% if questionnaire.department == "EUROPEAN LANGUAGES" %} selected{% endif %}>EUROPEAN LANGUAGES</option>
+				<option value="X" {% if questionnaire.department == "EXTERNAL" %} selected{% endif %}>EXTERNAL</option>
+				<option value="P" {% if questionnaire.department == "GEOGRAPHY AND EARTH SCIENCES" %} selected{% endif %}>GEOGRAPHY AND EARTH SCIENCES</option>
+				<option value="E" {% if questionnaire.department == "HISTORY AND WELSH HISTORY" %} selected{% endif %}>HISTORY AND WELSH HISTORY</option>
+				<option value="I" {% if questionnaire.department == "IBERS" %} selected{% endif %}>IBERS</option>
+				<option value="K" {% if questionnaire.department == "INTERNATIONAL POLITICS" %} selected{% endif %}>INTERNATIONAL POLITICS</option>
+				<option value="V" {% if questionnaire.department == "LANGUAGE AND LEARNING" %} selected{% endif %}>LANGUAGE AND LEARNING</option>
+				<option value="L" {% if questionnaire.department == "LAW" %} selected{% endif %}>LAW</option>
+				<option value="Y" {% if questionnaire.department == "MANAGEMENT AND BUSINESS" %} selected{% endif %}>MANAGEMENT AND BUSINESS</option>
+				<option value="M" {% if questionnaire.department == "MATHEMATICS" %} selected{% endif %}>MATHEMATICS</option>
+				<option value="T" {% if questionnaire.department == "MATHEMATICS AND PHYSICS" %} selected{% endif %}>MATHEMATICS AND PHYSICS</option>
+				<option value="W" {% if questionnaire.department == "PSYCHOLOGY" %} selected{% endif %}>PSYCHOLOGY</option>
+				<option value="I" {% if questionnaire.department == "RURAL SCIENCES" %} selected{% endif %}>RURAL SCIENCES</option>
+				<option value="Q" {% if questionnaire.department == "SPORT SCIENCES" %} selected{% endif %}>SPORTS SCIENCES</option>
+				<option value="A" {% if questionnaire.department == "THEATRE, FILM AND TV" %} selected{% endif %}>THEATRE, FILM AND TV</option>
+				<option value="G" {% if questionnaire.department == "WELSH" %} selected{% endif %}>WELSH</option>
 		</select>
 		<button type="submit" class="btn btn-primary form-control">Modify Questionnaire</button>
 	</form>
