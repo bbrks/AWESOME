@@ -10,6 +10,11 @@
 require "../../../lib.php";
 require_once "{$root}/lib/Twig/Autoloader.php";
 
+Twig_Autoloader::register();
+$loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
+$twig = new Twig_Environment($loader, array());
+
+$template = $twig->loadTemplate('questionnaire/import/basic.html');
 
 /**
  * @param int $questionnaireID The questionnaire ID
@@ -42,11 +47,21 @@ function updateQuestionaire($questionnaireID, $fields) {
 	$stmt->query($fields["QuestionaireName"], $fields["QuestionaireDepartment"], $questionnaireID);
 }
 
-Twig_Autoloader::register();
-$loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
-$twig = new Twig_Environment($loader, array());
 
-$template = $twig->loadTemplate('questionnaire/import/basic.html');
+/**
+ * Note: identical to function in home.php, move to centralised location?
+ *
+ * @returns Returns a list of valid department names,
+ *      format: (departmentcode, departmentname)
+ *
+ */
+function getDepartments() {
+	global $db;
+
+	$stmt = new tidy_sql($db, "SELECT DepartmentCode, DepartmentName FROM Departments WHERE enabled=true","");
+	return $stmt->query();
+}
+
 
 $questionnaireID = $_GET["questionnaireID"];
 $alerts = array();
@@ -61,10 +76,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $q = getQuestionaire($questionnaireID);
-
+$departments = getDepartments();
 echo $template->render(array(
 	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
-	"questionnaire"=>array("name"=>$q["QuestionaireName"], "department"=>$q["QuestionaireDepartment"])
+	"questionnaire"=>array("name"=>$q["QuestionaireName"], "department"=>$q["QuestionaireDepartment"]),
+	"departments"=>$departments
 ));
 
 
