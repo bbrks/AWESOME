@@ -16,12 +16,12 @@ $twig = new Twig_Environment($loader, array());
 
 $template = $twig->loadTemplate('questionnaire/results/allmoduleresults.html');
 
+
 $questionnaireID = $_GET["questionnaireID"];
 $moduleID = $_GET["moduleID"];
 
 $alerts = array();
 
-//print_r($results);
 echo $template->render(array(
-	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts
+	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts, 
 ));
