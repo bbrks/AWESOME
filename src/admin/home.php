@@ -17,6 +17,8 @@ $twig = new Twig_Environment($loader, array());
 
 $template = $twig->loadTemplate('home.html'); 
 
+$alerts = array();
+
 /**
  * 
  * Add a new questionnaire to the database.
@@ -198,6 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["action"])) {
 }
 
 $questionnaires = getQuestionaires();
+$alerts = array();
 
 echo $template->render(array(
 	"url"=>$url,"alerts"=>$alerts,
