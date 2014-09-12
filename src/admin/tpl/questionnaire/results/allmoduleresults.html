@@ -1,0 +1,13 @@
+{%extends "questionnaire/questionnaire.html" %}
+
+{%set title = "All Module Choices" %}
+
+
+{% block qcontent %}
+    {% for alert in alterts %}
+        <div class="alert alert-{{alert.type}}" role="alert">{{alert.message}}</div>
+    {% endfor %}
+
+    <h3>Results for {{questionnaire.QuestionnaireID}}</h3>
+
+    {% endblock %}
