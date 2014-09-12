@@ -27,7 +27,7 @@ $template = $twig->loadTemplate('home.html');
 function insertQuestionaire($details) {
 	global $questionnaireID, $alerts, $db;
 	try {
-		$stmt = new tidy_sql($db, "INSERT INTO Questionaires (QuestionaireName, QuestionaireDepartment, QuestionaireSemester) VALUES (?,?)", "ss");
+		$stmt = new tidy_sql($db, "INSERT INTO Questionaires (QuestionaireName, QuestionaireDepartment, QuestionaireSemester) VALUES (?,?,?)", "sss");
 		$stmt->query($details["questionnaireName"], $details["questionnaireDepartment"], $details["questionnaireSemester"]);
 		
 		
