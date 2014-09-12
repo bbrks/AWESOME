@@ -28,7 +28,9 @@ function insertQuestionaire($details) {
 	global $questionnaireID, $alerts, $db;
 	try {
 		$stmt = new tidy_sql($db, "INSERT INTO Questionaires (QuestionaireName, QuestionaireDepartment) VALUES (?,?)", "ss");
-		$stmt->query($details["questionnaireName"], $details["questionnaireDepartment"]);
+		$stmt->query($details["questionnaireName"], $details["questionnaireDepartment"], $details["questionnaireSemester"]);
+		
+		
 		
 		$alerts[] = array("type"=>"success",  "message"=>"Sucessfully added questionnaire");
 		
