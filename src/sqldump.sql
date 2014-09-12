@@ -1,20 +1,44 @@
--- Adminer 4.1.0 MySQL dump
+-- phpMyAdmin SQL Dump
+-- version 3.4.10.1deb1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Sep 12, 2014 at 06:51 PM
+-- Server version: 5.5.38
+-- PHP Version: 5.3.10-1ubuntu3.13
 
-SET NAMES utf8;
-SET time_zone = '+00:00';
-SET foreign_key_checks = 0;
-SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
-DROP TABLE IF EXISTS `AnswerGroup`;
-CREATE TABLE `AnswerGroup` (
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `awesome`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `AnswerGroup`
+--
+
+CREATE TABLE IF NOT EXISTS `AnswerGroup` (
   `AnswerID` int(11) NOT NULL AUTO_INCREMENT,
   `QuestionaireID` int(11) NOT NULL,
   PRIMARY KEY (`AnswerID`,`QuestionaireID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=43 ;
 
+-- --------------------------------------------------------
 
-DROP TABLE IF EXISTS `Answers`;
-CREATE TABLE `Answers` (
+--
+-- Table structure for table `Answers`
+--
+
+CREATE TABLE IF NOT EXISTS `Answers` (
   `AnswerID` int(11) NOT NULL,
   `QuestionID` int(11) NOT NULL,
   `ModuleID` varchar(10) NOT NULL,
@@ -24,18 +48,24 @@ CREATE TABLE `Answers` (
   PRIMARY KEY (`AnswerID`,`QuestionID`,`ModuleID`,`StaffID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
 
-DROP TABLE IF EXISTS `Config`;
-CREATE TABLE `Config` (
+--
+-- Table structure for table `Config`
+--
+
+CREATE TABLE IF NOT EXISTS `Config` (
   `key` varchar(10) CHARACTER SET latin1 NOT NULL,
   `value` text CHARACTER SET latin1 NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `Config` (`key`, `value`) VALUES
-('version',	'5');
+-- --------------------------------------------------------
 
-DROP TABLE IF EXISTS `Modules`;
-CREATE TABLE `Modules` (
+--
+-- Table structure for table `Modules`
+--
+
+CREATE TABLE IF NOT EXISTS `Modules` (
   `ModuleID` varchar(10) NOT NULL,
   `QuestionaireID` int(11) NOT NULL,
   `ModuleTitle` varchar(200) NOT NULL,
@@ -43,18 +73,26 @@ CREATE TABLE `Modules` (
   PRIMARY KEY (`ModuleID`,`QuestionaireID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
 
-DROP TABLE IF EXISTS `Questionaires`;
-CREATE TABLE `Questionaires` (
+--
+-- Table structure for table `Questionaires`
+--
+
+CREATE TABLE IF NOT EXISTS `Questionaires` (
   `QuestionaireID` int(11) NOT NULL AUTO_INCREMENT,
   `QuestionaireName` varchar(20) NOT NULL,
-  `QuestionaireDepartment` enum('Art','IBERS','CompSci','Welsh') NOT NULL,
+  `QuestionaireDepartment` varchar(30) NOT NULL,
   PRIMARY KEY (`QuestionaireID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
+-- --------------------------------------------------------
 
-DROP TABLE IF EXISTS `Questions`;
-CREATE TABLE `Questions` (
+--
+-- Table structure for table `Questions`
+--
+
+CREATE TABLE IF NOT EXISTS `Questions` (
   `QuestionID` int(11) NOT NULL AUTO_INCREMENT,
   `Staff` bit(1) NOT NULL,
   `QuestionText` text NOT NULL,
@@ -63,20 +101,28 @@ CREATE TABLE `Questions` (
   `QuestionaireID` int(11) DEFAULT NULL,
   `ModuleID` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`QuestionID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=64 ;
 
+-- --------------------------------------------------------
 
-DROP TABLE IF EXISTS `Staff`;
-CREATE TABLE `Staff` (
+--
+-- Table structure for table `Staff`
+--
+
+CREATE TABLE IF NOT EXISTS `Staff` (
   `UserID` varchar(6) NOT NULL,
   `QuestionaireID` int(11) NOT NULL,
   `Name` varchar(30) NOT NULL,
   PRIMARY KEY (`UserID`,`QuestionaireID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
 
-DROP TABLE IF EXISTS `StaffToModules`;
-CREATE TABLE `StaffToModules` (
+--
+-- Table structure for table `StaffToModules`
+--
+
+CREATE TABLE IF NOT EXISTS `StaffToModules` (
   `ModuleID` varchar(200) NOT NULL,
   `UserID` varchar(6) NOT NULL,
   `QuestionaireID` int(11) NOT NULL,
@@ -84,9 +130,13 @@ CREATE TABLE `StaffToModules` (
   KEY `UserID` (`UserID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
 
-DROP TABLE IF EXISTS `Students`;
-CREATE TABLE `Students` (
+--
+-- Table structure for table `Students`
+--
+
+CREATE TABLE IF NOT EXISTS `Students` (
   `UserID` varchar(6) NOT NULL,
   `QuestionaireID` int(11) NOT NULL,
   `Department` varchar(10) NOT NULL,
@@ -96,9 +146,13 @@ CREATE TABLE `Students` (
   UNIQUE KEY `Token` (`Token`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
 
-DROP TABLE IF EXISTS `StudentsToModules`;
-CREATE TABLE `StudentsToModules` (
+--
+-- Table structure for table `StudentsToModules`
+--
+
+CREATE TABLE IF NOT EXISTS `StudentsToModules` (
   `UserID` varchar(6) NOT NULL,
   `ModuleID` varchar(200) NOT NULL,
   `QuestionaireID` int(11) NOT NULL,
@@ -106,5 +160,6 @@ CREATE TABLE `StudentsToModules` (
   KEY `ModuleID` (`ModuleID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-
--- 2014-08-31 05:56:19
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

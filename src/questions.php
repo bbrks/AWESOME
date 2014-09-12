@@ -97,7 +97,7 @@ function print_question($question, $warn=false) {
 	global $is_welsh;
 	echo "<hr> <div";
 	if ($warn == true && !answer_filled($question)) {
-		echo " style=\"border: 5px solid red;\"";
+		echo " style=\"border: 2px solid #FF5C33; border-radius:1em; padding:1em;\"";
 	}
 	echo">";
 
