@@ -174,6 +174,7 @@ function getQuestionaires() {
 				WHERE Questionaires.QuestionaireID = StudentsToModules.QuestionaireID
 			) AS Total
 		FROM Questionaires
+		LEFT JOIN Departments ON Questionaires.QuestionaireDepartment=Departments.DepartmentCode
 	");
 	$rows = $stmt->query();
 	
