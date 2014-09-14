@@ -1,4 +1,6 @@
 <?
+@define("__MAIN__", __FILE__); // define the first file to execute
+
 /**
  * @file
  * @version 1.0
@@ -7,18 +9,8 @@
  * 	
  */
 
-require "../../../lib.php";
+require_once "../../../lib.php";
 require_once "{$root}/lib/Twig/Autoloader.php";
-
-Twig_Autoloader::register();
-$loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
-$twig = new Twig_Environment($loader, array());
-
-$template = $twig->loadTemplate('questionnaire/results/modules.html');
-
-$questionnaireID = $_GET["questionnaireID"];
-$alerts = array();
-
 
 /**
  * Retrieves list of modules from database
@@ -70,11 +62,22 @@ function getTotalQuestionnaireStudents($questionnaireID) {
 	return $info[0]["total"];
 }
 
-$modules = getModulesList($questionnaireID);
-$totalstudents = getTotalQuestionnaireStudents($questionnaireID);
-
-echo $template->render(array(
-	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
-	"totalstudents"=>$totalstudents,
-	"modules"=>$modules
-));
+if (__MAIN__ == __FILE__) { // only output if directly requested (for include purposes)
+	Twig_Autoloader::register();
+	$loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
+	$twig = new Twig_Environment($loader, array());
+	
+	$template = $twig->loadTemplate('questionnaire/results/modules.html');
+	
+	$questionnaireID = $_GET["questionnaireID"];
+	$alerts = array();	
+	
+	$modules = getModulesList($questionnaireID);
+	$totalstudents = getTotalQuestionnaireStudents($questionnaireID);
+	
+	echo $template->render(array(
+		"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
+		"totalstudents"=>$totalstudents,
+		"modules"=>$modules
+	));
+}
