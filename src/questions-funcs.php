@@ -166,7 +166,7 @@ function getPreparedQuestions($details, $answers = array()) {
 			//a unique identifier is generated, this is used for the names of form elements
 			//  this allows for easy identification when reading results
 			//  this consists of moduleid_questionid, and if there's a staff member they are appended onto the end
-			$identifier = "{$module["ModuleID"]}_{$question["QuestionID"]}";
+			$identifier = strtolower("{$module["ModuleID"]}_{$question["QuestionID"]}");
 			if ((!$question["ModuleID"] && !$module["Fake"]) || // fake modules do not have generic questions
 				strcasecmp($question["ModuleID"],$module["ModuleID"]) == 0) {
 				if ($question["Staff"] == 0) {
@@ -177,7 +177,7 @@ function getPreparedQuestions($details, $answers = array()) {
 				else {
 					foreach($module["Staff"] as $staff) {
 						$mquestion = $question; //copy question
-						$staff_identifier = "{$identifier}_{$staff["StaffID"]}";
+						$staff_identifier = strtolower("{$identifier}_{$staff["StaffID"]}");
 
 						$mquestion["Identifier"] = $staff_identifier;
 						$mquestion["QuestionText"] = sprintf($question["QuestionText"], $staff["StaffName"]);
