@@ -18,14 +18,19 @@
 					{
 						"value":data[0],
 						"fillColor":"#FC0",
-						"strokeColor":"#000",
-						"data":data
+						"highlightFill": "#FD0",
+						"data":data,
 					}
 				]
 			}
 
 			var ctx = document.getElementById(key).getContext("2d");
-			var myNewChart = new Chart(ctx).Bar(graphdata, {animationSteps : 1});
+			var myNewChart = new Chart(ctx).Bar(graphdata, {
+				"animationSteps": 1,
+				
+				"scaleGridLineWidth": 2,
+				"scaleGridLineColor": "#CCC"
+			});
 		}
 	</script>
 {% endblock %}
