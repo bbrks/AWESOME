@@ -26,7 +26,7 @@ function parseModulesCSV($data) {
 			continue;
 			
 		$modules[] = array(
-			"ModuleID"=>strtolower($csv[0]),
+			"ModuleID"=>strtoupper($csv[0]),
 			"ModuleTitle"=>$csv[1]
 		);
 	}
