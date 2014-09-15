@@ -30,13 +30,16 @@
 	{% for alert in alerts %}
 		<div class="alert alert-{{alert.type}}" role="alert">{{alert.message}}</div>
 	{% endfor %}
-
+	
+	<h3>Table of Modules</h3>
+	<div class="well">
 	{% for module in modules %}
 		<div class="results_moduleanchors">
 			<a href="#{{module.ModuleID}}">{{module.ModuleID}}: {{module.ModuleTitle}}</a>
 		</div>
 	{% endfor %}
-
+	</div>
+	
 	{% for module in modules %}
 		<div class="results_module">
 			<a name="{{module.ModuleID}}" class="anchor"><h3>Results for {{module.ModuleID}}: {{module.ModuleTitle}}</h3></a>
