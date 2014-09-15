@@ -1,10 +1,29 @@
 {% extends "questionnaire/questionnaire.html" %}
 
-{% set title = "All Module Results" %}
+{% set title = "Modules" %}
+
+{% use 'questionnaire/results/_result.html' %}
 
 {% block stylesheets %}
-{{ parent() }}
+	{{ parent() }}
+	<style>
+	.anchor {
+		/* browser lines up header with top of the window
+		which fails because of fixed header,
+		the anchor gets covered by the header :( */
+		padding-top: 60px;
+		margin-top: -60px;
+		
+		/* disable link styling for anchors */
+		text-decoration: none;
+		color: inherit;
+	}
+	</style>
+{% endblock %}
 
+{% block javascripts %}
+	{{ parent() }}
+	{{ block('result_javascripts') }}
 {% endblock %}
 
 {% block qcontent %}
@@ -12,5 +31,20 @@
 		<div class="alert alert-{{alert.type}}" role="alert">{{alert.message}}</div>
 	{% endfor %}
 
+	{% for module in modules %}
+		<div class="results_moduleanchors">
+			<a href="#{{module.ModuleID}}">{{module.ModuleID}}: {{module.ModuleTitle}}</a>
+		</div>
+	{% endfor %}
 
+	{% for module in modules %}
+		<div class="results_module">
+			<a name="{{module.ModuleID}}" class="anchor"><h3>Results for {{module.ModuleID}}: {{module.ModuleTitle}}</h3></a>
+		
+			{% for question in module.Questions %}
+					{{ block('result') }}
+			{% endfor %}
+			<hr />
+		</div>
+	{% endfor %}
 {% endblock %}

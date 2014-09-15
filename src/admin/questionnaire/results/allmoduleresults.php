@@ -24,19 +24,16 @@ if (__MAIN__ == __FILE__) { // only output if directly requested (for include pu
 	
 	
 	$questionnaireID = $_GET["questionnaireID"];
-	$moduleID = $_GET["moduleID"];
 	
-	$results = getResults($moduleID, $questionnaireID);
+	$alerts = array();
 	
-	echo "<pre>";
 	$modules = getModulesList($questionnaireID);
-	foreach($modules as $module) {
-		print_r($module);
-		$results = getResults($module["ModuleID"], $questionnaireID);
-		print_r($results);
+	foreach($modules as &$module) {
+		$module["Questions"] = getResults($module["ModuleID"], $questionnaireID);
 	}
 	
-	/*echo $template->render(array(
-		"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts, 
-	));*/
+	echo $template->render(array(
+		"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
+		"modules"=>$modules 
+	));
 }

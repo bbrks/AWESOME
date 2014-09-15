@@ -45,7 +45,7 @@ function getResults($moduleID, $questionnaireID) {
 
 	$results = array();
 	foreach($rows as $row) {
-		$id = $row["QuestionID"];
+		$id = $moduleID."_".$row["QuestionID"];
 		if ($row["StaffID"]) {
 			$id .= "_".$row["StaffID"];
 		}
@@ -63,13 +63,22 @@ function getResults($moduleID, $questionnaireID) {
 			"AnswerID"=>$row["AnswerID"],
 			"Value"=>$row["NumValue"]?$row["NumValue"]:$row["TextValue"]
 		);
-
-		if ($row["Type"] == "rate") {
-			$results[$id]["Summary"][$row["NumValue"]-1] += 1;
+	}
+	
+	foreach($results as &$question) {
+		if ($question["QuestionType"] == "rate") {
+			$total = 0;
+			foreach($question["Results"] as $result) {		
+				$question["Summary"][$result["Value"]-1] += 1;
+				$total += $result["Value"];
+			}
+			$question["Mean"] = $total/count($question["Results"]);
 		}
+		
 	}
 	return $results;
 }
+
 /**
  * get database row for module from database (used for title)
  *
@@ -81,16 +90,6 @@ function getModuleDetails($questionnaireID, $moduleID) {
 	$stmt = new tidy_sql($db, "SELECT * FROM Modules WHERE QuestionaireID=? AND ModuleID=?", "is");
 	$results = $stmt->query($questionnaireID, $moduleID);
 	return $results[0];
-}
-
-/**
- * Calculates the mean for a module on the results page, as requested by Hannah Dee.
- *
- * @returns mean
- */
-
-function calculateMean($questionnaireID, $moduleID) {
-
 }
 
 if (__MAIN__ == __FILE__) { // only output if directly requested (for include purposes)
