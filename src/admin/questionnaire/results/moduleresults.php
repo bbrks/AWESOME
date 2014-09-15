@@ -57,22 +57,35 @@ function getResults($moduleID, $questionnaireID) {
 				"StaffID"=>$row["StaffID"],
 				"Key"=>$id,
 				"Results"=>array(),
+				"FullResults"=>array(),
 				"Summary"=>array(0,0,0,0,0)
 			);
-		$results[$id]["Results"][] = array(
+		$value = $row["NumValue"]?$row["NumValue"]:$row["TextValue"];
+		$results[$id]["FullResults"][] = array(
 			"AnswerID"=>$row["AnswerID"],
-			"Value"=>$row["NumValue"]?$row["NumValue"]:$row["TextValue"]
+			"Value"=>$value
 		);
+		$results[$id]["Results"][] = $value;
 	}
 	
 	foreach($results as &$question) {
 		if ($question["QuestionType"] == "rate") {
 			$total = 0;
-			foreach($question["Results"] as $result) {		
-				$question["Summary"][$result["Value"]-1] += 1;
-				$total += $result["Value"];
+			/*foreach($question["Results"] as $result) {		
+				$question["Summary"][$result-1] += 1;
+			}*/
+			if (count($question["Results"]) > 0) {
+				$v = array_count_values($question["Results"]);
+				
+				$question["Summary"] = array(
+					isset($v[1])?$v[1]:0,
+					isset($v[2])?$v[2]:0,
+					isset($v[3])?$v[3]:0,
+					isset($v[4])?$v[4]:0,
+					isset($v[5])?$v[5]:0
+				);
 			}
-			$question["Mean"] = $total/count($question["Results"]);
+			$question["Mean"] = array_sum($question["Results"])/count($question["Results"]);
 		}
 		
 	}
