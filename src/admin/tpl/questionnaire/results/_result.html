@@ -58,6 +58,8 @@
 
 {% block answerlist %}
 	{% for result in question.Results %}
-		{{result.Value}}<br/>
+		{% if result != "" %}
+			{{result}}<br/>
+		{% endif %}
 	{% endfor %}
 {% endblock %}
