@@ -9,7 +9,7 @@
 
 require "../../../lib.php";
 require_once "{$root}/lib/Twig/Autoloader.php";
-
+require_once "../_questionnaire.php";
 
 /**
  * Parse CSV data into an array.
@@ -45,26 +45,64 @@ function parseStudentsCSV($data) {
 
 
 /**
+ *
+ * Determine if student semester fits within questionnaire semester
+ *
+ * @param String $questionnaireSemester Questionnaire Semester
+ * @param String $studentSemester Student Semester
+ * 
+ * @returns true/false
+ * 
+ * @exception Throws exception if questionnaire semester is invalid.
+ */
+function semesterFilter($questionnaireSemester, $studentSemester) {
+	if ($questionnaireSemester == "semesterBoth" || $questionnaireSemester == "semesterSpecial")
+		return true;
+	
+	if ($questionnaireSemester == "semesterOne") {
+		if ($studentSemester == "1" || $studentSemester == "1+2")
+			return true;
+		else
+			return false;
+	}
+	elseif  ($questionnaireSemester == "semesterTwo") {
+		if ($studentSemester == "2" || $studentSemester == "1+2")
+			return true;
+		else
+			return false;
+	}
+	else {
+		//questionnaire semester is not valid. 
+		throw new Exception("Questionnaire Semester is not valid"); 
+	}
+}
+
+/**
  * 
  * Add array of students into database
  * 
- * @param parsed-students $stidents The list of parsed students (from parseStudentsCSV())
- * @param int $questionnaireID The questionnaire ID
+ * @param parsed-students $students The list of parsed students (from parseStudentsCSV())
+ * @param int $questionnaire The questionnaire database record
  */
-function insertStudents($students, $questionnaireID) {
-	global $db;
+function insertStudents($students, $questionnaire) {
+	global $db, $semesterValues;
+	
+	//prepare the queries ready for usage
 	$dbstudent = new tidy_sql($db, "INSERT IGNORE INTO Students (UserID, Department, QuestionaireID, Token, Done) VALUES (?, ?, ?, ?, ?) ", "ssisi");
 	$dbmodules = new tidy_sql($db, "REPLACE INTO StudentsToModules (UserID, ModuleID, QuestionaireID) VALUES (?, ?, ?)", "ssi");
+	
 	foreach ($students as $student) {
 		$token = bin2hex(openssl_random_pseudo_bytes(16));
 		$done = false;
-
-		$dbstudent->query($student["UserID"], $student["Department"], $questionnaireID, $token, $done);
-		
-		foreach($student["Modules"] as $module) {
-			$dbmodules->query($student["UserID"], $module, $questionnaireID);
+		if (semesterFilter($questionnaire["QuestionaireSemester"], $student["Year"])) {
+			$dbstudent->query($student["UserID"], $student["Department"], $questionnaire["questionaireID"], $token, $done);
+			
+			if ($questionnaire["QuestionaireSemester"] != "semesterSpecial") {
+				foreach($student["Modules"] as $module) {
+					$dbmodules->query($student["UserID"], $module, $questionnaire["questionaireID"]);
+				}
+			}
 		}
-
 	}
 }
 
@@ -94,17 +132,21 @@ $loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
 $twig = new Twig_Environment($loader, array());
 
 $template = $twig->loadTemplate('questionnaire/import/students.html');
-
 $questionnaireID = $_GET["questionnaireID"];
+$q = getQuestionaire($questionnaireID);
+
 $alerts = array();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$data = parseStudentsCSV($_POST["csvdata"]);
-	insertStudents($data, $questionnaireID);
+	insertStudents($data, $q);
 	$alerts[] = array("type"=>"success", "message"=>"Students inserted");
 }
 
-
 $students = getStudents($questionnaireID);
 
-echo $template->render(array("url"=>$url, "students"=>$students, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts));
+echo $template->render(array(
+	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
+	"questionnaire"=>$q,
+	"students"=>$students,
+));
 

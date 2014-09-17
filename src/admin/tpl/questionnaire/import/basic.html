@@ -6,11 +6,11 @@
 {% block modifycontent %}
 	<form method="post">
 		<label for="questionnaireName">Name</label>
-		<input type="text" name="questionnaireName" class="form-control" value="{{questionnaire.name}}"/>
+		<input type="text" name="questionnaireName" class="form-control" value="{{questionnaire.QuestionaireName}}"/>
 		<label for="questionnaireDepartment">Department</label>
 		<select name="questionnaireDepartment" class="form-control">
 {%			for department in departments %}
-			<option value="{{department.DepartmentCode}}"{% if questionnaire.department == department.DepartmentCode %} selected{% endif %}>{{department.DepartmentName}}</option>
+			<option value="{{department.DepartmentCode}}"{% if questionnaire.QuestionaireDepartment == department.DepartmentCode %} selected{% endif %}>{{department.DepartmentName}}</option>
 {%			endfor %}
 		</select>
 		<button type="submit" class="btn btn-primary form-control">Modify Questionnaire</button>

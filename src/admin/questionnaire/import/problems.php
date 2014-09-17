@@ -9,6 +9,7 @@
 
 require "../../../lib.php";
 require_once "{$root}/lib/Twig/Autoloader.php";
+require_once "../_questionnaire.php";
 
 Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
@@ -80,12 +81,15 @@ AND QuestionaireID=?", "i");
 	return $results;
 }
 
+$q = getQuestionaire($questionnaireID);
+
 $missingmodules = getMissingModules($questionnaireID);
 $missingstaff = getMissingStaff($questionnaireID);
 $studentsWOModules = getStudentsWOModules($questionnaireID);
 
 echo $template->render(array(
 	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
+	"questionnaire"=>$q,
 	"missingmodules"=>$missingmodules,
 	"missingstaff"=>$missingstaff,
 	"studentswomodules"=>$studentsWOModules

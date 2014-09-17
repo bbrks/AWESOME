@@ -7,30 +7,15 @@
  * 	
  */
 
-require "../../../lib.php";
+require_once "../../../lib.php";
 require_once "{$root}/lib/Twig/Autoloader.php";
+require_once "../_questionnaire.php";
 
 Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
 $twig = new Twig_Environment($loader, array());
 
 $template = $twig->loadTemplate('questionnaire/import/basic.html');
-
-/**
- * @param int $questionnaireID The questionnaire ID
- * 
- * @returns The questionnaire database record.
- */
-function getQuestionaire($questionnaireID) {
-	global $db;
-
-	$stmt = new tidy_sql($db, "
-		SELECT * FROM Questionaires WHERE QuestionaireID=?", "i");
-
-	$rows = $stmt->query($questionnaireID);
-	
-	return $rows[0];
-}
 
 /**
  * @param int $questionnaireID The questionnaire ID
@@ -79,7 +64,7 @@ $q = getQuestionaire($questionnaireID);
 $departments = getDepartments();
 echo $template->render(array(
 	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
-	"questionnaire"=>array("name"=>$q["QuestionaireName"], "department"=>$q["QuestionaireDepartment"]),
+	"questionnaire"=>$q,
 	"departments"=>$departments
 ));
 
