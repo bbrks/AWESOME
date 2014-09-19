@@ -43,40 +43,6 @@ function parseStudentsCSV($data) {
 	return $students;
 }
 
-
-/**
- *
- * Determine if student semester fits within questionnaire semester
- *
- * @param String $questionnaireSemester Questionnaire Semester
- * @param String $studentSemester Student Semester
- * 
- * @returns true/false
- * 
- * @exception Throws exception if questionnaire semester is invalid.
- */
-function semesterFilter($questionnaireSemester, $studentSemester) {
-	if ($questionnaireSemester == "semesterBoth" || $questionnaireSemester == "semesterSpecial")
-		return true;
-	
-	if ($questionnaireSemester == "semesterOne") {
-		if ($studentSemester == "1" || $studentSemester == "1+2")
-			return true;
-		else
-			return false;
-	}
-	elseif  ($questionnaireSemester == "semesterTwo") {
-		if ($studentSemester == "2" || $studentSemester == "1+2")
-			return true;
-		else
-			return false;
-	}
-	else {
-		//questionnaire semester is not valid. 
-		throw new Exception("Questionnaire Semester is not valid"); 
-	}
-}
-
 /**
  * 
  * Add array of students into database
@@ -85,7 +51,7 @@ function semesterFilter($questionnaireSemester, $studentSemester) {
  * @param int $questionnaire The questionnaire database record
  */
 function insertStudents($students, $questionnaire) {
-	global $db, $semesterValues;
+	global $db;
 	
 	//prepare the queries ready for usage
 	$dbstudent = new tidy_sql($db, "INSERT IGNORE INTO Students (UserID, Department, QuestionaireID, Token, Done) VALUES (?, ?, ?, ?, ?) ", "ssisi");
@@ -93,14 +59,11 @@ function insertStudents($students, $questionnaire) {
 	
 	foreach ($students as $student) {
 		$token = bin2hex(openssl_random_pseudo_bytes(16));
-		$done = false;
-		if (semesterFilter($questionnaire["QuestionaireSemester"], $student["Year"])) {
-			$dbstudent->query($student["UserID"], $student["Department"], $questionnaire["questionaireID"], $token, $done);
-			
-			if ($questionnaire["QuestionaireSemester"] != "semesterSpecial") {
-				foreach($student["Modules"] as $module) {
-					$dbmodules->query($student["UserID"], $module, $questionnaire["questionaireID"]);
-				}
+		$dbstudent->query($student["UserID"], $student["Department"], $questionnaire["questionaireID"], $token, false);
+		
+		if ($questionnaire["QuestionaireSemester"] != "semesterSpecial") {
+			foreach($student["Modules"] as $module) {
+				$dbmodules->query($student["UserID"], $module, $questionnaire["questionaireID"]);
 			}
 		}
 	}
