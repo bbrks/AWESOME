@@ -55,7 +55,6 @@ if (__MAIN__ == __FILE__) { // only output if directly requested (for include pu
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		if (isset($_POST["action"])) {
 			$action = $_POST["action"];
-			echo "action", $action;
 			if ($action == "delete") {
 				deleteModules($questionnaireID);
 			}

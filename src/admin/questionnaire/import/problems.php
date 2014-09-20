@@ -1,4 +1,5 @@
 <?
+@define("__MAIN__", __FILE__); // define the first file to execute
 /**
  * @file
  * @version 1.0
@@ -7,19 +8,9 @@
  * 	
  */
 
-require "../../../lib.php";
+require_once "../../../lib.php";
 require_once "{$root}/lib/Twig/Autoloader.php";
 require_once "../_questionnaire.php";
-
-Twig_Autoloader::register();
-$loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
-$twig = new Twig_Environment($loader, array());
-
-$template = $twig->loadTemplate('questionnaire/import/problems.html');
-
-$questionnaireID = $_GET["questionnaireID"];
-$alerts = array();
-
 
 /**
  * Get list of modules with students enrolled, with missing definitions
@@ -41,6 +32,19 @@ GROUP BY StudentsToModules.ModuleID", "i");
 	return $results;
 }
 
+
+function deleteMissingModules($questionnaireID) {
+	global $db;
+	//pretty much the same query as before, without the group by
+	//	and a delete ofc ;)
+	$stmt = new tidy_sql($db, "
+DELETE StudentsToModules FROM StudentsToModules
+LEFT JOIN Modules ON StudentsToModules.ModuleID=Modules.ModuleID AND StudentsToModules.QuestionaireID=Modules.QuestionaireID
+WHERE Modules.ModuleID IS NULL
+AND StudentsToModules.QuestionaireID=?", "i");
+	$results = $stmt->query($questionnaireID);
+	return $results;
+}
 
 /**
  * Get list of modules with staff, with missing names
@@ -81,16 +85,53 @@ AND QuestionaireID=?", "i");
 	return $results;
 }
 
-$q = getQuestionaire($questionnaireID);
+function deleteStudentsWOModules($questionnaireID) {
+	global $db;
 
-$missingmodules = getMissingModules($questionnaireID);
-$missingstaff = getMissingStaff($questionnaireID);
-$studentsWOModules = getStudentsWOModules($questionnaireID);
+	$stmt = new tidy_sql($db, "
+DELETE Students FROM Students
+LEFT JOIN StudentsToModules USING (UserID, QuestionaireID)
+WHERE StudentsToModules.UserID IS NULL
+AND QuestionaireID=?", "i");
+	$results = $stmt->query($questionnaireID);
+	return $results;
+}
 
-echo $template->render(array(
-	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
-	"questionnaire"=>$q,
-	"missingmodules"=>$missingmodules,
-	"missingstaff"=>$missingstaff,
-	"studentswomodules"=>$studentsWOModules
-)); 
+if (__MAIN__ == __FILE__) { // only output if directly requested (for include purposes)
+	Twig_Autoloader::register();
+	$loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
+	$twig = new Twig_Environment($loader, array());
+	
+	$template = $twig->loadTemplate('questionnaire/import/problems.html');
+	
+	$questionnaireID = $_GET["questionnaireID"];
+	$alerts = array();
+	
+	$q = getQuestionaire($questionnaireID);
+	
+	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		if (isset($_POST["action"])) {
+			$action = $_POST["action"];
+			if ($action == "delete_missingmodules") {
+				deleteMissingModules($questionnaireID);
+			}
+			elseif ($action == "delete_students") {
+				deleteStudentsWOModules($questionnaireID);
+			}
+		}
+	}
+	
+	
+	
+	$missingmodules = getMissingModules($questionnaireID);
+	$missingstaff = getMissingStaff($questionnaireID);
+	$studentsWOModules = getStudentsWOModules($questionnaireID);
+	
+	echo $template->render(array(
+		"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
+		"questionnaire"=>$q,
+		"missingmodules"=>$missingmodules,
+		"missingstaff"=>$missingstaff,
+		"studentswomodules"=>$studentsWOModules
+	)); 
+}
