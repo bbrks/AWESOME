@@ -9,7 +9,7 @@
 
 require "../../../lib.php";
 require_once "{$root}/lib/Twig/Autoloader.php";
-
+require_once "../_questionnaire.php";
 
 /**
  * Parse CSV data into an array.
@@ -57,15 +57,77 @@ function insertStaffModules($staffmodules, $questionnaireID) {
 
 /**
  * Get staff module list from database
- * 
+ *
  * @param int $questionnaireID The questionnaire ID
- * 
+ *
  * @returns List of all staff modules (ModuleID, UserID, QuestionaireID)
  */
 function getStaffModules($questionnaireID) {
 	global $db;
 	$stmt = new tidy_sql($db, "SELECT * FROM StaffToModules WHERE QuestionaireID=?", "i");
 	return $stmt->query($questionnaireID);
+}
+
+/**
+ *
+ * Determine if module semester fits within questionnaire semester
+ *
+ * @param String $questionnaireSemester Questionnaire Semester
+ * @param String $moduleSemester Module Semester
+ *
+ * @returns true/false
+ *
+ * @exception Throws exception if questionnaire semester is invalid.
+ */
+function semesterFilter($questionnaireSemester, $moduleSemester) {
+	if ($questionnaireSemester == "semesterBoth" || $questionnaireSemester == "semesterSpecial")
+		return true;
+
+	if ($questionnaireSemester == "semesterOne") {
+		if ($moduleSemester == "1" || $moduleSemester == "1+2")
+			return true;
+		else
+			return false;
+	}
+	elseif  ($questionnaireSemester == "semesterTwo") {
+		if ($moduleSemester == "2" || $moduleSemester == "1+2")
+			return true;
+		else
+			return false;
+	}
+	else {
+		//questionnaire semester is not valid.
+		throw new Exception("Questionnaire Semester '{$questionnaireSemester}' is not valid");
+	}
+}
+
+/**
+ *
+ * Add array of module semesters into database
+ *
+ * @param int $questionnaireID The questionnaire ID
+ * @param modulesemesters $modules List of modules containing semesters (same struct as staffmodules)
+ */
+function insertModuleSemesters($questionnaireID, $modules) {
+	global $db;
+	$questionnaire = getQuestionaire($questionnaireID);
+	$dbsmodule = new tidy_sql($db, "REPLACE INTO ModuleSemester (QuestionnaireID, ModuleID, ModuleSemester, SemesterWithinQuestionnaire) VALUES (?, ?, ?, ?)", "issi");
+	foreach($modules as $module) {
+		$inSemester =  semesterFilter($questionnaire["QuestionaireSemester"], $module["Semester"]);
+		$dbsmodule->query($questionnaireID, $module["ModuleID"], $module["Semester"], $inSemester);
+	}
+}
+
+
+/**
+ *
+ * Update module semesters for provided questionnaire ID
+ */
+function updateModuleSemesters($questionnaireID) {
+	$stmt = new tidy_sql($db, "SELECT ModuleID, ModuleSemester AS Semester WHERE QuestionaireID=?");
+	$modules = $stmt->query($questionnaireID);
+	//insertModuleSemesters uses REPLACE INTO, and PK(QID+MID)
+	insertModuleSemesters($questionnaireID, $modules);
 }
 
 Twig_Autoloader::register();
@@ -78,7 +140,10 @@ $questionnaireID = $_GET["questionnaireID"];
 $alerts = array();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$data = parseStaffModulesCSV($_POST["csvdata"]);
+	
 	insertStaffModules($data, $questionnaireID);
+	insertModuleSemesters($questionnaireID, $data);
+	
 	$alerts[] = array("type"=>"success", "message"=>"Staff modules inserted");
 }
 
