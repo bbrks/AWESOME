@@ -75,7 +75,7 @@ function deleteGroup($moduleID) {
 function getModules($questionnaireID) {
 	global $db;
 	$stmt = new tidy_sql($db, "
-		SELECT ModuleID, ModuleTitle, Fake FROM Modules WHERE QuestionaireID=? AND Fake=?
+		SELECT ModuleID, ModuleTitle, Fake FROM Modules_Filtered WHERE QuestionaireID=? AND Fake=?
 	", "ii");
 	$groups = $stmt->query($questionnaireID, 1);
 	$modules = $stmt->query($questionnaireID, 0);

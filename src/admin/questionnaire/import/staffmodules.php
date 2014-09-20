@@ -1,4 +1,5 @@
 <?
+@define("__MAIN__", __FILE__); // define the first file to execute
 /**
  * @file
  * @version 1.0
@@ -7,7 +8,7 @@
  * 	
  */
 
-require "../../../lib.php";
+require_once "../../../lib.php";
 require_once "{$root}/lib/Twig/Autoloader.php";
 require_once "../_questionnaire.php";
 
@@ -124,33 +125,34 @@ function insertModuleSemesters($questionnaireID, $modules) {
  * Update module semesters for provided questionnaire ID
  */
 function updateModuleSemesters($questionnaireID) {
-	$stmt = new tidy_sql($db, "SELECT ModuleID, ModuleSemester AS Semester WHERE QuestionaireID=?");
+	global $db;
+	$stmt = new tidy_sql($db, "SELECT ModuleID, ModuleSemester AS Semester FROM ModuleSemester WHERE QuestionnaireID=?", "i");
 	$modules = $stmt->query($questionnaireID);
 	//insertModuleSemesters uses REPLACE INTO, and PK(QID+MID)
 	insertModuleSemesters($questionnaireID, $modules);
 }
 
-Twig_Autoloader::register();
-$loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
-$twig = new Twig_Environment($loader, array());
-
-$template = $twig->loadTemplate('questionnaire/import/staffmodules.html');
-
-$questionnaireID = $_GET["questionnaireID"];
-$alerts = array();
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	$data = parseStaffModulesCSV($_POST["csvdata"]);
+if (__MAIN__ == __FILE__) { // only output if directly requested (for include purposes)
+	Twig_Autoloader::register();
+	$loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
+	$twig = new Twig_Environment($loader, array());
 	
-	insertStaffModules($data, $questionnaireID);
-	insertModuleSemesters($questionnaireID, $data);
+	$template = $twig->loadTemplate('questionnaire/import/staffmodules.html');
 	
-	$alerts[] = array("type"=>"success", "message"=>"Staff modules inserted");
+	$questionnaireID = $_GET["questionnaireID"];
+	$alerts = array();
+	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		$data = parseStaffModulesCSV($_POST["csvdata"]);
+		
+		insertStaffModules($data, $questionnaireID);
+		insertModuleSemesters($questionnaireID, $data);
+		
+		$alerts[] = array("type"=>"success", "message"=>"Staff modules inserted");
+	}
+	
+	$staffToModules = getStaffModules($questionnaireID);
+	
+	echo $template->render(array(
+		"staffToModules"=>$staffToModules,"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts
+	));
 }
-
-$staffToModules = getStaffModules($questionnaireID);
-
-echo $template->render(array(
-	"staffToModules"=>$staffToModules,"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts
-));
-
-
