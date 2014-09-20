@@ -10,7 +10,7 @@ CREATE TABLE `AnswerGroup` (
   `AnswerID` int(11) NOT NULL AUTO_INCREMENT,
   `QuestionaireID` int(11) NOT NULL,
   PRIMARY KEY (`AnswerID`,`QuestionaireID`)
-) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `Answers`;
@@ -27,8 +27,8 @@ CREATE TABLE `Answers` (
 
 DROP TABLE IF EXISTS `Config`;
 CREATE TABLE `Config` (
-  `key` varchar(10) CHARACTER SET latin1 NOT NULL,
-  `value` text CHARACTER SET latin1 NOT NULL
+  `key` varchar(10) NOT NULL,
+  `value` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `Config` (`key`, `value`) VALUES
@@ -39,7 +39,7 @@ CREATE TABLE `Departments` (
   `DepartmentCode` char(1) NOT NULL,
   `DepartmentName` varchar(30) NOT NULL,
   `enabled` bit(1) NOT NULL DEFAULT b'1'
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `Departments` (`DepartmentCode`, `DepartmentName`, `enabled`) VALUES
 ('F',	'ART',	CONV('1', 2, 10) + 0),
@@ -76,6 +76,20 @@ CREATE TABLE `Modules` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `ModuleSemester`;
+CREATE TABLE `ModuleSemester` (
+  `QuestionnaireID` int(11) NOT NULL,
+  `ModuleID` varchar(10) NOT NULL,
+  `ModuleSemester` varchar(5) NOT NULL,
+  `SemesterWithinQuestionnaire` bit(1) NOT NULL,
+  PRIMARY KEY (`QuestionnaireID`,`ModuleID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP VIEW IF EXISTS `Modules_Filtered`;
+CREATE TABLE `Modules_Filtered` (`QuestionaireID` int(11), `ModuleID` varchar(10), `ModuleTitle` varchar(200), `Fake` bit(1));
+
+
 DROP TABLE IF EXISTS `Questionaires`;
 CREATE TABLE `Questionaires` (
   `QuestionaireID` int(11) NOT NULL AUTO_INCREMENT,
@@ -83,7 +97,7 @@ CREATE TABLE `Questionaires` (
   `QuestionaireDepartment` char(1) NOT NULL,
   `QuestionaireSemester` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`QuestionaireID`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `Questions`;
@@ -96,7 +110,7 @@ CREATE TABLE `Questions` (
   `QuestionaireID` int(11) DEFAULT NULL,
   `ModuleID` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`QuestionID`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `Staff`;
@@ -140,4 +154,7 @@ CREATE TABLE `StudentsToModules` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
--- 2014-09-12 19:43:27
+DROP TABLE IF EXISTS `Modules_Filtered`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `Modules_Filtered` AS select `Modules`.`QuestionaireID` AS `QuestionaireID`,`Modules`.`ModuleID` AS `ModuleID`,`Modules`.`ModuleTitle` AS `ModuleTitle`,`Modules`.`Fake` AS `Fake` from (`Modules` left join `ModuleSemester` on(((`Modules`.`ModuleID` = convert(`ModuleSemester`.`ModuleID` using utf8)) and (`Modules`.`QuestionaireID` = `ModuleSemester`.`QuestionnaireID`)))) where ((`ModuleSemester`.`SemesterWithinQuestionnaire` = 1) or (`Modules`.`Fake` = 1));
+
+-- 2014-09-20 01:40:03
