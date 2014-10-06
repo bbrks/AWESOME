@@ -1,4 +1,6 @@
 <?
+@define("__MAIN__", __FILE__); // define the first file to execute
+
 /**
  * @file
  * @version 1.0
@@ -8,11 +10,6 @@
  */
 
 require "../../../lib.php";
-
-$twig_common = twig_common();
-$twig = $twig_common; //reduce code changes needed
-
-$template = $twig->loadTemplate('questionnaire/customise/questions.html');
 
 /**
  * get module details from db (used for title)
@@ -90,11 +87,6 @@ function deleteQuestion($questionID) {
 	}
 }
 
-$questionnaireID = $_GET["questionnaireID"];
-$moduleID = isset($_GET["moduleID"])?$_GET["moduleID"]:null;
-$alerts = array();
-
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["action"])) {
 	$action = $_POST["action"];
 	if ($action == "add_question") {
@@ -139,11 +131,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["action"])) {
 	}
 }
 
-$module = getModule();
-$questions = getModuleQuestions();
-
-echo $template->render(array(
-	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
-	"questions"=>$questions,
-	"module"=>$module
-));
+if (__MAIN__ == __FILE__) { // only output if directly requested (for include purposes)
+	$twig_common = twig_common();
+	$twig = $twig_common; //reduce code changes needed
+	
+	$template = $twig->loadTemplate('questionnaire/customise/questions.html');
+	
+	$questionnaireID = $_GET["questionnaireID"];
+	$moduleID = isset($_GET["moduleID"])?$_GET["moduleID"]:null;
+	$alerts = array();
+	
+	$module = getModule();
+	$questions = getModuleQuestions();
+	
+	echo $template->render(array(
+		"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
+		"questions"=>$questions,
+		"module"=>$module
+	));
+}

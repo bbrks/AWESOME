@@ -6,13 +6,9 @@
  * @author Keiron-Teilo O'Shea <keo7@aber.ac.uk> 
  * 	
  */
+@define("__MAIN__", __FILE__); // define the first file to execute
 
 require "../../../lib.php";
-
-$twig_common = new twig_common();
-$twig = $twig_common->twig; //reduce code changes needed
-
-$template = $twig->loadTemplate('questionnaire/publish/students.html');
 
 /**
  * Retrieves list of students from database
@@ -36,14 +32,21 @@ function getStudents($questionnaireID) {
 	return $stmt->query($questionnaireID);
 }
 
-$questionnaireID = $_GET["questionnaireID"];
-$alerts = array();
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	$data = parseStudentsCSV($_POST["csvdata"]);
-	insertStudents($data, $questionnaireID);
-	$alerts[] = array("type"=>"success", "message"=>"Students inserted");
+if (__MAIN__ == __FILE__) { // only output if directly requested (for include purposes)
+	$twig_common = new twig_common();
+	$twig = $twig_common->twig; //reduce code changes needed
+	
+	$template = $twig->loadTemplate('questionnaire/publish/students.html');
+	
+	$questionnaireID = $_GET["questionnaireID"];
+	$alerts = array();
+	
+	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		$data = parseStudentsCSV($_POST["csvdata"]);
+		insertStudents($data, $questionnaireID);
+		$alerts[] = array("type"=>"success", "message"=>"Students inserted");
+	}
+	
+	$students = getStudents($questionnaireID);
+	echo $template->render(array("url"=>$url, "students"=>$students, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts));
 }
-
-$students = getStudents($questionnaireID);
-echo $template->render(array("url"=>$url, "students"=>$students, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts));
-

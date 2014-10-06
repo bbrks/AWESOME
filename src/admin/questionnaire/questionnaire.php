@@ -1,4 +1,6 @@
 <?
+@define("__MAIN__", __FILE__); // define the first file to execute
+
 /**
  * @file
  * @version 1.0
@@ -10,14 +12,16 @@
 
 require "../../lib.php";
 
-$twig_common = new twig_common();
-$twig = $twig_common->twig; //reduce code changes needed
-
-$template = $twig->loadTemplate('questionnaire/main.html');
-
-$questionnaireID = $_GET["questionnaireID"];
-$alerts = array();
-
-echo $template->render(array(
-	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
-));
+if (__MAIN__ == __FILE__) { // only output if directly requested (for include purposes)
+	$twig_common = new twig_common();
+	$twig = $twig_common->twig; //reduce code changes needed
+	
+	$template = $twig->loadTemplate('questionnaire/main.html');
+	
+	$questionnaireID = $_GET["questionnaireID"];
+	$alerts = array();
+	
+	echo $template->render(array(
+		"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
+	));
+}

@@ -20,9 +20,7 @@ if (__MAIN__ == __FILE__) { // only output if directly requested (for include pu
 	
 	$template = $twig->loadTemplate('questionnaire/results/allmoduleresults.html');
 	
-	
 	$questionnaireID = $_GET["questionnaireID"];
-	
 	$alerts = array();
 	
 	$modules = getModulesList($questionnaireID);

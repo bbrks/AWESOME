@@ -1,4 +1,6 @@
 <?
+@define("__MAIN__", __FILE__); // define the first file to execute
+
 /**
  * @file
  * @version 1.0
@@ -64,24 +66,28 @@ SELECT ModuleID, ModuleTitle FROM Modules WHERE QuestionaireID=? AND Fake=0", "i
 	return $modules;
 }
 
-$twig_common = new twig_common();
-$twig = $twig_common->twig; //reduce code changes needed
-
-$template = $twig->loadTemplate('questionnaire/import/modules.html');
-
-$questionnaireID = $_GET["questionnaireID"];
-$alerts = array();
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	$data = parseModulesCSV($_POST["csvdata"]);
-	insertModules($data, $questionnaireID);
-	$alerts[] = array("type"=>"success", "message"=>"Modules inserted");
+if (__MAIN__ == __FILE__) { // only output if directly requested (for include purposes)
+	$twig_common = new twig_common();
+	$twig = $twig_common->twig; //reduce code changes needed
+	
+	$twig_common = new twig_common();
+	$twig = $twig_common->twig; //reduce code changes needed
+	
+	$template = $twig->loadTemplate('questionnaire/import/modules.html');
+	
+	$questionnaireID = $_GET["questionnaireID"];
+	$alerts = array();
+	
+	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		$data = parseModulesCSV($_POST["csvdata"]);
+		insertModules($data, $questionnaireID);
+		$alerts[] = array("type"=>"success", "message"=>"Modules inserted");
+	}
+	
+	$modules = getModules($questionnaireID);
+	
+	echo $template->render(array(
+		"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
+		"modules"=>$modules
+	));
 }
-
-$modules = getModules($questionnaireID);
-
-echo $template->render(array(
-	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
-	"modules"=>$modules
-));
-
-

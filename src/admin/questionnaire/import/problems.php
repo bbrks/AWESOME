@@ -1,5 +1,6 @@
 <?
 @define("__MAIN__", __FILE__); // define the first file to execute
+
 /**
  * @file
  * @version 1.0

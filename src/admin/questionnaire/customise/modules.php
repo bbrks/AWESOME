@@ -1,4 +1,6 @@
 <?
+@define("__MAIN__", __FILE__); // define the first file to execute
+
 /**
  * @file
  * @version 1.0
@@ -8,14 +10,6 @@
  */
 
 require "../../../lib.php";
-
-$twig_common = new twig_common();
-$twig = $twig_common->twig; //reduce code changes needed
-
-$template = $twig->loadTemplate('questionnaire/customise/modules.html');
-
-$questionnaireID = $_GET["questionnaireID"];
-$alerts = array();
 
 /**
  * Add a new question group
@@ -81,24 +75,32 @@ function getModules($questionnaireID) {
 	return array($groups, $modules);
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["action"])) {
-	$action = $_POST["action"];
-	if ($action == "add_group") {
-		insertGroup($_POST);
-	}
-	if ($action == "table") { //a button within table was clicked
-		if (isset($_POST["delete"])) {
-			deleteGroup($_POST["delete"]);
+if (__MAIN__ == __FILE__) { // only output if directly requested (for include purposes)
+	$twig_common = new twig_common();
+	$twig = $twig_common->twig; //reduce code changes needed
+	
+	$template = $twig->loadTemplate('questionnaire/customise/modules.html');
+	
+	$questionnaireID = $_GET["questionnaireID"];
+	$alerts = array();
+	
+	if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["action"])) {
+		$action = $_POST["action"];
+		if ($action == "add_group") {
+			insertGroup($_POST);
+		}
+		if ($action == "table") { //a button within table was clicked
+			if (isset($_POST["delete"])) {
+				deleteGroup($_POST["delete"]);
+			}
 		}
 	}
+	
+	list($groups, $modules) = getModules($questionnaireID);
+	
+	echo $template->render(array(
+		"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
+		"groups"=>$groups,
+		"modules"=>$modules
+	));
 }
-
-list($groups, $modules) = getModules($questionnaireID);
-
-echo $template->render(array(
-	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
-	"groups"=>$groups,
-	"modules"=>$modules
-));
-
-

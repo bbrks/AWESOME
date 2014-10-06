@@ -1,4 +1,6 @@
 <?
+@define("__MAIN__", __FILE__); // define the first file to execute
+
 /**
  * @file
  * @version 1.0
@@ -89,25 +91,28 @@ function getStudents($questionnaireID) {
 	return $rows;
 }
 
-$twig_common = new twig_common();
-$twig = $twig_common->twig; //reduce code changes needed
 
-$template = $twig->loadTemplate('questionnaire/import/students.html');
-$questionnaireID = $_GET["questionnaireID"];
-$q = getQuestionaire($questionnaireID);
-
-$alerts = array();
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	$data = parseStudentsCSV($_POST["csvdata"]);
-	insertStudents($data, $q);
-	$alerts[] = array("type"=>"success", "message"=>"Students inserted");
+if (__MAIN__ == __FILE__) { // only output if directly requested (for include purposes)
+	$twig_common = new twig_common();
+	$twig = $twig_common->twig; //reduce code changes needed
+	
+	$template = $twig->loadTemplate('questionnaire/import/students.html');
+	
+	$questionnaireID = $_GET["questionnaireID"];
+	$q = getQuestionaire($questionnaireID);
+	
+	$alerts = array();
+	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		$data = parseStudentsCSV($_POST["csvdata"]);
+		insertStudents($data, $q);
+		$alerts[] = array("type"=>"success", "message"=>"Students inserted");
+	}
+	
+	$students = getStudents($questionnaireID);
+	
+	echo $template->render(array(
+		"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
+		"questionnaire"=>$q,
+		"students"=>$students,
+	));
 }
-
-$students = getStudents($questionnaireID);
-
-echo $template->render(array(
-	"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,
-	"questionnaire"=>$q,
-	"students"=>$students,
-));
-
