@@ -10,7 +10,6 @@
  */
 
 require_once "../../../lib.php";
-require_once "{$root}/lib/Twig/Autoloader.php";
 
 /**
  * Retrieves list of modules from database
@@ -63,9 +62,8 @@ function getTotalQuestionnaireStudents($questionnaireID) {
 }
 
 if (__MAIN__ == __FILE__) { // only output if directly requested (for include purposes)
-	Twig_Autoloader::register();
-	$loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
-	$twig = new Twig_Environment($loader, array());
+	$twig_common = new twig_common();
+	$twig = $twig_common->twig; //reduce code changes needed
 	
 	$template = $twig->loadTemplate('questionnaire/results/modules.html');
 	

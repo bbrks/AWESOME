@@ -206,3 +206,16 @@ class tidy_sql {
 		return $output;
 	}
 }
+
+class twig_common { //class as we may chuck more functionality in later
+	public $loader;
+	public $twig;
+	
+	public function twig_common() {
+		require_once __DIR__."/lib/Twig/Autoloader.php";
+		
+		Twig_Autoloader::register();
+		$this->loader = new Twig_Loader_Filesystem(__DIR__."/admin/tpl/");
+		$this->twig = new Twig_Environment($this->loader, array());
+	}
+}

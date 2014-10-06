@@ -8,7 +8,6 @@
  */
 
 require "../../../lib.php";
-require_once "{$root}/lib/Twig/Autoloader.php";
 require_once "../_questionnaire.php";
 
 /**
@@ -90,9 +89,8 @@ function getStudents($questionnaireID) {
 	return $rows;
 }
 
-Twig_Autoloader::register();
-$loader = new Twig_Loader_Filesystem("{$root}/admin/tpl/");
-$twig = new Twig_Environment($loader, array());
+$twig_common = new twig_common();
+$twig = $twig_common->twig; //reduce code changes needed
 
 $template = $twig->loadTemplate('questionnaire/import/students.html');
 $questionnaireID = $_GET["questionnaireID"];
