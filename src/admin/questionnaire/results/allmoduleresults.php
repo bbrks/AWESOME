@@ -23,6 +23,10 @@ if (__MAIN__ == __FILE__) { // only output if directly requested (for include pu
 	$questionnaireID = $_GET["questionnaireID"];
 	$alerts = array();
 	
+	if ($questionnaireID === null) {
+		throw new Exception("Questionnaire ID is required");
+	}
+	
 	$modules = getModulesList($questionnaireID);
 	foreach($modules as &$module) {
 		$module["Questions"] = getResults($module["ModuleID"], $questionnaireID);

@@ -44,7 +44,9 @@ if (__MAIN__ == __FILE__) { // only output if directly requested (for include pu
 
 	$questionnaireID = $_GET["questionnaireID"];
 	$alerts = array();
-
+	if ($questionnaireID === null) {
+		throw new Exception("Questionnaire ID is required");
+	}
 	
 	//as this is such a risky page, we actually regenerate semesters every load
 	// unlikely to have any ill effects, but ensures that data is consistent

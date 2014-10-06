@@ -132,14 +132,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["action"])) {
 }
 
 if (__MAIN__ == __FILE__) { // only output if directly requested (for include purposes)
-	$twig_common = twig_common();
-	$twig = $twig_common; //reduce code changes needed
+	$twig_common = new twig_common();
+	$twig = $twig_common->twig; //reduce code changes needed
 	
 	$template = $twig->loadTemplate('questionnaire/customise/questions.html');
 	
 	$questionnaireID = $_GET["questionnaireID"];
 	$moduleID = isset($_GET["moduleID"])?$_GET["moduleID"]:null;
 	$alerts = array();
+	
+	if ($questionnaireID === null) {
+		throw new Exception("Questionnaire ID is required");
+	}
 	
 	$module = getModule();
 	$questions = getModuleQuestions();

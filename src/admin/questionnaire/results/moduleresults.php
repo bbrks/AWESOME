@@ -113,6 +113,13 @@ if (__MAIN__ == __FILE__) { // only output if directly requested (for include pu
 	$questionnaireID = $_GET["questionnaireID"];
 	$moduleID = $_GET["moduleID"];
 	
+	if ($questionnaireID === null) {
+		throw new Exception("Questionnaire ID is required");
+	}
+	if ($moduleID === null) {
+		throw new Exception("Module ID is required");
+	}
+	
 	$alerts = array();
 	
 	$results = getResults($moduleID, $questionnaireID);

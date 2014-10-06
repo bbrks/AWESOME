@@ -99,9 +99,13 @@ if (__MAIN__ == __FILE__) { // only output if directly requested (for include pu
 	$template = $twig->loadTemplate('questionnaire/import/students.html');
 	
 	$questionnaireID = $_GET["questionnaireID"];
-	$q = getQuestionaire($questionnaireID);
-	
 	$alerts = array();
+	
+	if ($questionnaireID === null) {
+		throw new Exception("Questionnaire ID is required");
+	}
+	
+	$q = getQuestionaire($questionnaireID);
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		$data = parseStudentsCSV($_POST["csvdata"]);
 		insertStudents($data, $q);
