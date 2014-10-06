@@ -110,16 +110,15 @@ if (__MAIN__ == __FILE__) { // only output if directly requested (for include pu
 	
 	$template = $twig->loadTemplate('questionnaire/results/moduleresults.html');
 	
-	$questionnaireID = $_GET["questionnaireID"];
-	$moduleID = $_GET["moduleID"];
-	
-	if ($questionnaireID === null) {
+	if (!isset($_GET["questionnaireID"]) || $_GET["questionnaireID"] === null) {
 		throw new Exception("Questionnaire ID is required");
 	}
-	if ($moduleID === null) {
+	if (!isset($_GET["moduleID"]) || $_GET["moduleID"] === null) {
 		throw new Exception("Module ID is required");
 	}
 	
+	$questionnaireID = $_GET["questionnaireID"];
+	$moduleID = $_GET["moduleID"];
 	$alerts = array();
 	
 	$results = getResults($moduleID, $questionnaireID);

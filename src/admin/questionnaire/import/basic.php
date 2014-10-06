@@ -47,13 +47,12 @@ if (__MAIN__ == __FILE__) { // only output if directly requested (for include pu
 	$twig = $twig_common->twig; //reduce code changes needed
 	
 	$template = $twig->loadTemplate('questionnaire/import/basic.html');
-
-	$questionnaireID = $_GET["questionnaireID"];
-	$alerts = array();
 	
-	if ($questionnaireID === null) {
+	if (!isset($_GET["questionnaireID"]) || $_GET["questionnaireID"] === null) {
 		throw new Exception("Questionnaire ID is required");
 	}
+	$questionnaireID = $_GET["questionnaireID"];
+	$alerts = array();	
 	
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$q = array();

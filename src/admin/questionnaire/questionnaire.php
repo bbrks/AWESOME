@@ -18,12 +18,12 @@ if (__MAIN__ == __FILE__) { // only output if directly requested (for include pu
 	
 	$template = $twig->loadTemplate('questionnaire/main.html');
 	
-	$questionnaireID = $_GET["questionnaireID"];
-	$alerts = array();
-	
-	if ($questionnaireID === null) {
+	if (!isset($_GET["questionnaireID"]) || $_GET["questionnaireID"] === null) {
 		throw new Exception("Questionnaire ID is required");
 	}
+	
+	$questionnaireID = $_GET["questionnaireID"];
+	$alerts = array();
 	
 	echo $template->render(array(
 		"url"=>$url, "questionnaireID"=> $questionnaireID, "alerts"=>$alerts,

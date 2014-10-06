@@ -41,12 +41,12 @@ if (__MAIN__ == __FILE__) { // only output if directly requested (for include pu
 	$twig = $twig_common->twig; //reduce code changes needed
 
 	$template = $twig->loadTemplate('questionnaire/import/semester.html');
-
-	$questionnaireID = $_GET["questionnaireID"];
-	$alerts = array();
-	if ($questionnaireID === null) {
+	
+	if (!isset($_GET["questionnaireID"]) || $_GET["questionnaireID"] === null) {
 		throw new Exception("Questionnaire ID is required");
 	}
+	$questionnaireID = $_GET["questionnaireID"];
+	$alerts = array();
 	
 	//as this is such a risky page, we actually regenerate semesters every load
 	// unlikely to have any ill effects, but ensures that data is consistent

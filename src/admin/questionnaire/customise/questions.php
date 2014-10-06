@@ -137,13 +137,14 @@ if (__MAIN__ == __FILE__) { // only output if directly requested (for include pu
 	
 	$template = $twig->loadTemplate('questionnaire/customise/questions.html');
 	
+	if (!isset($_GET["questionnaireID"]) || $_GET["questionnaireID"] === null) {
+		throw new Exception("Questionnaire ID is required");
+	}
+	//NOTE: moduleID is option (missing means global)
+	
 	$questionnaireID = $_GET["questionnaireID"];
 	$moduleID = isset($_GET["moduleID"])?$_GET["moduleID"]:null;
 	$alerts = array();
-	
-	if ($questionnaireID === null) {
-		throw new Exception("Questionnaire ID is required");
-	}
 	
 	$module = getModule();
 	$questions = getModuleQuestions();

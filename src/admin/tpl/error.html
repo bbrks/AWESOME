@@ -1,0 +1,18 @@
+{% extends "page.html" %}
+
+{% set title = "Home - Admin" %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<style>
+		.table .progress {
+			margin-bottom: 0px;
+		}
+	</style>
+{% endblock %}
+
+{% block pagecontent %}
+<h1>Fatal Error</h1>
+<p>{{message}}</p>
+
+{% endblock %}
