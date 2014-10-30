@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * @param int $questionnaireID The questionnaire ID

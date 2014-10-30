@@ -1,4 +1,4 @@
-<pre><?
+<pre><?php
 
 require("../lib.php");
 $user = $_GET["user"];

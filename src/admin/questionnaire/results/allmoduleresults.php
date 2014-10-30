@@ -1,4 +1,4 @@
-<?
+<?php
 @define("__MAIN__", __FILE__); // define the first file to execute
 
 /**

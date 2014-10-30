@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * @file
  * @version 1.0
