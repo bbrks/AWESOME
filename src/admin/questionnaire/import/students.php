@@ -64,7 +64,7 @@ function insertStudents($students, $questionnaire) {
 		
 		if ($questionnaire["QuestionaireSemester"] != "semesterSpecial") {
 			foreach($student["Modules"] as $module) {
-				$dbmodules->query($student["UserID"], $module, $questionnaire["questionaireID"]);
+				$dbmodules->query($student["UserID"], $module, $questionnaire["QuestionaireID"]);
 			}
 		}
 	}
