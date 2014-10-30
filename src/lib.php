@@ -226,8 +226,11 @@ class twig_common { //class as we may chuck more functionality in later
 		global $url;
 		$template = $this->twig->loadTemplate($this->error_page);
 		
+		$message = $exception->getMessage();
+		$trace = $exception->getTrace();
+		
 		echo $template->render(array(
-			"url"=>$url, "message"=>$exception->getMessage()
+			"url"=>$url, "message"=>$message."\n\n".$trace
 		));
 	}
 }
