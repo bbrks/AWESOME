@@ -227,7 +227,7 @@ class twig_common { //class as we may chuck more functionality in later
 		$template = $this->twig->loadTemplate($this->error_page);
 		
 		$message = $exception->getMessage();
-		$trace = $exception->getTrace();
+		$trace = print_r($exception->getTrace(), 1);
 		
 		echo $template->render(array(
 			"url"=>$url, "message"=>$message."\n\n".$trace
