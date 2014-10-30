@@ -60,7 +60,7 @@ function insertStudents($students, $questionnaire) {
 	
 	foreach ($students as $student) {
 		$token = bin2hex(openssl_random_pseudo_bytes(16));
-		$dbstudent->query($student["UserID"], $student["Department"], $questionnaire["questionaireID"], $token, false);
+		$dbstudent->query($student["UserID"], $student["Department"], $questionnaire["QuestionaireID"], $token, false);
 		
 		if ($questionnaire["QuestionaireSemester"] != "semesterSpecial") {
 			foreach($student["Modules"] as $module) {
