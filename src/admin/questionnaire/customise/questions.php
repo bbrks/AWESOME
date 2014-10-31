@@ -87,50 +87,6 @@ function deleteQuestion($questionID) {
 	}
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["action"])) {
-	$action = $_POST["action"];
-	if ($action == "add_question") {
-		insertQuestion($_POST);
-	}
-	if ($action == "table") { //a button within table was clicked
-		if (isset($_POST["delete"])) {
-			deleteQuestion($_POST["delete"]);
-		}
-	}
-	if ($action == "defaults") {
-		if ($_POST["type"] == "full") {
-			insertQuestion(array(
-				"QuestionText"=>"I have learned a good deal from this module",
-				"QuestionText_welsh"=>"Rydw i wedi dysgu llawer o'r modiwl",
-				"QuestionType"=>"rate"
-			));
-			insertQuestion(array(
-				"QuestionText"=>"This module was well taught by %s",
-				"QuestionText_welsh"=>"Mae'r modiwl ei haddysgu yn dda %s",
-				"QuestionType"=>"rate",
-				"Staff"=>true
-			));
-			insertQuestion(array(
-				"QuestionText"=>"What one thing would you change to improve this module, and why?",
-				"QuestionText_welsh"=>"Gwelliannau Modiwl, a pham?",
-				"QuestionType"=>"text"
-			));
-			insertQuestion(array(
-				"QuestionText"=>"Please add any further comments on this module below",
-				"QuestionText_welsh"=>"sylwadau pellach",
-				"QuestionType"=>"text"
-			));
-		}
-		elseif ($_POST["type"] == "partial") {
-			insertQuestion(array(
-				"QuestionText"=>"This module has problems",
-				"QuestionText_welsh"=>"Mae gan y modiwl problemau",
-				"QuestionType"=>"rate"
-			));
-		}
-	}
-}
-
 if (__MAIN__ == __FILE__) { // only output if directly requested (for include purposes)
 	$twig_common = new twig_common();
 	$twig = $twig_common->twig; //reduce code changes needed
@@ -146,6 +102,50 @@ if (__MAIN__ == __FILE__) { // only output if directly requested (for include pu
 	$moduleID = isset($_GET["moduleID"])?$_GET["moduleID"]:null;
 	$alerts = array();
 	
+	if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["action"])) {
+		$action = $_POST["action"];
+		if ($action == "add_question") {
+			insertQuestion($_POST);
+		}
+		if ($action == "table") { //a button within table was clicked
+			if (isset($_POST["delete"])) {
+				deleteQuestion($_POST["delete"]);
+			}
+		}
+		if ($action == "defaults") {
+			if ($_POST["type"] == "full") {
+				insertQuestion(array(
+					"QuestionText"=>"I have learned a good deal from this module",
+					"QuestionText_welsh"=>"Rydw i wedi dysgu llawer o'r modiwl",
+					"QuestionType"=>"rate"
+				));
+				insertQuestion(array(
+					"QuestionText"=>"This module was well taught by %s",
+					"QuestionText_welsh"=>"Mae'r modiwl ei haddysgu yn dda %s",
+					"QuestionType"=>"rate",
+					"Staff"=>true
+				));
+				insertQuestion(array(
+					"QuestionText"=>"What one thing would you change to improve this module, and why?",
+					"QuestionText_welsh"=>"Gwelliannau Modiwl, a pham?",
+					"QuestionType"=>"text"
+				));
+				insertQuestion(array(
+					"QuestionText"=>"Please add any further comments on this module below",
+					"QuestionText_welsh"=>"sylwadau pellach",
+					"QuestionType"=>"text"
+				));
+			}
+			elseif ($_POST["type"] == "partial") {
+				insertQuestion(array(
+					"QuestionText"=>"This module has problems",
+					"QuestionText_welsh"=>"Mae gan y modiwl problemau",
+					"QuestionType"=>"rate"
+				));
+			}
+		}
+	}
+
 	$module = getModule();
 	$questions = getModuleQuestions();
 	
