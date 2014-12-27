@@ -6,7 +6,8 @@ Aberystwyth Web Evaluation Surveys Of Module Experiences (AWESOME)
         Copyright 2014
         Keiron O'Shea,
         Hannah Dee,
-	Ben Brooks
+        Ben Brooks
+        
 About
 -----
 
@@ -15,8 +16,8 @@ AWESOME is a web-based module evaluation questionnaire generator for the monitor
 Website
 -----
 
-* Github project site https://github.com/KeironO/AWESOME
-* Blog http://www.aberawesome.co.uk
+* Github project site https://github.com/bbrks/AWESOME
+* Website http://awesome.aber.ac.uk
 
 License
 -------
