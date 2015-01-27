@@ -19,9 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
 	<title>Home - Admin | The Aberystwyth Web Evaluation Surveys Of Module Experiences</title>
-		<link rel="icon" type="image/png" href="http://localhost/awesome/src//img/favicon.png">
+		<link rel="icon" type="image/png" href="../img/favicon.png">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-			<link href="http://localhost/awesome/src//css/bootstrap.min.css" rel="stylesheet">
+			<link href="../css/bootstrap.min.css" rel="stylesheet">
 		<link href="h../../css/custom.css" rel="stylesheet">
 
 	<style>
@@ -69,8 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	</style>
 
 		
-		<script src="http://localhost/awesome/src//js/jquery-1.11.0.min.js" type="text/javascript"></script>
-		<script src="http://localhost/awesome/src//js/bootstrap.min.js" type="text/javascript"></script>
+		<script src="../js/jquery-1.11.0.min.js" type="text/javascript"></script>
+		<script src="../js/bootstrap.min.js" type="text/javascript"></script>
 	</head>
 
 <style>
@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </style>
 
 <form class="form-signin" role="form" method="post">
-		<img src="http://aberawesome.co.uk/img/logo.png" width="300">
+		<img src="../img/logo.png" width="300">
         <h2 class="form-signin-heading">Please sign in</h2>
         <input class="form-control" placeholder="Username" required="" autofocus="" type="text">
         <input class="form-control" placeholder="Password" required="" type="password">
