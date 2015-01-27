@@ -25,23 +25,23 @@ There are two ways you can get your hands on AWESOME:
 
 ## Installation
 
-1. If you have downloaded directly, unzip the contents of the repository using any software you like, or using the following command.
+- If you have downloaded directly, unzip the contents of the repository using any software you like, or using the following command.
 
 ```uzip AWESOME.zip -d path/to/whatever/directory/you/want```
 
-2. Navigate to the directory and copy the contents of the src folder to wherever you require AWESOME to be located.
+- Navigate to the directory and copy the contents of the src folder to wherever you require AWESOME to be located.
 
-3. Log into MySQL and ```CREATE DATABASE awesome```
+- Log into MySQL and ```CREATE DATABASE awesome```
 
-4. Import the ```sqldump.sql``` file using the following command.
+- Import the ```sqldump.sql``` file using the following command.
 
 ```mysql -u username -p awesome < sqldump.sql```
 
-5. Rename ```db.php.sample``` to ```db.php```.
+- Rename ```db.php.sample``` to ```db.php```.
 
-6. Edit ```db.php``` to correctly match both your ```$url``` **(important)** and the new ```$db``` details.
+- Edit ```db.php``` to correctly match both your ```$url``` **(important)** and the new ```$db``` details.
 
-7. Done!
+- Done!
 
 ## Reporting bugs and feature requests
 
