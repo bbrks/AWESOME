@@ -1,31 +1,54 @@
 AWESOME
 =======
 
-Aberystwyth Web Evaluation Surveys Of Module Experiences (AWESOME)
+AWESOME is a web-based module evaluation questionnaire generator for the monitoring and evaluation of teaching.
 
         Copyright 2014
         Keiron O'Shea,
         Hannah Dee,
         Ben Brooks
-        
-About
------
-
-AWESOME is a web-based module evaluation questionnaire generator for the monitoring and evaluation of teaching.
-
-Website
------
-
-* Github project site https://github.com/bbrks/AWESOME
-* Website http://awesome.aber.ac.uk
-
-License
--------
-
-Aberystwyth Web Evaluation Surveys Of Module Experiences (AWESOME) is licensed under the MIT license, duplicated below:
-
- Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  
- The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+## Contents
+
+
+- [Getting started](#getting-started)
+- [Installation](#installation)
+- [Reporting bugs and feature requests](#reporting-bugs-and-feature-requests)
+- [Documentation](#documentation)
+- [Creators](#creators)
+- [Copyright and License](#copyright-and-license)
+
+## Getting started
+
+There are two ways you can get your hands on AWESOME:
+
+- [Download it directly, here](https://github.com/bbrks/AWESOME/archive/master.zip).
+- Clone the repository using Git: ```git clone https://github.com/bbrks/AWESOME```.
+
+## Installation
+
+1. If you have downloaded directly, unzip the contents of the repository using any software you like, or using the following command.
+
+```uzip AWESOME.zip -d path/to/whatever/directory/you/want```
+
+2. Navigate to the directory and copy the contents of the src folder to wherever you require AWESOME to be located.
+
+3. Log into MySQL and ```CREATE DATABASE awesome```
+
+4. Import the ```sqldump.sql``` file using the following command.
+
+```mysql -u username -p awesome < sqldump.sql```
+
+5. Rename ```db.php.sample``` to ```db.php```.
+
+6. Edit ```db.php``` to correctly match both your ```$url``` **(important)** and the new ```$db``` details.
+
+7. Done!
+
+## Reporting bugs and feature requests
+
+If you have a bug or feature request [please feel free to open a new issue](https://github.com/bbrks/AWESOME/issues/new).
+
+## Copyright and License
+
+Code released under [the MIT license]{https://github.com/bbrks/AWESOME/blob/master/LICENSE}.
