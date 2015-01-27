@@ -14,8 +14,6 @@ AWESOME is a web-based module evaluation questionnaire generator for the monitor
 - [Getting started](#getting-started)
 - [Installation](#installation)
 - [Reporting bugs and feature requests](#reporting-bugs-and-feature-requests)
-- [Documentation](#documentation)
-- [Creators](#creators)
 - [Copyright and License](#copyright-and-license)
 
 ## Getting started
