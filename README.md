@@ -49,4 +49,4 @@ If you have a bug or feature request [please feel free to open a new issue](http
 
 ## Copyright and License
 
-Code released under [the MIT license](https://github.com/bbrks/AWESOME/blob/master/LICENSE).
+Code released under [the GNU Affero General Public License, Version 3](https://github.com/bbrks/AWESOME/blob/master/LICENSE).
