@@ -1,4 +1,4 @@
-AWESOME
+AWESOME [![Build Status](https://magnum.travis-ci.com/bbrks/AWESOME.svg?token=xqotcpsHvJmZdKpQBoyp&branch=oopmvc)](https://magnum.travis-ci.com/bbrks/AWESOME)
 =======
 
 AWESOME is a web-based module evaluation questionnaire generator for the monitoring and evaluation of teaching.
