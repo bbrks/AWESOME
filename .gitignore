@@ -1,8 +1,5 @@
-db.php
-Documentation/doxygen/
-.directory
-
-#eclipse files
-.buildpath
-.project
-.settings
+###
+# Use phpunit.dist.xml for repo-wide test suites
+# phpunit.xml is used for developer-specific configs
+###
+phpunit.xml
