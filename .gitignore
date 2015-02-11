@@ -1,5 +1,5 @@
 ###
-# Use phpunit.dist.xml for repo-wide test suites
+# Use phpunit.xml.dist for repo-wide test suites
 # phpunit.xml is used for developer-specific configs
 ###
 phpunit.xml
