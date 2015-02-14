@@ -29,9 +29,8 @@ class Config {
    *******************************************************************/
 
   /**
-   * Boolean to enable production-dangerous features, like display errors.
-   * @const DEBUG
+   * @const DEBUG Boolean to enable production-dangerous features, like display errors.
    */
-  const DEBUG = false;
+  const DEBUG = true;
 
 }
