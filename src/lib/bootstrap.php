@@ -12,4 +12,4 @@ define('ROOT', dirname(dirname(__FILE__)));
  * Require ./config/config.php and ./library/shared.php
  */
 require_once(ROOT . DS . 'config' . DS . 'config.php');
-require_once(ROOT . DS . 'library' . DS . 'shared.php');
+require_once(ROOT . DS . 'lib' . DS . 'shared.php');
