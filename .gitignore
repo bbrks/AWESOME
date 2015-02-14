@@ -1,5 +1,6 @@
 # AWESOME Specific
 src/config/config.php
+src/logs/*.log
 
 # PHPUnit
 # Use phpunit.xml.dist for repo-wide test suites
