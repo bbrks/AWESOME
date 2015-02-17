@@ -54,6 +54,11 @@ class View {
 
   }
 
+  /**
+   * Render the page title with a prefix if parameter is present
+   *
+   * @param $title
+   */
   function title($title = null) {
     if ($title) {
       echo $title.' - '.Config::APP_TITLE;
