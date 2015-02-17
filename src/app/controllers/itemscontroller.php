@@ -23,7 +23,7 @@ class ItemsController extends Controller {
             $this->set('title', 'Successfully added item');
             $this->set('msg', 'Successfully added item');
             $this->Item = new Database();
-            $this->Item->query('INSERT INTO items (item_name) VALUES :item_name');
+            $this->Item->query('INSERT INTO items (item_name) VALUES (:item_name)');
             $this->Item->bind(':item_name', $item);
             $this->Item->execute();
             $this->Item->lastInsertId();
