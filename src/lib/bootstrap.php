@@ -13,3 +13,4 @@ define('ROOT', dirname(dirname(__FILE__)));
  */
 require_once(ROOT . DS . 'config' . DS . 'config.php');
 require_once(ROOT . DS . 'lib' . DS . 'shared.php');
+require_once(ROOT . DS . 'lib' . DS . 'i18n.class.php');
