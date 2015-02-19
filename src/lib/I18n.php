@@ -5,7 +5,7 @@
  */
 class I18n {
 
-  private $directory = ROOT.DS.'i18n'.DS;
+  private $directory;
   private $lang = Config::LANG;
   private $langObj;
 
@@ -20,6 +20,8 @@ class I18n {
     // TODO: Research better way of unit test include paths
     if ($isUnitTest) {
       $this->directory = ROOT.DS.'..'.DS.'tests'.DS.'i18n'.DS;
+    } ese {
+       $this->directory = ROOT.DS.'i18n'.DS;
     }
 
     $this->lang = $lang;
