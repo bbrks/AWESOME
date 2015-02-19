@@ -24,6 +24,11 @@ class Config {
   const DB_NAME = 'awesome';
   const TB_PREFIX = 'awe_';
 
+  const LANG = 'en';
+
+  //TODO: Move into i18n json?
+  const APP_TITLE = 'AWESOME';
+
   /*******************************************************************
    ** DANGER: DO NOT MODIFY BELOW UNLESS YOU KNOW WHAT YOU'RE DOING **
    *******************************************************************/

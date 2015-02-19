@@ -3,38 +3,73 @@
 /**
  * This class handles internationalisation
  */
-class i18n {
+class I18n {
 
-  protected $directory = ROOT.DS.'i18n'.DS;
-  public $lang;
+  private $directory = ROOT.DS.'i18n'.DS;
+  private $lang = Config::LANG;
+  private $langObj;
 
-  public function __construct($lang = Config::DEFAULT_LANG) {
+  /**
+   * Sets the language variable, and an alternative language file directory if unit testing.
+   * @param $lang
+   * @param $isUnitTest
+   */
+  public function __construct($lang = Config::LANG, $isUnitTest = false) {
+
+    // Hacky way of running unit test
+    // TODO: Research better way of unit test include paths
+    if ($isUnitTest) {
+      $this->directory = ROOT.DS.'..'.DS.'tests'.DS.'i18n'.DS;
+    }
+
     $this->lang = $lang;
-  }
-
-  public function __destruct() {
+    $this->setLang($lang);
 
   }
 
-  private function readJSON($lang_code) {
+  /**
+   * This function will read a JSON file for a given language code.
+   * @param $lang
+   * @returns boolean Returns true on success.
+   */
+  private function readi18nJSON($lang) {
+    $path = $this->directory . $lang . '.json';
+    $json = file_get_contents($path);
 
+    $this->langObj = json_decode($json, true);
+
+    if (sizeof($this->langObj) > 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
-  private function getTranslation($id) {
-    echo 'getTranslation('.$id.')';
+  /**
+   * Changes the language used
+   */
+  public function setLang($lang) {
+    $this->lang = $lang;
+    $this->readi18nJSON($lang);
   }
 
-  public function __($id, $lang) {
-    $this->getTranslation($id);
-    // echo $var;
+  /**
+   * This is the function to call when you wish to return an internationalised string.
+   * @param $id
+   * @param $lang
+   * @returns String
+   */
+  public function getLocalisedString($id) {
+    return $this->langObj[$id];
   }
 
 }
 
-function __($id, $lang = Config::DEFAULT_LANG) {
-  $i18n = new i18n($lang);
-  $i18n->__($id, $i18n->lang);
+/**
+ * Makes a global __() function and instantiates the i18n object upon use.
+ * TODO: Look at new I18n object language selection
+ */
+function __($id) {
+  $i18n = new I18n();
+  return $i18n->getLocalisedString($id);
 }
-
-__('test');
-__('test', 'cy');

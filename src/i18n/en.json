@@ -1,3 +1,6 @@
-{ "lang" : "English" }
-{ "id" : "app_title", "str" : "AWESOME" }
-{ "id" : "greeting", "str" : "Hello" }
+{
+  "@lang" : "English",
+  "app_title" : "AWESOME",
+  "greeting" : "Hello",
+  "thanks" : "Thanks"
+}

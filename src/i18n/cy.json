@@ -1,3 +1,6 @@
-{ "lang" : "Welsh" }
-{ "id" : "app_title", "str" : "AWESOME" }
-{ "id" : "greeting", "str" : "Croeso" }
+{
+  "@lang" : "Cymru",
+  "app_title" : "AWESOME",
+  "greeting" : "Croeso",
+  "thanks" : "Diolch"
+}
