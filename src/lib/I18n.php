@@ -20,7 +20,7 @@ class I18n {
     // TODO: Research better way of unit test include paths
     if ($isUnitTest) {
       $this->directory = ROOT.DS.'..'.DS.'tests'.DS.'i18n'.DS;
-    } ese {
+    } else {
        $this->directory = ROOT.DS.'i18n'.DS;
     }
 
