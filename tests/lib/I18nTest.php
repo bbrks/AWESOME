@@ -17,7 +17,7 @@ class I18nTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Runs getLocalisedString on a pre-defined test file.
+     * Changes language and checks if getLocalisedString result has changed.
      */
     public function testSetLang() {
         $str = $this->i18n->getLocalisedString('@lang');
