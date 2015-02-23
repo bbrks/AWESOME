@@ -1,15 +1,11 @@
 <?php
 
-/**
- * Define a few useful constants
- * @const DS Alias for DIRECTORY_SEPARATOR
- * @const ROOT Relative path to src
- */
-define('DS', DIRECTORY_SEPARATOR);
-define('ROOT', dirname(dirname(__FILE__)));
+
+require_once(dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'utils.php');
 
 /**
- * Require ./config/config.php and ./library/shared.php
+ * Load the config, shared functions and i18n class.
  */
 require_once(ROOT . DS . 'config' . DS . 'config.php');
 require_once(ROOT . DS . 'lib' . DS . 'shared.php');
+require_once(ROOT . DS . 'lib' . DS . 'I18n.php');
