@@ -1,6 +1,6 @@
 {
   "@lang" : "English",
   "app_title" : "AWESOME",
-  "greeting" : "Hello",
-  "thanks" : "Thanks"
+  "missing-questionnaire" : "The requested questionnaire could not be found.",
+  "missing-questions" : "No questions associated with this questionnaire could be found."
 }
