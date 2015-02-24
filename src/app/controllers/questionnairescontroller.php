@@ -17,7 +17,6 @@ class QuestionnairesController extends Controller {
             $this->set('error', __('missing-questionnaire'));
         }
 
-        $this->Questionnaire = new Database();
         $this->Questionnaire->query('SELECT * FROM questions WHERE questionnaire_id = :questionnaire_id');
         $this->Questionnaire->bind(':questionnaire_id', $questionnaire['id']);
         $this->Questionnaire->execute();
