@@ -2,6 +2,12 @@
 src/config/config.php
 src/logs/*.log
 
+# SASS
+# Should probably block generated .css files,
+# but I want to maintain ease of installation
+# by just cloning the repo and editing config
+.sass-cache
+
 # PHPUnit
 # Use phpunit.xml.dist for repo-wide test suites
 # phpunit.xml is used for developer-specific configs
