@@ -3,7 +3,6 @@
 class QuestionnairesController extends Controller {
 
     function view($token) {
-        $this->set('title','Questionnaire '.$token);
 
         $this->Questionnaire = new Database();
         $this->Questionnaire->query('SELECT * FROM questionnaires WHERE token = :token');
@@ -26,6 +25,8 @@ class QuestionnairesController extends Controller {
         } else {
             $this->set('error', __('missing-questions'));
         }
+
+        $this->set('title', $questionnaire['name']);
     }
 
 }
