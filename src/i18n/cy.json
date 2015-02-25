@@ -1,6 +1,7 @@
 {
+  "@ISO639-1" : "cy",
   "@lang" : "Cymru",
   "app_title" : "AWESOME",
   "missing-questionnaire" : "Ni ellid dod o hyd yr holiadur gofynnwyd amdani.",
-  "missing-questions" : "TODO"
+  "missing-questions" : "Ni allai unrhyw gwestiynau sy'n gysylltiedig â'r holiadur hwn i'w gael."
 }

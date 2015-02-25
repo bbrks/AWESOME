@@ -1,4 +1,5 @@
 {
+  "@ISO639-1" : "en",
   "@lang" : "English",
   "app_title" : "AWESOME",
   "missing-questionnaire" : "The requested questionnaire could not be found.",
