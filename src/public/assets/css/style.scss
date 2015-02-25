@@ -1,0 +1,17 @@
+$aber-yellow: #FFCC00;
+$aber-purple: #56318e;
+$aber-orange: #e77329;
+
+@import "bootstrap_variables";
+@import "bootstrap";
+
+body {
+  padding-top: 70px; // Add padding to body because we have a fixed navbar
+}
+
+.brand-awesome {
+  padding: 10px;
+  img {
+    height: 100%;
+  }
+}
