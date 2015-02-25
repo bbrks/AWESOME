@@ -1,4 +1,4 @@
-AWESOME [![Build Status](https://magnum.travis-ci.com/bbrks/AWESOME.svg?token=xqotcpsHvJmZdKpQBoyp&branch=oopmvc)](https://magnum.travis-ci.com/bbrks/AWESOME)
+ <img src="http://i.imgur.com/IOfwVzr.png" alt="AWESOME - Aberystwyth Web Evaluation Surveys Of Module Experiences" height="88px" /> [![Build Status](https://magnum.travis-ci.com/bbrks/AWESOME.svg?token=xqotcpsHvJmZdKpQBoyp&branch=oopmvc)](https://magnum.travis-ci.com/bbrks/AWESOME)
 =======
 
 AWESOME is a web-based module evaluation questionnaire generator for the monitoring and evaluation of teaching.
