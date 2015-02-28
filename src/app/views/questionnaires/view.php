@@ -1,6 +1,8 @@
 <?php if (isset($item)): ?>
 
-<h2><?php echo $item['name']; ?></h2>
+<div class="page-header">
+  <h1><?php echo $item['name']; ?></h1>
+</div>
 
 <?php if (sizeof($questions) > 0) {
   foreach ($questions as $question) {
