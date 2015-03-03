@@ -5627,4 +5627,10 @@ body {
   .brand-awesome img {
     height: 100%; }
 
+.table .progress {
+  margin-bottom: 0; }
+
+tr[data-href] {
+  cursor: pointer; }
+
 /*# sourceMappingURL=style.css.map */

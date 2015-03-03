@@ -5,38 +5,36 @@
  * TODO: Make import OO with the dashboard!
  */
 
-error_reporting(E_ALL);
+if (isset($_POST['submit'])) {
 
-require_once('../../config/config.php');
-require_once('../../lib/Database.php');
-
-// We can send the user back to the page they were on once completed
-$ref = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/admin';
-
-$modules = $_POST['modules'];
-$staff = $_POST['staff'];
-$staffmodules = $_POST['staffmodules'];
-$students = $_POST['students'];
+  $modules = $_POST['modules'];
+  $staff = $_POST['staff'];
+  $staffmodules = $_POST['staffmodules'];
+  $students = $_POST['students'];
 
 
-if ($modules != "") {
-  $modules = parseModulesCSV($modules);
-  insertModules($modules);
-}
+  if ($modules != "") {
+    $modules = parseModulesCSV($modules);
+    insertModules($modules);
+  }
 
-if ($staff != "") {
-  $staff = parseStaffCSV($staff);
-  insertStaff($staff);
-}
+  if ($staff != "") {
+    $staff = parseStaffCSV($staff);
+    insertStaff($staff);
+  }
 
-if ($staffmodules != "") {
-  $staffmodules = parseStaffModulesCSV($staffmodules);
-  insertStaffModules($staffmodules);
-}
+  if ($staffmodules != "") {
+    $staffmodules = parseStaffModulesCSV($staffmodules);
+    insertStaffModules($staffmodules);
+  }
 
-if ($students != "") {
-  $students = parseStudentCSV($students);
-  insertStudents($students);
+  if ($students != "") {
+    $students = parseStudentCSV($students);
+    insertStudents($students);
+  }
+
+  $msg = 'Updated Database.';
+
 }
 
 function wipeTable($table) {
