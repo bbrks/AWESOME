@@ -24,7 +24,7 @@ $surveys = getSurveys();
   </thead>
   <tbody>
     <?php foreach ($surveys as $survey) { ?>
-    <tr class="<?php echo ($survey['active'] == 1) ? 'success' : 'danger' ; ?>" data-href="survey/view?id=<?php echo $survey['id']; ?>">
+    <tr data-href="survey/view?id=<?php echo $survey['id']; ?>">
       <td><?php echo $survey['name']; ?></td>
       <!-- <td>
         <div class="progress">

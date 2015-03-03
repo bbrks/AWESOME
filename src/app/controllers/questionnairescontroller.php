@@ -7,26 +7,27 @@ class QuestionnairesController extends Controller {
         $this->Questionnaire = new Database();
         $this->Questionnaire->query('SELECT * FROM questionnaires WHERE token = :token');
         $this->Questionnaire->bind(':token', $token);
-        $this->Questionnaire->execute();
         $questionnaire = $this->Questionnaire->single();
+        $this->set('questionnaire', $questionnaire);
+
+        $this->Questionnaire = new Database();
+        $this->Questionnaire->query('SELECT * FROM surveys WHERE id = :survey_id');
+        $this->Questionnaire->bind(':survey_id', $questionnaire['survey_id']);
+        $survey = $this->Questionnaire->single();
+        $this->set('survey', $survey);
+
+        $this->Questionnaire = new Database();
+        $this->Questionnaire->query('SELECT * FROM questions WHERE survey_id = :survey_id');
+        $this->Questionnaire->bind(':survey_id', $questionnaire['survey_id']);
+        $questions = $this->Questionnaire->resultSet();
 
         if ($this->Questionnaire->rowCount() == 1) {
-            $this->set('item', $questionnaire);
-        } else {
-            $this->set('error', __('missing-questionnaire'));
-        }
-
-        $this->Questionnaire->query('SELECT * FROM questions WHERE questionnaire_id = :questionnaire_id');
-        $this->Questionnaire->bind(':questionnaire_id', $questionnaire['id']);
-        $this->Questionnaire->execute();
-
-        if ($this->Questionnaire->rowCount() >= 1) {
-            $this->set('questions', $this->Questionnaire->resultSet());
+            $this->set('questions', $questions);
         } else {
             $this->set('error', __('missing-questions'));
         }
 
-        $this->set('title', $questionnaire['name']);
+        $this->set('title', $survey['name']);
     }
 
 }
