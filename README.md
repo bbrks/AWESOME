@@ -6,11 +6,6 @@ Dev branch: [![Dev branch Build Status](https://magnum.travis-ci.com/bbrks/AWESO
 
 AWESOME is a web-based module evaluation questionnaire generator for the monitoring and evaluation of teaching.
 
-        Copyright 2015
-        Keiron O'Shea,
-        Hannah Dee,
-        Ben Brooks
-
 ## Devblog
 http://diss.bbrks.me
 
