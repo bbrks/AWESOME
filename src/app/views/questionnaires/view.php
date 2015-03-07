@@ -9,7 +9,7 @@
   foreach ($questions as $question) {
     echo '<h2>'.$question['text_en'].'</h2>';
     echo '<h2>'.$question['text_cy'].'</h2>';
-    echo '<input name="" type="'.$question['type'].'" class="form-control" />';
+    echo '<input name="ans-'.$question['id'].'" type="'.$question['type'].'" class="form-control" /><hr />';
   }
 ?>
 <input type="submit" class="btn btn-primary" value="Send Responses" />

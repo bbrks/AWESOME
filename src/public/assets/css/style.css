@@ -5633,4 +5633,13 @@ body {
 tr[data-href] {
   cursor: pointer; }
 
+.control-label.required:after {
+  font-weight: bold;
+  font-size: 18px;
+  color: #d00;
+  content: "*";
+  position: absolute;
+  margin-left: 5px;
+  top: 5px; }
+
 /*# sourceMappingURL=style.css.map */

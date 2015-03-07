@@ -25,7 +25,7 @@ $surveys = getSurveys();
   <tbody>
     <?php foreach ($surveys as $survey) { ?>
     <tr data-href="survey/view?id=<?php echo $survey['id']; ?>">
-      <td><?php echo $survey['name']; ?></td>
+      <td><?php echo $survey['title']; ?></td>
       <!-- <td>
         <div class="progress">
           <div class="progress-bar progress-bar-success" style="width: 67.7%" data-toggle="tooltip" data-placement="top" title="67.7%">
@@ -37,7 +37,7 @@ $surveys = getSurveys();
         </div>
       </td> -->
       <td><?php echo $survey['datetime']; ?></td>
-      <td><?php echo ($survey['active'] == 1) ? 'Active' : 'Inactive' ; ?></td>
+      <td><?php echo ($survey['locked'] == 1) ? 'Locked' : 'Unlocked' ; ?></td>
       <td><!-- blank for + col --></td>
     </tr>
     <?php } ?>

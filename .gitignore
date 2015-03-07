@@ -12,3 +12,8 @@ src/logs/*.log
 # Use phpunit.xml.dist for repo-wide test suites
 # phpunit.xml is used for developer-specific configs
 phpunit.xml
+
+# Apache
+# Ignore .htpasswd files for obvious reasons
+# .htaccess files are used for rewrites, so we'll keep them
+.htpasswd

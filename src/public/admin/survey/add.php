@@ -4,10 +4,15 @@ require_once('../header.php');
 
 if (isset($_POST['submit'])) {
 
-  $survey = $_POST['survey_name'];
+  $survey_title = $_POST['survey_name'];
+  $survey_subtitle = $_POST['survey_description'];
+  $modules = $_POST['modules'];
+  $staff = $_POST['staff'];
+  $staffmodules = $_POST['staffmodules'];
+  $students = $_POST['students'];
 
-  if ($survey != "") {
-    $id = addSurvey($survey);
+  if ($survey_title != "") {
+    $id = addSurvey($survey_title, $survey_subtitle);
     if ($id != null) {
       $msg = 'Survey Added';
       header('Location: questions?id='.$id);
@@ -18,14 +23,153 @@ if (isset($_POST['submit'])) {
     $err = '<strong>Error:</strong> No survey name entered.';
   }
 
+  if ($modules != "") {
+    $modules = parseModulesCSV($modules);
+    insertModules($modules, $id);
+  } else {
+    $err = '<strong>Error:</strong> No modules entered.';
+  }
+
+  if ($staff != "") {
+    $staff = parseStaffCSV($staff);
+    insertStaff($staff, $id);
+  } else {
+    $err = '<strong>Error:</strong> No staff entered.';
+  }
+
+  if ($staffmodules != "") {
+    $staffmodules = parseStaffModulesCSV($staffmodules);
+    insertStaffModules($staffmodules, $id);
+  } else {
+    $err = '<strong>Error:</strong> No staff modules entered.';
+  }
+
+  if ($students != "") {
+    $students = parseStudentCSV($students);
+    insertStudents($students, $id);
+  } else {
+    $err = '<strong>Error:</strong> No students entered.';
+  }
+
 }
 
-function addSurvey($survey_name) {
+function addSurvey($survey_title, $survey_subtitle) {
   $db = new Database();
-  $db->query('INSERT INTO surveys (name) VALUES (:name)');
-  $db->bind(':name', $survey_name);
+  $db->query('INSERT INTO surveys (title, subtitle) VALUES (:title, :subtitle)');
+  $db->bind(':title', $survey_title);
+  $db->bind(':subtitle', $survey_subtitle);
   $db->execute();
   return $db->lastInsertId();
+}
+
+function insertModules($arr, $survey_id) {
+  $db = new Database();
+  $db->beginTransaction();
+  $db->query('INSERT INTO modules (code, title) VALUES (:code, :title)');
+  foreach ($arr as $module) {
+    $db->bind(':code', $module['code']);
+    $db->bind(':title', $module['title']);
+    $db->execute();
+  }
+  $db->endTransaction();
+}
+
+function insertStaff($arr, $survey_id) {
+  $db = new Database();
+  $db->beginTransaction();
+  $db->query('INSERT INTO staff (aber_id, name) VALUES (:aber_id, :name)');
+  foreach ($arr as $staff) {
+    $db->bind(':aber_id', $staff['aber_id']);
+    $db->bind(':name', $staff['name']);
+    $db->execute();
+  }
+  $db->endTransaction();
+}
+
+function insertStaffModules($arr, $survey_id) {
+}
+
+function insertStudents($arr, $survey_id) {
+}
+
+// Below are the functions lifted out of the prototype
+// Taken from /src/admin/questionnaire/import/
+function parseModulesCSV($csvdata) {
+
+  $lines = explode("\n", $csvdata);
+  $data = array();
+
+  foreach($lines as $line) {
+    $csv = str_getcsv($line);
+    if (count($csv) == 2) {
+      $data[] = array(
+        "code"  => strtoupper($csv[0]),
+        "title" => $csv[1]
+      );
+    }
+  }
+
+  return $data;
+
+}
+
+function parseStaffCSV($csvdata) {
+
+  $lines = explode("\n", $csvdata);
+  $data = array();
+
+  foreach($lines as $line) {
+    $csv = str_getcsv($line);
+    if (count($csv) == 2) {
+      $data[] = array(
+        "aber_id"  => strtoupper($csv[0]),
+        "name" => $csv[1]
+      );
+    }
+  }
+
+  return $data;
+
+}
+
+function parseStaffModulesCSV($csvdata) {
+
+  $lines = explode("\n", $csvdata);
+  $data = array();
+
+  foreach($lines as $line) {
+    $csv = str_getcsv($line);
+    if (count($csv) == 3) {
+      $data[] = array(
+        "code"  => strtoupper($csv[0]),
+        "aber_id" => $csv[1],
+        "semester" => $csv[2]
+      );
+    }
+  }
+
+  return $data;
+
+}
+
+function parseStudentCSV($csvdata) {
+
+  $lines = explode("\n", $csvdata);
+  $data = array();
+
+  foreach($lines as $line) {
+    $csv = str_getcsv($line);
+    if (count($csv) > 3) {
+      $data[] = array(
+        "aber_id" => strtolower($csv[0]),
+        "department" => $csv[1],
+        "modules" => array_map('strtoupper', array_slice($csv, 2))
+      );
+    }
+  }
+
+  return $data;
+
 }
 
 ?>
@@ -38,32 +182,38 @@ function addSurvey($survey_name) {
 <?php /* TODO: OO all of this in the dashboard rewrite */ ?>
 <form class="form-horizontal" role="form" method="post" action="">
   <div class="form-group">
-    <label for="survey_name" class="col-sm-2 control-label">Survey Name</label>
+    <label for="survey_name" class="col-sm-2 control-label required">Survey Name</label>
     <div class="col-sm-10">
-      <input type="text" id="survey_name" name="survey_name" class="form-control" placeholder="Gregynog Activity Weekend" required />
+      <input type="text" id="survey_name" name="survey_name" class="form-control" placeholder="A title of the survey to be displayed on the questionnaire." required />
     </div>
   </div>
   <div class="form-group">
-    <label for="modules" class="col-sm-2 control-label">Modules<p class="help-block">Module CSV Data</p></label>
+    <label for="survey_name" class="col-sm-2 control-label">Survey Description</label>
+    <div class="col-sm-10">
+      <input type="text" id="survey_name" name="survey_description" class="form-control" placeholder="A short description, or introduction to your survey to be displayed on the questionnaire." />
+    </div>
+  </div>
+  <hr />
+  <div class="form-group">
+    <label for="modules" class="col-sm-2 control-label required">Modules<p class="help-block">Module CSV Data</p></label>
     <div class="col-sm-10">
       <textarea id="modules" name="modules" class="form-control" rows="3" placeholder="module_code,module_title"></textarea>
     </div>
   </div>
   <div class="form-group">
-    <label for="staff" class="col-sm-2 control-label">Staff<p class="help-block">Staff CSV Data</p></label>
+    <label for="staff" class="col-sm-2 control-label required">Staff<p class="help-block">Staff CSV Data</p></label>
     <div class="col-sm-10">
       <textarea id="staff" name="staff" class="form-control" rows="3" placeholder="aber_id,name"></textarea>
     </div>
   </div>
   <div class="form-group">
-    <label for="staffmodules" class="col-sm-2 control-label">Staff Modules<p class="help-block">Staff Modules CSV Data</p></label>
+    <label for="staffmodules" class="col-sm-2 control-label required">Staff Modules<p class="help-block">Staff Modules CSV Data</p></label>
     <div class="col-sm-10">
       <textarea id="staffmodules" name="staffmodules" class="form-control" rows="3" placeholder="module_code,aber_id,semester"></textarea>
-
     </div>
   </div>
   <div class="form-group">
-    <label for="students" class="col-sm-2 control-label">Students<p class="help-block">Student CSV Data</p></label>
+    <label for="students" class="col-sm-2 control-label required">Students<p class="help-block">Student CSV Data</p></label>
     <div class="col-sm-10">
       <textarea id="students" name="students" class="form-control" rows="3" placeholder="aber_id,department,module1,module2,module3..."></textarea>
     </div>

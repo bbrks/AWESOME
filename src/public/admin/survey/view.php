@@ -12,10 +12,12 @@ function getSurvey($id) {
 $survey = getSurvey($_GET['id']);
 
 echo '<div class="page-header">';
-echo '<h2>'.$survey['name'].' <span class="small">'.$survey['datetime'].'</span></h2>';
+echo '<h2>'.$survey['title'].' <span class="small">'.$survey['datetime'].'</span></h2>';
 echo '</div>';
 
-if (!$survey['active']) {
+echo '<p>'.$survey['subtitle'].'</p>';
+
+if (!$survey['locked']) {
   echo '<a href="questions?id='.$survey['id'].'" class="btn btn-primary">Edit Questions</a>';
 }
 

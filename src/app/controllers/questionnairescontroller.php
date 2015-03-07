@@ -21,7 +21,7 @@ class QuestionnairesController extends Controller {
         $this->Questionnaire->bind(':survey_id', $questionnaire['survey_id']);
         $questions = $this->Questionnaire->resultSet();
 
-        if ($this->Questionnaire->rowCount() == 1) {
+        if ($this->Questionnaire->rowCount() >= 1) {
             $this->set('questions', $questions);
         } else {
             $this->set('error', __('missing-questions'));

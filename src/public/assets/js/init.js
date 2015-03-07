@@ -8,7 +8,7 @@ $('tr').on("click", function() {
 
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
-})
+});
 
 /**
  * Clone first table row, clear all input values before appending to table body
