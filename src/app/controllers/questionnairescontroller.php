@@ -27,7 +27,8 @@ class QuestionnairesController extends Controller {
             $this->set('error', __('missing-questions'));
         }
 
-        $this->set('title', $survey['name']);
+        $this->set('title', $survey['title']);
+        $this->set('subtitle', $survey['subtitle']);
     }
 
 }
