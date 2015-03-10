@@ -188,9 +188,9 @@ function parseStudentCSV($csvdata) {
     </div>
   </div>
   <div class="form-group">
-    <label for="survey_name" class="col-sm-2 control-label">Survey Description</label>
+    <label for="survey_description" class="col-sm-2 control-label">Survey Description</label>
     <div class="col-sm-10">
-      <input type="text" id="survey_name" name="survey_description" class="form-control" placeholder="A short description, or introduction to your survey to be displayed on the questionnaire." />
+      <input type="text" id="survey_description" name="survey_description" class="form-control" placeholder="A short description, or introduction to your survey to be displayed on the questionnaire." />
     </div>
   </div>
   <hr />
