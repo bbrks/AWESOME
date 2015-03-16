@@ -52,6 +52,8 @@
     <?php } ?>
     <?php if (sizeof(Config::LANGUAGES) > 1) { ?>
     <ul class="nav navbar-nav navbar-right">
+      <li><a href="/about/view">About</a></li>
+      <li><a href="/admin">Admin</a></li>
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
           <span class="glyphicon glyphicon-flag" aria-hidden="true"></span>

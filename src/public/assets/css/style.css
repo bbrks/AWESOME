@@ -5622,9 +5622,10 @@ button.close {
 body {
   padding-top: 70px; }
 
-.brand-awesome {
-  padding: 10px; }
-  .brand-awesome img {
+.navbar > .container .brand-awesome {
+  margin-left: -10px;
+  padding: 13px 10px 3px; }
+  .navbar > .container .brand-awesome img {
     height: 100%; }
 
 .table .progress {
@@ -5634,6 +5635,7 @@ tr[data-href] {
   cursor: pointer; }
 
 .control-label.required:after {
+  display: none;
   font-weight: bold;
   font-size: 18px;
   color: #d00;

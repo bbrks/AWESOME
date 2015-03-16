@@ -27,3 +27,7 @@ function addTableRow(selector) {
 function removeTableRow(selector) {
   $(selector).closest('tr:not(:only-child)').remove();
 }
+
+$('#carousel-about-page').carousel({
+  interval: false
+})

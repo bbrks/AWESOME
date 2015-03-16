@@ -9,8 +9,9 @@ body {
   padding-top: 70px; // Add padding to body because we have a fixed navbar
 }
 
-.brand-awesome {
-  padding: 10px;
+.navbar > .container .brand-awesome {
+  margin-left: -10px;
+  padding: 13px 10px 3px;
   img {
     height: 100%;
   }
@@ -25,6 +26,7 @@ tr[data-href] {
 }
 
 .control-label.required:after {
+  display: none;
   font-weight: bold;
   font-size: 18px;
   color: #d00;

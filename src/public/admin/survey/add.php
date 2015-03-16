@@ -8,17 +8,11 @@ if (isset($_POST['submit'])) {
   $survey_subtitle = $_POST['survey_description'];
   $modules = $_POST['modules'];
   $staff = $_POST['staff'];
-  $staffmodules = $_POST['staffmodules'];
+  $staff_modules = $_POST['staffmodules'];
   $students = $_POST['students'];
 
   if ($survey_title != "") {
     $id = addSurvey($survey_title, $survey_subtitle);
-    if ($id != null) {
-      $msg = 'Survey Added';
-      header('Location: questions?id='.$id);
-    } else {
-      $err = '<strong>Error:</strong> Survey could not be created.';
-    }
   } else {
     $err = '<strong>Error:</strong> No survey name entered.';
   }
@@ -37,9 +31,9 @@ if (isset($_POST['submit'])) {
     $err = '<strong>Error:</strong> No staff entered.';
   }
 
-  if ($staffmodules != "") {
-    $staffmodules = parseStaffModulesCSV($staffmodules);
-    insertStaffModules($staffmodules, $id);
+  if ($staff_modules != "") {
+    $staff_modules = parseStaffModulesCSV($staff_modules);
+    insertStaffModules($staff_modules, $id);
   } else {
     $err = '<strong>Error:</strong> No staff modules entered.';
   }
@@ -51,11 +45,18 @@ if (isset($_POST['submit'])) {
     $err = '<strong>Error:</strong> No students entered.';
   }
 
+  if ($id != null) {
+    $msg = 'Survey Added';
+    header('Location: questions?id='.$id);
+  } else {
+    $err = '<strong>Error:</strong> Survey could not be created.';
+  }
+
 }
 
 function addSurvey($survey_title, $survey_subtitle) {
   $db = new Database();
-  $db->query('INSERT INTO surveys (title, subtitle) VALUES (:title, :subtitle)');
+  $db->query('INSERT INTO Surveys (title, subtitle) VALUES (:title, :subtitle)');
   $db->bind(':title', $survey_title);
   $db->bind(':subtitle', $survey_subtitle);
   $db->execute();
@@ -65,10 +66,11 @@ function addSurvey($survey_title, $survey_subtitle) {
 function insertModules($arr, $survey_id) {
   $db = new Database();
   $db->beginTransaction();
-  $db->query('INSERT INTO modules (code, title) VALUES (:code, :title)');
+  $db->query('INSERT INTO Modules (module_code, title, survey_id) VALUES (:module_code, :title, :survey_id)');
   foreach ($arr as $module) {
-    $db->bind(':code', $module['code']);
+    $db->bind(':module_code', $module['module_code']);
     $db->bind(':title', $module['title']);
+    $db->bind(':survey_id', $survey_id);
     $db->execute();
   }
   $db->endTransaction();
@@ -77,19 +79,54 @@ function insertModules($arr, $survey_id) {
 function insertStaff($arr, $survey_id) {
   $db = new Database();
   $db->beginTransaction();
-  $db->query('INSERT INTO staff (aber_id, name) VALUES (:aber_id, :name)');
+  $db->query('INSERT INTO Staff (aber_id, name, survey_id) VALUES (:aber_id, :name, :survey_id)');
   foreach ($arr as $staff) {
     $db->bind(':aber_id', $staff['aber_id']);
     $db->bind(':name', $staff['name']);
+    $db->bind(':survey_id', $survey_id);
     $db->execute();
   }
   $db->endTransaction();
 }
 
 function insertStaffModules($arr, $survey_id) {
+  $db = new Database();
+  $db->beginTransaction();
+  $db->query('INSERT INTO StaffModules (module_code, aber_id, survey_id) VALUES (:aber_id, :aber_id, :survey_id)');
+  foreach ($arr as $staff_module) {
+    $db->bind(':module_code', $staff_module['module_code']);
+    $db->bind(':aber_id', $staff_module['aber_id']);
+    $db->bind(':survey_id', $survey_id);
+    $db->execute();
+  }
+  $db->endTransaction();
+}
+
+function generateToken() {
+  return bin2hex(openssl_random_pseudo_bytes(8));
 }
 
 function insertStudents($arr, $survey_id) {
+  $db = new Database();
+  $db->beginTransaction();
+  $db->query('INSERT INTO Students (token, aber_id, survey_id) VALUES (:token, :aber_id, :survey_id)');
+  foreach ($arr as $student) {
+    $db->bind(':token', generateToken());
+    $db->bind(':aber_id', $student['aber_id']);
+    $db->bind(':survey_id', $survey_id);
+    $db->execute();
+  }
+  $db->query('INSERT INTO StudentModules (aber_id, module_code, token, survey_id) VALUES (:aber_id, :module_code, :token, :survey_id)');
+  foreach ($arr as $student) {
+    foreach ($arr['modules'] as $module) {
+      $db->bind(':aber_id', $student['aber_id']);
+      $db->bind(':module_code', $module['module_code']);
+      $db->bind(':token', $student['token']);
+      $db->bind(':survey_id', $survey_id);
+      $db->execute();
+    }
+  }
+  $db->endTransaction();
 }
 
 // Below are the functions lifted out of the prototype
@@ -103,7 +140,7 @@ function parseModulesCSV($csvdata) {
     $csv = str_getcsv($line);
     if (count($csv) == 2) {
       $data[] = array(
-        "code"  => strtoupper($csv[0]),
+        "module_code"  => strtoupper($csv[0]),
         "title" => $csv[1]
       );
     }
@@ -141,7 +178,7 @@ function parseStaffModulesCSV($csvdata) {
     $csv = str_getcsv($line);
     if (count($csv) == 3) {
       $data[] = array(
-        "code"  => strtoupper($csv[0]),
+        "module_code"  => strtoupper($csv[0]),
         "aber_id" => $csv[1],
         "semester" => $csv[2]
       );
@@ -197,25 +234,25 @@ function parseStudentCSV($csvdata) {
   <div class="form-group">
     <label for="modules" class="col-sm-2 control-label required">Modules<p class="help-block">Module CSV Data</p></label>
     <div class="col-sm-10">
-      <textarea id="modules" name="modules" class="form-control" rows="3" placeholder="module_code,module_title"></textarea>
+      <textarea id="modules" name="modules" class="form-control" rows="3" placeholder="module_code,module_title" required></textarea>
     </div>
   </div>
   <div class="form-group">
     <label for="staff" class="col-sm-2 control-label required">Staff<p class="help-block">Staff CSV Data</p></label>
     <div class="col-sm-10">
-      <textarea id="staff" name="staff" class="form-control" rows="3" placeholder="aber_id,name"></textarea>
+      <textarea id="staff" name="staff" class="form-control" rows="3" placeholder="aber_id,name" required></textarea>
     </div>
   </div>
   <div class="form-group">
     <label for="staffmodules" class="col-sm-2 control-label required">Staff Modules<p class="help-block">Staff Modules CSV Data</p></label>
     <div class="col-sm-10">
-      <textarea id="staffmodules" name="staffmodules" class="form-control" rows="3" placeholder="module_code,aber_id,semester"></textarea>
+      <textarea id="staffmodules" name="staffmodules" class="form-control" rows="3" placeholder="module_code,aber_id,semester" required></textarea>
     </div>
   </div>
   <div class="form-group">
     <label for="students" class="col-sm-2 control-label required">Students<p class="help-block">Student CSV Data</p></label>
     <div class="col-sm-10">
-      <textarea id="students" name="students" class="form-control" rows="3" placeholder="aber_id,department,module1,module2,module3..."></textarea>
+      <textarea id="students" name="students" class="form-control" rows="3" placeholder="aber_id,department,module1,module2,module3..." required></textarea>
     </div>
   </div>
   <div class="form-group">

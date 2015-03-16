@@ -4,8 +4,8 @@
         <name><![CDATA[Answers]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>882.00</x>
-            <y>240.00</y>
+            <x>393.00</x>
+            <y>397.00</y>
         </location>
         <size>
             <width>193.00</width>
@@ -55,8 +55,8 @@
         <name><![CDATA[Modules]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>312.00</x>
-            <y>320.00</y>
+            <x>212.00</x>
+            <y>42.00</y>
         </location>
         <size>
             <width>192.00</width>
@@ -64,16 +64,31 @@
         </size>
         <zorder>4</zorder>
         <SQLField>
-            <name><![CDATA[code]]></name>
-            <type><![CDATA[CHAR]]></type>
+            <name><![CDATA[module_code]]></name>
+            <type><![CDATA[CHAR(7)]]></type>
             <primaryKey>1</primaryKey>
-            <forcedUnique><![CDATA[1]]></forcedUnique>
+            <forcedUnique><![CDATA[0]]></forcedUnique>
             <uid><![CDATA[636CFB4F-ACA0-4E43-B70F-ECCBD816A91A]]></uid>
         </SQLField>
         <SQLField>
             <name><![CDATA[title]]></name>
             <type><![CDATA[INTEGER]]></type>
             <uid><![CDATA[2C1C7146-BE38-4349-9E86-81AE10F1522D]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[survey_id]]></name>
+            <type><![CDATA[INT]]></type>
+            <primaryKey>1</primaryKey>
+            <referencesField>id</referencesField>
+            <referencesTable>Surveys</referencesTable>
+            <referencesField><![CDATA[id]]></referencesField>
+            <referencesTable><![CDATA[Surveys]]></referencesTable>
+            <sourceCardinality>0</sourceCardinality>
+            <destinationCardinality>0</destinationCardinality>
+            <referencesFieldUID><![CDATA[8EE12861-833C-4325-84DD-1C71AC56C0C9]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[B9E71DC9-1C72-4BF3-8267-79B8CD373CA5]]></referencesTableUID>
+            <forcedUnique><![CDATA[0]]></forcedUnique>
+            <uid><![CDATA[CF12901F-C3C7-4F52-A29B-407D8E602D81]]></uid>
         </SQLField>
         <hidden><![CDATA[0]]></hidden>
         <labelWindowIndex><![CDATA[6]]></labelWindowIndex>
@@ -84,39 +99,43 @@
         <name><![CDATA[StudentModules]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>594.00</x>
-            <y>451.00</y>
+            <x>910.00</x>
+            <y>221.00</y>
         </location>
         <size>
             <width>192.00</width>
-            <height>100.00</height>
+            <height>180.00</height>
         </size>
         <zorder>7</zorder>
         <SQLField>
             <name><![CDATA[aber_id]]></name>
             <type><![CDATA[VARCHAR(8)]]></type>
-            <referencesField>aber_id</referencesField>
-            <referencesTable>Students</referencesTable>
-            <referencesField><![CDATA[aber_id]]></referencesField>
-            <referencesTable><![CDATA[Students]]></referencesTable>
-            <sourceCardinality>0</sourceCardinality>
-            <destinationCardinality>0</destinationCardinality>
-            <referencesFieldUID><![CDATA[5A24FF73-6BA6-4E8F-AE4E-D24316C02BC9]]></referencesFieldUID>
-            <referencesTableUID><![CDATA[72DF262B-F074-43A0-AD78-59A6139B3411]]></referencesTableUID>
             <uid><![CDATA[7CB0E772-5081-4BA1-AB23-13513A25BC61]]></uid>
         </SQLField>
         <SQLField>
             <name><![CDATA[module_code]]></name>
-            <type><![CDATA[CHAR]]></type>
-            <referencesField>code</referencesField>
-            <referencesTable>Modules</referencesTable>
-            <referencesField><![CDATA[code]]></referencesField>
-            <referencesTable><![CDATA[Modules]]></referencesTable>
+            <type><![CDATA[CHAR(7)]]></type>
+            <primaryKey>1</primaryKey>
+            <uid><![CDATA[E138CCD6-F6DC-4844-899F-6B5842C89699]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[survey_id]]></name>
+            <type><![CDATA[INT]]></type>
+            <referencesField>id</referencesField>
+            <referencesTable>Surveys</referencesTable>
+            <referencesField><![CDATA[id]]></referencesField>
+            <referencesTable><![CDATA[Surveys]]></referencesTable>
             <sourceCardinality>0</sourceCardinality>
             <destinationCardinality>0</destinationCardinality>
-            <referencesFieldUID><![CDATA[636CFB4F-ACA0-4E43-B70F-ECCBD816A91A]]></referencesFieldUID>
-            <referencesTableUID><![CDATA[454CD7AB-D11E-47B7-AB1E-A0DCACD71029]]></referencesTableUID>
-            <uid><![CDATA[E138CCD6-F6DC-4844-899F-6B5842C89699]]></uid>
+            <referencesFieldUID><![CDATA[8EE12861-833C-4325-84DD-1C71AC56C0C9]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[B9E71DC9-1C72-4BF3-8267-79B8CD373CA5]]></referencesTableUID>
+            <uid><![CDATA[8082C7C3-EF1B-4275-8C6C-702B740BFDFD]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[token]]></name>
+            <type><![CDATA[CHAR(16)]]></type>
+            <primaryKey>1</primaryKey>
+            <uid><![CDATA[F92FC980-36F0-474E-B7BA-7C75DFEEFA9E]]></uid>
         </SQLField>
         <hidden><![CDATA[0]]></hidden>
         <labelWindowIndex><![CDATA[5]]></labelWindowIndex>
@@ -127,8 +146,8 @@
         <name><![CDATA[Questionnaires]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>828.00</x>
-            <y>81.00</y>
+            <x>118.00</x>
+            <y>232.00</y>
         </location>
         <size>
             <width>192.00</width>
@@ -177,8 +196,8 @@
         <name><![CDATA[Students]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>898.00</x>
-            <y>431.00</y>
+            <x>911.00</x>
+            <y>74.00</y>
         </location>
         <size>
             <width>192.00</width>
@@ -188,6 +207,7 @@
         <SQLField>
             <name><![CDATA[token]]></name>
             <type><![CDATA[CHAR(16)]]></type>
+            <primaryKey>1</primaryKey>
             <referencesField>token</referencesField>
             <referencesTable>Questionnaires</referencesTable>
             <referencesField><![CDATA[token]]></referencesField>
@@ -197,14 +217,29 @@
             <referencesFieldUID><![CDATA[1242B7C0-8B4D-47E6-A57F-C485F85E1958]]></referencesFieldUID>
             <referencesTableUID><![CDATA[65169852-B39E-4E60-98F7-6DDDDFF7E7AA]]></referencesTableUID>
             <uid><![CDATA[EE0EC5B3-03C1-451A-A8C4-6A9C10A976AC]]></uid>
+            <unique><![CDATA[1]]></unique>
         </SQLField>
         <SQLField>
             <name><![CDATA[aber_id]]></name>
             <type><![CDATA[VARCHAR(8)]]></type>
             <primaryKey>1</primaryKey>
-            <forcedUnique><![CDATA[1]]></forcedUnique>
+            <forcedUnique><![CDATA[0]]></forcedUnique>
             <uid><![CDATA[5A24FF73-6BA6-4E8F-AE4E-D24316C02BC9]]></uid>
             <unique><![CDATA[0]]></unique>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[survey_id]]></name>
+            <type><![CDATA[INT]]></type>
+            <primaryKey>1</primaryKey>
+            <referencesField>id</referencesField>
+            <referencesTable>Surveys</referencesTable>
+            <referencesField><![CDATA[id]]></referencesField>
+            <referencesTable><![CDATA[Surveys]]></referencesTable>
+            <sourceCardinality>0</sourceCardinality>
+            <destinationCardinality>0</destinationCardinality>
+            <referencesFieldUID><![CDATA[8EE12861-833C-4325-84DD-1C71AC56C0C9]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[B9E71DC9-1C72-4BF3-8267-79B8CD373CA5]]></referencesTableUID>
+            <uid><![CDATA[7A24E7A5-FC28-4655-B9A9-EC2F33AF3E9D]]></uid>
         </SQLField>
         <hidden><![CDATA[0]]></hidden>
         <labelWindowIndex><![CDATA[3]]></labelWindowIndex>
@@ -215,39 +250,36 @@
         <name><![CDATA[StaffModules]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>70.00</x>
-            <y>320.00</y>
+            <x>655.00</x>
+            <y>225.00</y>
         </location>
         <size>
-            <width>192.00</width>
-            <height>100.00</height>
+            <width>162.00</width>
+            <height>80.00</height>
         </size>
         <zorder>8</zorder>
         <SQLField>
             <name><![CDATA[module_code]]></name>
-            <type><![CDATA[CHAR]]></type>
-            <referencesField>code</referencesField>
-            <referencesTable>Modules</referencesTable>
-            <referencesField><![CDATA[code]]></referencesField>
-            <referencesTable><![CDATA[Modules]]></referencesTable>
-            <sourceCardinality>0</sourceCardinality>
-            <destinationCardinality>0</destinationCardinality>
-            <referencesFieldUID><![CDATA[636CFB4F-ACA0-4E43-B70F-ECCBD816A91A]]></referencesFieldUID>
-            <referencesTableUID><![CDATA[454CD7AB-D11E-47B7-AB1E-A0DCACD71029]]></referencesTableUID>
+            <type><![CDATA[CHAR(7)]]></type>
             <uid><![CDATA[1F8D8DEA-9C4B-451F-A45D-EA04160FD9C3]]></uid>
         </SQLField>
         <SQLField>
             <name><![CDATA[aber_id]]></name>
             <type><![CDATA[VARCHAR(8)]]></type>
-            <referencesField>aber_id</referencesField>
-            <referencesTable>Staff</referencesTable>
-            <referencesField><![CDATA[aber_id]]></referencesField>
-            <referencesTable><![CDATA[Staff]]></referencesTable>
+            <uid><![CDATA[D0DF652C-9DB4-413E-86D8-A71A2DDC460D]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[survey_id]]></name>
+            <type><![CDATA[INT]]></type>
+            <referencesField>id</referencesField>
+            <referencesTable>Surveys</referencesTable>
+            <referencesField><![CDATA[id]]></referencesField>
+            <referencesTable><![CDATA[Surveys]]></referencesTable>
             <sourceCardinality>0</sourceCardinality>
             <destinationCardinality>0</destinationCardinality>
-            <referencesFieldUID><![CDATA[084CA9E1-0001-4ABF-8ABA-D2EC0C783A92]]></referencesFieldUID>
-            <referencesTableUID><![CDATA[B086715E-B992-410B-8773-C40EC087FB8B]]></referencesTableUID>
-            <uid><![CDATA[D0DF652C-9DB4-413E-86D8-A71A2DDC460D]]></uid>
+            <referencesFieldUID><![CDATA[8EE12861-833C-4325-84DD-1C71AC56C0C9]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[B9E71DC9-1C72-4BF3-8267-79B8CD373CA5]]></referencesTableUID>
+            <uid><![CDATA[AA30060E-EB92-452F-9F70-D3CAD6A136CB]]></uid>
         </SQLField>
         <hidden><![CDATA[0]]></hidden>
         <labelWindowIndex><![CDATA[2]]></labelWindowIndex>
@@ -258,12 +290,12 @@
         <name><![CDATA[Questions]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>554.00</x>
-            <y>203.00</y>
+            <x>102.00</x>
+            <y>388.00</y>
         </location>
         <size>
             <width>224.00</width>
-            <height>140.00</height>
+            <height>240.00</height>
         </size>
         <zorder>3</zorder>
         <SQLField>
@@ -302,14 +334,6 @@
         <SQLField>
             <name><![CDATA[module]]></name>
             <type><![CDATA[CHAR]]></type>
-            <referencesField>code</referencesField>
-            <referencesTable>Modules</referencesTable>
-            <referencesField><![CDATA[code]]></referencesField>
-            <referencesTable><![CDATA[Modules]]></referencesTable>
-            <sourceCardinality>0</sourceCardinality>
-            <destinationCardinality>0</destinationCardinality>
-            <referencesFieldUID><![CDATA[636CFB4F-ACA0-4E43-B70F-ECCBD816A91A]]></referencesFieldUID>
-            <referencesTableUID><![CDATA[454CD7AB-D11E-47B7-AB1E-A0DCACD71029]]></referencesTableUID>
             <uid><![CDATA[08692CE7-6BAA-4253-B2B4-8E70582A7413]]></uid>
         </SQLField>
         <SQLField>
@@ -322,6 +346,11 @@
             <type><![CDATA[INTEGER]]></type>
             <uid><![CDATA[5C4864A1-898B-4458-BB2A-BB49307B94CE]]></uid>
         </SQLField>
+        <SQLField>
+            <name><![CDATA[code]]></name>
+            <type><![CDATA[CHAR]]></type>
+            <uid><![CDATA[B902DD5A-6538-49D3-BA49-52B159283D8C]]></uid>
+        </SQLField>
         <hidden><![CDATA[0]]></hidden>
         <labelWindowIndex><![CDATA[1]]></labelWindowIndex>
         <ui.treeExpanded><![CDATA[1]]></ui.treeExpanded>
@@ -331,8 +360,8 @@
         <name><![CDATA[Staff]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>312.00</x>
-            <y>472.00</y>
+            <x>658.00</x>
+            <y>79.00</y>
         </location>
         <size>
             <width>192.00</width>
@@ -343,7 +372,7 @@
             <name><![CDATA[aber_id]]></name>
             <type><![CDATA[VARCHAR(8)]]></type>
             <primaryKey>1</primaryKey>
-            <forcedUnique><![CDATA[1]]></forcedUnique>
+            <forcedUnique><![CDATA[0]]></forcedUnique>
             <uid><![CDATA[084CA9E1-0001-4ABF-8ABA-D2EC0C783A92]]></uid>
             <unique><![CDATA[0]]></unique>
         </SQLField>
@@ -351,6 +380,20 @@
             <name><![CDATA[name]]></name>
             <type><![CDATA[VARCHAR(255)]]></type>
             <uid><![CDATA[1287EB7B-6A79-46D9-B26A-03FEC93E1804]]></uid>
+        </SQLField>
+        <SQLField>
+            <name><![CDATA[survey_id]]></name>
+            <type><![CDATA[INT]]></type>
+            <primaryKey>1</primaryKey>
+            <referencesField>id</referencesField>
+            <referencesTable>Surveys</referencesTable>
+            <referencesField><![CDATA[id]]></referencesField>
+            <referencesTable><![CDATA[Surveys]]></referencesTable>
+            <sourceCardinality>0</sourceCardinality>
+            <destinationCardinality>0</destinationCardinality>
+            <referencesFieldUID><![CDATA[8EE12861-833C-4325-84DD-1C71AC56C0C9]]></referencesFieldUID>
+            <referencesTableUID><![CDATA[B9E71DC9-1C72-4BF3-8267-79B8CD373CA5]]></referencesTableUID>
+            <uid><![CDATA[CC07A12E-5D93-45FD-825C-2D46B0834B89]]></uid>
         </SQLField>
         <hidden><![CDATA[0]]></hidden>
         <labelWindowIndex><![CDATA[0]]></labelWindowIndex>
@@ -361,8 +404,8 @@
         <name><![CDATA[Surveys]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>312.00</x>
-            <y>101.00</y>
+            <x>687.00</x>
+            <y>560.00</y>
         </location>
         <size>
             <width>192.00</width>
@@ -574,11 +617,11 @@ c28tYTSGhoY=
         <snapToGrid><![CDATA[0]]></snapToGrid>
         <SourceSidebarWidth><![CDATA[276.000000]]></SourceSidebarWidth>
         <uid><![CDATA[A6C65723-FD44-44AE-94AE-3CD5327F7542]]></uid>
-        <windowHeight><![CDATA[1027.000000]]></windowHeight>
-        <windowLocationX><![CDATA[240.000000]]></windowLocationX>
-        <windowLocationY><![CDATA[1200.000000]]></windowLocationY>
-        <windowScrollOrigin><![CDATA[{0, 0}]]></windowScrollOrigin>
-        <windowWidth><![CDATA[1680.000000]]></windowWidth>
+        <windowHeight><![CDATA[873.000000]]></windowHeight>
+        <windowLocationX><![CDATA[0.000000]]></windowLocationX>
+        <windowLocationY><![CDATA[4.000000]]></windowLocationY>
+        <windowScrollOrigin><![CDATA[{13.5, 0}]]></windowScrollOrigin>
+        <windowWidth><![CDATA[1440.000000]]></windowWidth>
     </SQLDocumentInfo>
     <AllowsIndexRenamingOnInsert><![CDATA[1]]></AllowsIndexRenamingOnInsert>
     <containerName><![CDATA[model controller orginal container]]></containerName>
