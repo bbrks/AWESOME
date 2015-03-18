@@ -164,7 +164,7 @@ function addQuestions($arr) {
   </table>
 
   <input type="submit" name="submit" class="btn btn-success" value="Save Questions" />
-  <a class="btn btn-primary" href="send?id=<?php echo $id; ?>">Send Survey</a>
+  <a class="btn btn-primary" href="send?id=<?php echo $survey_id; ?>">Send Survey</a>
 
 </form>
 
