@@ -1,16 +1,7 @@
 <?php
 
-require_once('../header.php');
-
 $survey_id = $_GET['id'];
-$questions = getQuestions($survey_id);
 $modules = getModules($survey_id);
-
-if (count($questions) == 0) {
-  $questions[0]['text_en'] = '';
-  $questions[0]['text_cy'] = '';
-  $questions[0]['type'] = 'text';
-}
 
 if (isset($_POST['submit'])) {
 
@@ -35,34 +26,6 @@ if (isset($_POST['submit'])) {
 
 }
 
-function getModules($id) {
-  $db = new Database();
-  $db->query('SELECT * FROM modules WHERE survey_id = :survey_id');
-  $db->bind(':survey_id', $id);
-  return $db->resultset();
-}
-
-function getModuleQuestions($module_code, $id) {
-  $db = new Database();
-  $db->query('SELECT * FROM questions WHERE survey_id = :survey_id AND module = :module_code');
-  $db->bind(':module_code', $module_code);
-  $db->bind(':survey_id', $id);
-  $questions = $db->resultset();
-  if (count($questions) == 0) {
-    $questions[0]['text_en'] = '';
-    $questions[0]['text_cy'] = '';
-    $questions[0]['type'] = 'text';
-  }
-  return $questions;
-}
-
-function getQuestions($id) {
-  $db = new Database();
-  $db->query('SELECT * FROM questions WHERE survey_id = :survey_id');
-  $db->bind(':survey_id', $id);
-  return $db->resultset();
-}
-
 function addQuestions($arr) {
   $db = new Database();
   $db->query('DELETE FROM questions WHERE survey_id = :survey_id');
@@ -82,11 +45,6 @@ function addQuestions($arr) {
 
 ?>
 
-<div class="page-header">
-  <h1>Questions</h1>
-  <p>Add survey, repeated and module-specific questions to the survey here.</p>
-</div>
-
 <form class="" role="form" method="post" action="">
   <h2>Survey Questions <span class="small">(Once per questionnaire)</span></h2>
   <table id="survey-question-table" class="table">
@@ -99,7 +57,8 @@ function addQuestions($arr) {
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($questions as $question) { ?>
+      <?php $questions_global = getQuestions($survey_id, null); ?>
+      <?php foreach ($questions_global as $question) { ?>
       <tr class="question-table-row">
         <td><input class="form-control" name="questions['text_en'][]" type="text" value="<?php echo $question['text_en']; ?>" /></td>
         <td><input class="form-control" name="questions['text_cy'][]" type="text" value="<?php echo $question['text_cy']; ?>" /></td>
@@ -121,7 +80,8 @@ function addQuestions($arr) {
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($questions as $question) { ?>
+      <?php $questions_repeated = getQuestions($survey_id, '0'); ?>
+      <?php foreach ($questions_repeated as $question) { ?>
       <tr class="question-table-row">
         <td><input class="form-control" name="questions['text_en'][]" type="text" value="<?php echo $question['text_en']; ?>" /></td>
         <td><input class="form-control" name="questions['text_cy'][]" type="text" value="<?php echo $question['text_cy']; ?>" /></td>
@@ -167,5 +127,3 @@ function addQuestions($arr) {
   <a class="btn btn-primary" href="send?id=<?php echo $survey_id; ?>">Send Survey</a>
 
 </form>
-
-<?php require_once('../footer.php'); ?>

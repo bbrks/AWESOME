@@ -54,87 +54,52 @@ $survey = getSurvey($_GET['id']);
 
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="questions">
-      <?php $questions_global = getQuestions($survey['id'], null); ?>
-      <h2>Survey Questions <span class="small">(Once per questionnaire)</span></h2>
+      <?php include('tpl_questions.php'); ?>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="students">
+      <h2>Students</h2>
       <table id="survey-question-table" class="table">
         <thead>
           <tr>
-            <th>Question Text (en)</th>
-            <th>Question Text (cy)</th>
+            <th>Student ID</th>
+            <th>Token</th>
+            <th><a href="send?id=<?php echo $survey_id; ?>" class="btn btn-primary"><span class="glyphicon glyphicon-send"></span> Resend all</a></th>
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($questions_global as $question) { ?>
-          <tr class="question-table-row">
-            <td><?php echo $question['text_en']; ?></td>
-            <td><?php echo $question['text_cy']; ?></td>
-          </tr>
-          <?php } ?>
+        <?php
+        $students = getStudents($survey['id']);
+        foreach ($students as $student) { ?>
+            <tr>
+              <td><?php echo $student['aber_id'] ?></td>
+              <td><?php echo $student['token'] ?></td>
+              <td></td>
+            </tr>
+        <?php } ?>
         </tbody>
       </table>
-
-      <?php $questions_repeated = getQuestions($survey['id'], '0'); ?>
-      <h2>Repeated Questions <span class="small">(Repeated every module)</span></h2>
-      <table id="repeated-question-table" class="table">
+    </div>
+    <div role="tabpanel" class="tab-pane" id="modules">
+      <h2>Modules</h2>
+      <table id="survey-question-table" class="table">
         <thead>
           <tr>
-            <th>Question Text (en)</th>
-            <th>Question Text (cy)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach ($questions_repeated as $question) { ?>
-          <tr class="question-table-row">
-            <td><?php echo $question['text_en']; ?></td>
-            <td><?php echo $question['text_cy']; ?></td>
-          </tr>
-          <?php } ?>
-        </tbody>
-      </table>
-
-      <h2>Module Specific Questions <span class="small">(Ask a specific question)</span></h2>
-      <table id="module-question-table" class="table">
-        <thead>
-          <tr>
-            <th>Module</th>
-            <th>Question Text (en)</th>
-            <th>Question Text (cy)</th>
+            <th>Module Code</th>
+            <th>Title</th>
+            <th>Staff</th>
           </tr>
         </thead>
         <tbody>
           <?php
-          $modules = getModules($survey['id']);
-          foreach ($modules as $module) {
-            $questions_module = getQuestions($survey['id'], $module['module_code']);
-            foreach ($questions_module as $question) { ?>
-            <tr class="question-table-row">
-              <td><?php echo $question['module']; ?></td>
-              <td><?php echo $question['text_en']; ?></td>
-              <td><?php echo $question['text_cy']; ?></td>
+          foreach ($modules as $module) { ?>
+            <tr>
+              <td><?php echo $module['module_code'] ?></td>
+              <td><?php echo $module['title'] ?></td>
+              <td><?php echo $module['module_code'] ?></td>
             </tr>
-            <?php }
-            } ?>
+          <?php } ?>
         </tbody>
       </table>
-    </div>
-    <div role="tabpanel" class="tab-pane" id="students">
-      <h2>Students</h2>
-      <ul>
-      <?php
-      $students = getStudents($survey['id']);
-      foreach ($students as $student) {
-        echo '<li>'.$student['token'].' - '.$student['aber_id'].'</li>';
-      } ?>
-      </ul>
-    </div>
-    <div role="tabpanel" class="tab-pane" id="modules">
-      <h2>Modules</h2>
-      <ul>
-      <?php
-      foreach ($modules as $module) {
-        echo '<li>'.$module['module_code'].' - '.$module['title'].'</li>';
-      } ?>
-      </ul>
     </div>
   </div>
 
