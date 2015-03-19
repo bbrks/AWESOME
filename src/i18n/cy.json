@@ -3,5 +3,6 @@
   "@lang" : "Cymru",
   "app_title" : "AWESOME",
   "missing-questionnaire" : "Ni ellid dod o hyd yr holiadur gofynnwyd amdani.",
-  "missing-questions" : "Ni allai unrhyw gwestiynau sy'n gysylltiedig â'r holiadur hwn i'w gael."
+  "missing-questions" : "Ni allai unrhyw gwestiynau sy'n gysylltiedig â'r holiadur hwn i'w gael.",
+  "already-completed" : "already-completed: TODO"
 }
