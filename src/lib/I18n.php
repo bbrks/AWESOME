@@ -24,7 +24,6 @@ class I18n {
        $this->directory = ROOT.DS.'i18n'.DS;
     }
 
-    $this->lang = $lang;
     $this->setLang($lang);
 
   }
