@@ -109,19 +109,18 @@ function generateToken() {
 function insertStudents($arr, $survey_id) {
   $db = new Database();
   $db->beginTransaction();
-  $db->query('INSERT INTO Students (token, aber_id, survey_id) VALUES (:token, :aber_id, :survey_id)');
   foreach ($arr as $student) {
-    $db->bind(':token', generateToken());
+    $token = generateToken();
+    $db->query('INSERT INTO Students (token, aber_id, survey_id) VALUES (:token, :aber_id, :survey_id)');
+    $db->bind(':token', $token);
     $db->bind(':aber_id', $student['aber_id']);
     $db->bind(':survey_id', $survey_id);
     $db->execute();
-  }
-  $db->query('INSERT INTO StudentModules (aber_id, module_code, token, survey_id) VALUES (:aber_id, :module_code, :token, :survey_id)');
-  foreach ($arr as $student) {
-    foreach ($arr['modules'] as $module) {
+    $db->query('INSERT INTO StudentModules (aber_id, module_code, token, survey_id) VALUES (:aber_id, :module_code, :token, :survey_id)');
+    foreach ($student['modules'] as $module) {
       $db->bind(':aber_id', $student['aber_id']);
-      $db->bind(':module_code', $module['module_code']);
-      $db->bind(':token', $student['token']);
+      $db->bind(':module_code', $module);
+      $db->bind(':token', $token);
       $db->bind(':survey_id', $survey_id);
       $db->execute();
     }
