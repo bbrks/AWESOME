@@ -15,10 +15,12 @@
       $db->query('UPDATE Questionnaires SET completed=1 WHERE token = :token');
       $db->bind(':token', $token);
       $db->execute();
-      $db->endTransaction();
+      return $db->endTransaction();
     }
 
-    insertAnswers($token, $survey['id'], $_POST['answer']);
+    if (insertAnswers($token, $survey['id'], $_POST['answer']) == true) {
+      header("Refresh:0");
+    }
 
   } ?>
 

@@ -6,6 +6,7 @@ $modules = getModules($survey_id);
 if (isset($_POST['submit'])) {
 
   $post_questions = $_POST['questions'];
+  print_r($post_questions);
   $questions = array();
 
   for ($i=0; $i < count($post_questions["'text_en'"]); $i++) {
@@ -26,16 +27,36 @@ if (isset($_POST['submit'])) {
 
 }
 
+function getQuestions($id, $module = null, $fillEmpty = true) {
+  $db = new Database();
+  if ($module != null) {
+    $db->query('SELECT * FROM questions WHERE survey_id = :survey_id AND module = :module');
+    $db->bind(':module', $module);
+  } else {
+    $db->query('SELECT * FROM questions WHERE survey_id = :survey_id AND module IS NULL');
+  }
+  $db->bind(':survey_id', $id);
+  $questions = $db->resultset();
+
+  if ($fillEmpty == true && (count($questions) == 0)) {
+    $questions[0]['text_en'] = '';
+    $questions[0]['text_cy'] = '';
+    $questions[0]['type'] = 'text';
+  }
+
+  return $questions;
+
+}
+
 function addQuestions($arr) {
   $db = new Database();
-  $db->query('DELETE FROM questions WHERE survey_id = :survey_id');
-  $db->bind(':survey_id', $_GET['id']);
-  $db->execute();
   $db->beginTransaction();
-  $db->query('INSERT INTO questions (text_en, text_cy, type, survey_id) VALUES (:text_en, :text_cy, :type, :survey_id)');
+  $db->query('INSERT INTO questions (id, text_en, text_cy, type, survey_id, module) VALUES (:id, :text_en, :text_cy, :type, :survey_id, :module)');
   foreach ($arr as $question) {
+    $db->bind(':id', $question['id']);
     $db->bind(':text_en', $question['text_en']);
     $db->bind(':text_cy', $question['text_cy']);
+    $db->bind(':module', $question['module']);
     $db->bind(':type', $question['type']);
     $db->bind(':survey_id', $_GET['id']);
     $db->execute();
@@ -104,21 +125,22 @@ function addQuestions($arr) {
       </tr>
     </thead>
     <tbody>
-      <?php foreach ($questions as $question) { ?>
+      <?php foreach ($modules as $module) { ?>
+      <?php $questions_module = getQuestions($survey_id, $module['module_code'], false); ?>
+      <?php foreach ($questions_module as $question) { ?>
       <tr class="question-table-row">
         <td><select class="form-control" name="questions['module'][]">
-          <?php foreach ($modules as $module) {
-
-            $module_questions = getModuleQuestions($module['module_code'], $survey_id);
-            echo '<option value="'.htmlspecialchars($module['module_code']).'">'.htmlspecialchars($module['module_code']).' - '.htmlspecialchars($module['title']).'</option>';
-
-          } ?>
+          <?php foreach ($modules as $module) { ?>
+          <?php $selected = ($module['module_code'] == $question['module']) ? ' selected' : ''; ?>
+          <?php echo '<option value="'.htmlspecialchars($module['module_code']).'"'.$selected.'>'.htmlspecialchars($module['module_code']).' - '.htmlspecialchars($module['title']).'</option>'; ?>
+          <?php } ?>
         </select></td>
         <td><input class="form-control" name="questions['text_en'][]" type="text" value="<?php echo htmlspecialchars($question['text_en']); ?>" /></td>
         <td><input class="form-control" name="questions['text_cy'][]" type="text" value="<?php echo htmlspecialchars($question['text_cy']); ?>" /></td>
         <td><select class="form-control" name="questions['type'][]" readonly><option value="text">Text</option></select></td>
         <td><a onclick="removeTableRow(this)" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete Question"><span class="glyphicon glyphicon-trash"></span></a></td>
       </tr>
+      <?php } ?>
       <?php } ?>
     </tbody>
   </table>

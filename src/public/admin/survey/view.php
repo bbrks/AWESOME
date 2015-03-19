@@ -9,18 +9,6 @@ function getSurvey($id) {
   return $db->single();
 }
 
-function getQuestions($id, $module = null) {
-  $db = new Database();
-  if ($module != null) {
-    $db->query('SELECT * FROM questions WHERE survey_id = :survey_id AND module = :module');
-    $db->bind(':module', $module);
-  } else {
-    $db->query('SELECT * FROM questions WHERE survey_id = :survey_id AND module IS NULL');
-  }
-  $db->bind(':survey_id', $id);
-  return $db->resultset();
-}
-
 function getStudents($id) {
   $db = new Database();
   $db->query('SELECT * FROM students WHERE survey_id = :survey_id');

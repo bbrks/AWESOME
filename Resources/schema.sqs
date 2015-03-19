@@ -4,8 +4,8 @@
         <name><![CDATA[Answers]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>393.00</x>
-            <y>397.00</y>
+            <x>549.00</x>
+            <y>364.00</y>
         </location>
         <size>
             <width>193.00</width>
@@ -146,8 +146,8 @@
         <name><![CDATA[Questionnaires]]></name>
         <schema><![CDATA[]]></schema>
         <location>
-            <x>118.00</x>
-            <y>232.00</y>
+            <x>94.00</x>
+            <y>216.00</y>
         </location>
         <size>
             <width>192.00</width>
