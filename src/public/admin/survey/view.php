@@ -9,9 +9,14 @@ function getSurvey($id) {
   return $db->single();
 }
 
-function getQuestions($id) {
+function getQuestions($id, $module = null) {
   $db = new Database();
-  $db->query('SELECT * FROM questions WHERE survey_id = :survey_id');
+  if ($module != null) {
+    $db->query('SELECT * FROM questions WHERE survey_id = :survey_id AND module = :module');
+    $db->bind(':module', $module);
+  } else {
+    $db->query('SELECT * FROM questions WHERE survey_id = :survey_id AND module IS NULL');
+  }
   $db->bind(':survey_id', $id);
   return $db->resultset();
 }
@@ -49,9 +54,7 @@ $survey = getSurvey($_GET['id']);
 
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="questions">
-      <?php
-        $questions = getQuestions($survey['id']);
-      ?>
+      <?php $questions_global = getQuestions($survey['id'], null); ?>
       <h2>Survey Questions <span class="small">(Once per questionnaire)</span></h2>
       <table id="survey-question-table" class="table">
         <thead>
@@ -61,7 +64,7 @@ $survey = getSurvey($_GET['id']);
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($questions as $question) { ?>
+          <?php foreach ($questions_global as $question) { ?>
           <tr class="question-table-row">
             <td><?php echo $question['text_en']; ?></td>
             <td><?php echo $question['text_cy']; ?></td>
@@ -70,6 +73,7 @@ $survey = getSurvey($_GET['id']);
         </tbody>
       </table>
 
+      <?php $questions_repeated = getQuestions($survey['id'], '0'); ?>
       <h2>Repeated Questions <span class="small">(Repeated every module)</span></h2>
       <table id="repeated-question-table" class="table">
         <thead>
@@ -79,7 +83,7 @@ $survey = getSurvey($_GET['id']);
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($questions as $question) { ?>
+          <?php foreach ($questions_repeated as $question) { ?>
           <tr class="question-table-row">
             <td><?php echo $question['text_en']; ?></td>
             <td><?php echo $question['text_cy']; ?></td>
@@ -98,13 +102,18 @@ $survey = getSurvey($_GET['id']);
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($questions as $question) { ?>
-          <tr class="question-table-row">
-            <td><?php echo $question['module']; ?></td>
-            <td><?php echo $question['text_en']; ?></td>
-            <td><?php echo $question['text_cy']; ?></td>
-          </tr>
-          <?php } ?>
+          <?php
+          $modules = getModules($survey['id']);
+          foreach ($modules as $module) {
+            $questions_module = getQuestions($survey['id'], $module['module_code']);
+            foreach ($questions_module as $question) { ?>
+            <tr class="question-table-row">
+              <td><?php echo $question['module']; ?></td>
+              <td><?php echo $question['text_en']; ?></td>
+              <td><?php echo $question['text_cy']; ?></td>
+            </tr>
+            <?php }
+            } ?>
         </tbody>
       </table>
     </div>
@@ -122,7 +131,6 @@ $survey = getSurvey($_GET['id']);
       <h2>Modules</h2>
       <ul>
       <?php
-      $modules = getModules($survey['id']);
       foreach ($modules as $module) {
         echo '<li>'.$module['module_code'].' - '.$module['title'].'</li>';
       } ?>
