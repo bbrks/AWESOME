@@ -6,6 +6,14 @@ function getSurveys() {
   return $db->resultset();
 }
 
+function getParticipants($id, $completed = 0) {
+  $db = new Database();
+  $db->query('SELECT * FROM questionnaires WHERE survey_id = :survey_id AND completed = :completed');
+  $db->bind(':survey_id', $id);
+  $db->bind(':completed', $completed);
+  return $db->resultset();
+}
+
 $surveys = getSurveys();
 
 ?>
@@ -16,26 +24,31 @@ $surveys = getSurveys();
   <thead>
     <tr>
       <th>Survey Name</th>
-      <!-- <th>Responses</th> -->
+      <th>Survey Description</th>
+      <th>Responses</th>
       <th>Date</th>
       <th>Status</th>
       <th width="1"><a href="survey/add" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Create Survey"><span class="glyphicon glyphicon-plus"></span></a></th>
     </tr>
   </thead>
   <tbody>
-    <?php foreach ($surveys as $survey) { ?>
+    <?php foreach ($surveys as $survey) {
+      $completed = count(getParticipants($survey['id'], 1));
+      $incomplete = count(getParticipants($survey['id'], 0));
+    ?>
     <tr data-href="survey/view?id=<?php echo $survey['id']; ?>">
       <td><?php echo $survey['title']; ?></td>
-      <!-- <td>
+      <td><?php echo $survey['subtitle']; ?></td>
+      <td>
         <div class="progress">
-          <div class="progress-bar progress-bar-success" style="width: 67.7%" data-toggle="tooltip" data-placement="top" title="67.7%">
-            84<span class="sr-only"> Answered</span>
+          <div class="progress-bar progress-bar-success" style="width: <?php echo ($completed/($completed+$incomplete))*100 ?>%" data-toggle="tooltip" data-placement="top" title="<?php echo ($completed/($completed+$incomplete))*100 ?>%">
+            <?php echo $completed; ?><span class="hidden-xs"> Answered</span>
           </div>
-          <div class="progress-bar progress-bar-danger" style="width: 32.3%" data-toggle="tooltip" data-placement="top" title="32.3%">
-            40<span class="sr-only"> Unanswered</span>
+          <div class="progress-bar progress-bar-danger" style="width: <?php echo ($incomplete/($completed+$incomplete))*100 ?>%" data-toggle="tooltip" data-placement="top" title="<?php echo ($incomplete/($completed+$incomplete))*100 ?>%">
+            <?php echo $incomplete; ?><span class="hidden-xs"> Unanswered</span>
           </div>
         </div>
-      </td> -->
+      </td>
       <td><?php echo $survey['datetime']; ?></td>
       <td><?php echo ($survey['locked'] == 1) ? 'Locked' : 'Unlocked' ; ?></td>
       <td><!-- blank for + col --></td>
