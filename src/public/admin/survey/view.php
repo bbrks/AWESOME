@@ -58,7 +58,7 @@ $survey = getSurvey($_GET['id']);
     </div>
     <div role="tabpanel" class="tab-pane" id="students">
       <h2>Students</h2>
-      <table id="survey-question-table" class="table">
+      <table id="student-table" class="table">
         <thead>
           <tr>
             <th>Student ID</th>
@@ -81,7 +81,7 @@ $survey = getSurvey($_GET['id']);
     </div>
     <div role="tabpanel" class="tab-pane" id="modules">
       <h2>Modules</h2>
-      <table id="survey-question-table" class="table">
+      <table id="module-table" class="table">
         <thead>
           <tr>
             <th>Module Code</th>
