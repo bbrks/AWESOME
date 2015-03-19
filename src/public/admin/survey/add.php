@@ -47,7 +47,7 @@ if (isset($_POST['submit'])) {
 
   if ($id != null) {
     $msg = 'Survey Added';
-    header('Location: questions?id='.$id);
+    header('Location: view?id='.$id);
   } else {
     $err = '<strong>Error:</strong> Survey could not be created.';
   }

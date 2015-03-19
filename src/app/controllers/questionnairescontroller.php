@@ -10,25 +10,33 @@ class QuestionnairesController extends Controller {
         $questionnaire = $this->Questionnaire->single();
         $this->set('questionnaire', $questionnaire);
 
-        $this->Questionnaire = new Database();
-        $this->Questionnaire->query('SELECT * FROM surveys WHERE id = :survey_id');
-        $this->Questionnaire->bind(':survey_id', $questionnaire['survey_id']);
-        $survey = $this->Questionnaire->single();
-        $this->set('survey', $survey);
-
-        $this->Questionnaire = new Database();
-        $this->Questionnaire->query('SELECT * FROM questions WHERE survey_id = :survey_id');
-        $this->Questionnaire->bind(':survey_id', $questionnaire['survey_id']);
-        $questions = $this->Questionnaire->resultSet();
-
-        if ($this->Questionnaire->rowCount() >= 1) {
-            $this->set('questions', $questions);
+        if ($questionnaire['completed'] != 0) {
+            $this->set('error', __('already-completed'));
         } else {
-            $this->set('error', __('missing-questions'));
+
+            $this->Questionnaire = new Database();
+            $this->Questionnaire->query('SELECT * FROM surveys WHERE id = :survey_id');
+            $this->Questionnaire->bind(':survey_id', $questionnaire['survey_id']);
+            $survey = $this->Questionnaire->single();
+            $this->set('survey', $survey);
+
+            $this->Questionnaire = new Database();
+            $this->Questionnaire->query('SELECT * FROM questions WHERE survey_id = :survey_id');
+            $this->Questionnaire->bind(':survey_id', $questionnaire['survey_id']);
+            $questions = $this->Questionnaire->resultSet();
+
+            if ($this->Questionnaire->rowCount() >= 1) {
+                $this->set('questions', $questions);
+            } else {
+                $this->set('error', __('missing-questions'));
+            }
+
+            $this->set('title', $survey['title']);
+            $this->set('subtitle', $survey['subtitle']);
+
         }
 
-        $this->set('title', $survey['title']);
-        $this->set('subtitle', $survey['subtitle']);
+        $this->set('token', $token);
     }
 
 }
