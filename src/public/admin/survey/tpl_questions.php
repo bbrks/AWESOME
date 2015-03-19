@@ -60,8 +60,8 @@ function addQuestions($arr) {
       <?php $questions_global = getQuestions($survey_id, null); ?>
       <?php foreach ($questions_global as $question) { ?>
       <tr class="question-table-row">
-        <td><input class="form-control" name="questions['text_en'][]" type="text" value="<?php echo $question['text_en']; ?>" /></td>
-        <td><input class="form-control" name="questions['text_cy'][]" type="text" value="<?php echo $question['text_cy']; ?>" /></td>
+        <td><input class="form-control" name="questions['text_en'][]" type="text" value="<?php echo htmlspecialchars($question['text_en']); ?>" /></td>
+        <td><input class="form-control" name="questions['text_cy'][]" type="text" value="<?php echo htmlspecialchars($question['text_cy']); ?>" /></td>
         <td><select class="form-control" name="questions['type'][]" readonly><option value="text">Text</option></select></td>
         <td><a onclick="removeTableRow(this)" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete Question"><span class="glyphicon glyphicon-trash"></span></a></td>
       </tr>
@@ -83,8 +83,8 @@ function addQuestions($arr) {
       <?php $questions_repeated = getQuestions($survey_id, '0'); ?>
       <?php foreach ($questions_repeated as $question) { ?>
       <tr class="question-table-row">
-        <td><input class="form-control" name="questions['text_en'][]" type="text" value="<?php echo $question['text_en']; ?>" /></td>
-        <td><input class="form-control" name="questions['text_cy'][]" type="text" value="<?php echo $question['text_cy']; ?>" /></td>
+        <td><input class="form-control" name="questions['text_en'][]" type="text" value="<?php echo htmlspecialchars($question['text_en']); ?>" /></td>
+        <td><input class="form-control" name="questions['text_cy'][]" type="text" value="<?php echo htmlspecialchars($question['text_cy']); ?>" /></td>
         <td><select class="form-control" name="questions['type'][]" readonly><option value="text">Text</option></select></td>
         <td><a onclick="removeTableRow(this)" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete Question"><span class="glyphicon glyphicon-trash"></span></a></td>
       </tr>
@@ -110,12 +110,12 @@ function addQuestions($arr) {
           <?php foreach ($modules as $module) {
 
             $module_questions = getModuleQuestions($module['module_code'], $survey_id);
-            echo '<option value="'.$module['module_code'].'">'.$module['module_code'].' - '.$module['title'].'</option>';
+            echo '<option value="'.htmlspecialchars($module['module_code']).'">'.htmlspecialchars($module['module_code']).' - '.htmlspecialchars($module['title']).'</option>';
 
           } ?>
         </select></td>
-        <td><input class="form-control" name="questions['text_en'][]" type="text" value="<?php echo $question['text_en']; ?>" /></td>
-        <td><input class="form-control" name="questions['text_cy'][]" type="text" value="<?php echo $question['text_cy']; ?>" /></td>
+        <td><input class="form-control" name="questions['text_en'][]" type="text" value="<?php echo htmlspecialchars($question['text_en']); ?>" /></td>
+        <td><input class="form-control" name="questions['text_cy'][]" type="text" value="<?php echo htmlspecialchars($question['text_cy']); ?>" /></td>
         <td><select class="form-control" name="questions['type'][]" readonly><option value="text">Text</option></select></td>
         <td><a onclick="removeTableRow(this)" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete Question"><span class="glyphicon glyphicon-trash"></span></a></td>
       </tr>

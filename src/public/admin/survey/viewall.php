@@ -37,8 +37,8 @@ $surveys = getSurveys();
       $incomplete = count(getParticipants($survey['id'], 0));
     ?>
     <tr data-href="survey/view?id=<?php echo $survey['id']; ?>">
-      <td><?php echo $survey['title']; ?></td>
-      <td><?php echo $survey['subtitle']; ?></td>
+      <td><?php echo htmlspecialchars($survey['title']); ?></td>
+      <td><?php echo htmlspecialchars($survey['subtitle']); ?></td>
       <td>
         <div class="progress">
           <div class="progress-bar progress-bar-success" style="width: <?php echo ($completed/($completed+$incomplete))*100 ?>%" data-toggle="tooltip" data-placement="top" title="<?php echo ($completed/($completed+$incomplete))*100 ?>%">
@@ -49,7 +49,7 @@ $surveys = getSurveys();
           </div>
         </div>
       </td>
-      <td><?php echo $survey['datetime']; ?></td>
+      <td><?php echo htmlspecialchars($survey['datetime']); ?></td>
       <td><?php echo ($survey['locked'] == 1) ? 'Locked' : 'Unlocked' ; ?></td>
       <td><!-- blank for + col --></td>
     </tr>

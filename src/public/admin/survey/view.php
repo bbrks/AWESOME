@@ -40,7 +40,7 @@ $survey = getSurvey($_GET['id']);
 ?>
 
 <div class="page-header">
-<h2><?php echo $survey['title'] ?> <span class="small"><?php echo $survey['subtitle'] ?></span>
+<h2><?php echo htmlspecialchars($survey['title']); ?> <span class="small"><?php echo htmlspecialchars($survey['subtitle']); ?></span>
 <a href="delete?id=<?php echo $survey['id']; ?>" class="btn btn-danger pull-right">Delete Survey</a></h2>
 </div>
 
@@ -71,8 +71,8 @@ $survey = getSurvey($_GET['id']);
         $students = getStudents($survey['id']);
         foreach ($students as $student) { ?>
             <tr>
-              <td><?php echo $student['aber_id'] ?></td>
-              <td><?php echo $student['token'] ?></td>
+              <td><?php echo htmlspecialchars($student['aber_id']); ?></td>
+              <td><?php echo htmlspecialchars($student['token']); ?></td>
               <td></td>
             </tr>
         <?php } ?>
@@ -93,9 +93,9 @@ $survey = getSurvey($_GET['id']);
           <?php
           foreach ($modules as $module) { ?>
             <tr>
-              <td><?php echo $module['module_code'] ?></td>
-              <td><?php echo $module['title'] ?></td>
-              <td><?php echo $module['module_code'] ?></td>
+              <td><?php echo htmlspecialchars($module['module_code']); ?></td>
+              <td><?php echo htmlspecialchars($module['title']); ?></td>
+              <td><?php echo htmlspecialchars($module['module_code']); ?></td>
             </tr>
           <?php } ?>
         </tbody>
