@@ -158,7 +158,7 @@ function parseStaffCSV($csvdata) {
     $csv = str_getcsv($line);
     if (count($csv) == 2) {
       $data[] = array(
-        "aber_id"  => strtoupper($csv[0]),
+        "aber_id"  => strtolower($csv[0]),
         "name" => $csv[1]
       );
     }
@@ -177,8 +177,8 @@ function parseStaffModulesCSV($csvdata) {
     $csv = str_getcsv($line);
     if (count($csv) == 3) {
       $data[] = array(
-        "module_code" => $csv[0],
-        "aber_id" => $csv[1],
+        "module_code" => strtoupper($csv[0]),
+        "aber_id" => strtolower($csv[1]),
         "semester" => $csv[2]
       );
     }
