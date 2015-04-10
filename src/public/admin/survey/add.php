@@ -92,7 +92,7 @@ function insertStaff($arr, $survey_id) {
 function insertStaffModules($arr, $survey_id) {
   $db = new Database();
   $db->beginTransaction();
-  $db->query('INSERT INTO StaffModules (module_code, aber_id, survey_id) VALUES (:aber_id, :aber_id, :survey_id)');
+  $db->query('INSERT INTO StaffModules (module_code, aber_id, survey_id) VALUES (:module_code, :aber_id, :survey_id)');
   foreach ($arr as $staff_module) {
     $db->bind(':module_code', $staff_module['module_code']);
     $db->bind(':aber_id', $staff_module['aber_id']);
@@ -177,7 +177,7 @@ function parseStaffModulesCSV($csvdata) {
     $csv = str_getcsv($line);
     if (count($csv) == 3) {
       $data[] = array(
-        "module_code"  => strtoupper($csv[0]),
+        "module_code" => $csv[0],
         "aber_id" => $csv[1],
         "semester" => $csv[2]
       );
