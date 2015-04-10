@@ -16,6 +16,14 @@ function getStudents($id) {
   return $db->resultset();
 }
 
+function getModuleStaff($id, $module_code) {
+  $db = new Database();
+  $db->query('SELECT * FROM staffmodules WHERE survey_id = :survey_id AND module_code = :module_code');
+  $db->bind(':survey_id', $id);
+  $db->bind(':module_code', $module_code);
+  return $db->resultset();
+}
+
 function getModules($id) {
   $db = new Database();
   $db->query('SELECT * FROM modules WHERE survey_id = :survey_id');
@@ -37,6 +45,7 @@ $survey = getSurvey($_GET['id']);
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#questions" aria-controls="questions" role="tab" data-toggle="tab">Questions</a></li>
     <li role="presentation"><a href="#students" aria-controls="students" role="tab" data-toggle="tab">Students</a></li>
+    <li role="presentation"><a href="#staff" aria-controls="staff" role="tab" data-toggle="tab">Staff</a></li>
     <li role="presentation"><a href="#modules" aria-controls="modules" role="tab" data-toggle="tab">Modules</a></li>
   </ul>
 
@@ -83,7 +92,16 @@ $survey = getSurvey($_GET['id']);
             <tr>
               <td><?php echo htmlspecialchars($module['module_code']); ?></td>
               <td><?php echo htmlspecialchars($module['title']); ?></td>
-              <td><?php echo htmlspecialchars($module['module_code']); ?></td>
+              <td>
+                <?php
+                  $staff = getModuleStaff($survey['id'], $module['module_code']);
+                  $result = [];
+                  foreach ($staff as $staff_member) {
+                    $result[] = $staff_member['aber_id'];
+                  }
+                  echo implode(', ', $result);
+                ?>
+              </td>
             </tr>
           <?php } ?>
         </tbody>
