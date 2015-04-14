@@ -147,17 +147,19 @@ function addQuestions($arr) {
         </tr>
         <?php } ?>
       <?php } ?>
-      <tr class="question-table-row">
-        <td><select class="form-control" name="questions['module'][]">
-          <?php foreach ($modules as $module) { ?>
-          <?php echo '<option value="'.htmlspecialchars($module['module_code']).'"'.$selected.'>'.htmlspecialchars($module['module_code']).' - '.htmlspecialchars($module['title']).'</option>'; ?>
-          <?php } ?>
-        </select></td>
-        <td><input class="form-control" name="questions['text_en'][]" type="text" value="" /></td>
-        <td><input class="form-control" name="questions['text_cy'][]" type="text" value="" /></td>
-        <td><select class="form-control" name="questions['type'][]" readonly><option value="text">Text</option></select></td>
-        <td><a onclick="removeTableRow(this)" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete Question"><span class="glyphicon glyphicon-trash"></span></a></td>
-      </tr>
+      <?php if (sizeof($questions_module) > 0) { ?>
+        <tr class="question-table-row">
+          <td><select class="form-control" name="questions['module'][]">
+            <?php foreach ($modules as $module) { ?>
+            <?php echo '<option value="'.htmlspecialchars($module['module_code']).'"'.$selected.'>'.htmlspecialchars($module['module_code']).' - '.htmlspecialchars($module['title']).'</option>'; ?>
+            <?php } ?>
+          </select></td>
+          <td><input class="form-control" name="questions['text_en'][]" type="text" value="" /></td>
+          <td><input class="form-control" name="questions['text_cy'][]" type="text" value="" /></td>
+          <td><select class="form-control" name="questions['type'][]" readonly><option value="text">Text</option></select></td>
+          <td><a onclick="removeTableRow(this)" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete Question"><span class="glyphicon glyphicon-trash"></span></a></td>
+        </tr>
+      <?php } ?>
     </tbody>
   </table>
 
