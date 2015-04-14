@@ -38,6 +38,9 @@ require_once('lib/Database.php');
 ?>
 
 <?php
+  if (isset($_GET['msg'])) {
+    $msg = $_GET['msg'];
+  }
   if (isset($msg)) {
     echo '<div class="alert alert-success" role="alert">'.$msg.'</div>';
   }

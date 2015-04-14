@@ -25,11 +25,17 @@ function sendQuestionnaires($survey_id, $students) {
 }
 
 function sendMail($aber_id, $token) {
-  mail($aber_id.'@'.Config::MAIL_DOMAIN, 'An AWESOME Questionnaire is waiting to be completed.', "A new AWESOME questionnaire is waiting to be completed.\r\nPlease visit the address below to complete.\r\n\r\n".Config::BASE_URL.'/questionnaires/view/'.$token, 'From: AWESOME <'.Config::MAIL_FROM_ADDR.'>');
+  $to = $aber_id.'@'.Config::MAIL_DOMAIN;
+  $subject = 'An AWESOME Questionnaire is waiting to be completed.';
+  $body = "A new AWESOME questionnaire is waiting to be completed.\r\nPlease visit the address below to complete.\r\n\r\n".Config::BASE_URL.'/questionnaires/view/'.$token;
+  $headers = 'From: AWESOME <'.Config::MAIL_FROM_ADDR.'>';
+  mail($to, $subject, $body, $headers);
 }
 
-sendQuestionnaires($survey_id, getStudents($survey_id));
+$recipients = getStudents($survey_id);
 
-header('Location: view?id='.$survey_id);
+sendQuestionnaires($survey_id, $recipients);
+
+header('Location: view?id='.$survey_id.'&msg=Survey has been sent to '.count($recipients).' recipients.');
 
 require_once('../footer.php'); ?>
