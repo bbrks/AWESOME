@@ -86,3 +86,9 @@
     echo '<div class="alert alert-danger" role="alert">'.$error.'</div>';
   }
 ?>
+
+<?php
+  if (isset($msg)) {
+    echo '<div class="alert alert-success" role="alert">'.$msg.'</div>';
+  }
+?>

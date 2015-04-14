@@ -4,5 +4,6 @@
   "app_title" : "AWESOME",
   "missing-questionnaire" : "The requested questionnaire could not be found.",
   "missing-questions" : "No questions associated with this questionnaire could be found.",
-  "already-completed" : "This questionnaire has already been completed! It cannot be retaken."
+  "already-completed" : "This questionnaire has already been completed! It cannot be retaken.",
+  "answers-submitted" : "Your answers have been submitted. Thank you!"
 }
