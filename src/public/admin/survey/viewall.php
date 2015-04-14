@@ -40,6 +40,7 @@ $surveys = getSurveys();
       <td><?php echo htmlspecialchars($survey['title']); ?></td>
       <td><?php echo htmlspecialchars($survey['subtitle']); ?></td>
       <td>
+        <?php if (($completed + $incomplete) > 0) { ?>
         <div class="progress">
           <div class="progress-bar progress-bar-success" style="width: <?php echo ($completed/($completed+$incomplete))*100 ?>%" data-toggle="tooltip" data-placement="top" title="<?php echo ($completed/($completed+$incomplete))*100 ?>%">
             <?php echo $completed; ?><span class="hidden-xs"> Answered</span>
@@ -48,6 +49,7 @@ $surveys = getSurveys();
             <?php echo $incomplete; ?><span class="hidden-xs"> Unanswered</span>
           </div>
         </div>
+        <?php } ?>
       </td>
       <td><?php echo htmlspecialchars($survey['datetime']); ?></td>
       <td><?php echo ($survey['locked'] == 1) ? 'Locked' : 'Unlocked' ; ?></td>
