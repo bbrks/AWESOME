@@ -16,7 +16,8 @@ Use the following rewrite rule in place of the .htaccess rules
 
 ```
   url.rewrite-if-not-file = (
-    "^\/(admin)(.*)$" => "$0",
+    "^/admin/?$" => "$0",
+    "^/admin/(.*)" => "/admin/$1.php",
     "^/(.*)" => "/index.php?url=$1"
   )
 ```
