@@ -12,14 +12,14 @@ class QuestionnairesController extends Controller {
         $questionnaire = $this->Questionnaire->single();
         $this->set('questionnaire', $questionnaire);
 
-            $this->Questionnaire = new Database();
-            $this->Questionnaire->query('SELECT * FROM Surveys WHERE id = :survey_id');
-            $this->Questionnaire->bind(':survey_id', $questionnaire['survey_id']);
-            $survey = $this->Questionnaire->single();
-            $this->set('survey', $survey);
+        $this->Questionnaire = new Database();
+        $this->Questionnaire->query('SELECT * FROM Surveys WHERE id = :survey_id');
+        $this->Questionnaire->bind(':survey_id', $questionnaire['survey_id']);
+        $survey = $this->Questionnaire->single();
+        $this->set('survey', $survey);
 
-            $this->set('title', $survey['title']);
-            $this->set('subtitle', $survey['subtitle']);
+        $this->set('title', $survey['title']);
+        $this->set('subtitle', $survey['subtitle']);
 
         // If survey is completed, display an error
         if ($questionnaire['completed'] != 0) {
