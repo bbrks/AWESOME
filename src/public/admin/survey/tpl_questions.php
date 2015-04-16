@@ -6,15 +6,25 @@ $modules = getModules($survey_id);
 if (isset($_POST['submit'])) {
 
   $post_questions = $_POST['questions'];
-  print_r($post_questions);
   $questions = array();
 
-  for ($i=0; $i < count($post_questions["'text_en'"]); $i++) {
-    $questions[$i]['id'] = $post_questions["'id'"][$i];
-    $questions[$i]['module'] = $post_questions["'module'"][$i];
-    $questions[$i]['text_en'] = $post_questions["'text_en'"][$i];
-    $questions[$i]['text_cy'] = $post_questions["'text_cy'"][$i];
-    $questions[$i]['type'] = $post_questions["'type'"][$i];
+  for ($i=0; $i < count($post_questions["'id'"]); $i++) {
+    if ($post_questions["'module'"][$i] === "0") {
+      for ($j=0; $j < count($modules); $j++) {
+        var_dump($modules[$j]);
+        // $questions[$i]['id'] = $post_questions["'id'"][$i];
+        // $questions[$i]['module'] = $post_questions["'module'"][$i];
+        // $questions[$i]['text_en'] = $post_questions["'text_en'"][$i];
+        // $questions[$i]['text_cy'] = $post_questions["'text_cy'"][$i];
+        // $questions[$i]['type'] = $post_questions["'type'"][$i];
+      }
+    } else {
+      // $questions[$i]['id'] = $post_questions["'id'"][$i];
+      // $questions[$i]['module'] = $post_questions["'module'"][$i];
+      // $questions[$i]['text_en'] = $post_questions["'text_en'"][$i];
+      // $questions[$i]['text_cy'] = $post_questions["'text_cy'"][$i];
+      // $questions[$i]['type'] = $post_questions["'type'"][$i];
+    }
   }
 
   if (count($questions) != 0) {
@@ -32,10 +42,10 @@ if (isset($_POST['submit'])) {
 function getQuestions($id, $module = null, $fillEmpty = true) {
   $db = new Database();
   if ($module != null) {
-    $db->query('SELECT * FROM questions WHERE survey_id = :survey_id AND module = :module');
+    $db->query('SELECT * FROM Questions WHERE survey_id = :survey_id AND module = :module');
     $db->bind(':module', $module);
   } else {
-    $db->query('SELECT * FROM questions WHERE survey_id = :survey_id AND module IS NULL');
+    $db->query('SELECT * FROM Questions WHERE survey_id = :survey_id AND module IS NULL');
   }
   $db->bind(':survey_id', $id);
   $questions = $db->resultset();
@@ -53,7 +63,7 @@ function getQuestions($id, $module = null, $fillEmpty = true) {
 function addQuestions($arr) {
   $db = new Database();
   $db->beginTransaction();
-  $db->query('INSERT INTO questions (id, text_en, text_cy, type, survey_id, module) VALUES (:id, :text_en, :text_cy, :type, :survey_id, :module) ON DUPLICATE KEY UPDATE text_en=VALUES(text_en), text_cy=VALUES(text_cy), type=VALUES(type), survey_id=VALUES(survey_id), module=VALUES(module)');
+  $db->query('INSERT INTO Questions (id, text_en, text_cy, type, survey_id, module) VALUES (:id, :text_en, :text_cy, :type, :survey_id, :module) ON DUPLICATE KEY UPDATE text_en=VALUES(text_en), text_cy=VALUES(text_cy), type=VALUES(type), survey_id=VALUES(survey_id), module=VALUES(module)');
   foreach ($arr as $question) {
     if ($question['id'] == "") {
       $question['id'] = null;

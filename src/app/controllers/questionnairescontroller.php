@@ -7,13 +7,13 @@ class QuestionnairesController extends Controller {
         $this->set('token', $token);
 
         $this->Questionnaire = new Database();
-        $this->Questionnaire->query('SELECT * FROM questionnaires WHERE token = :token');
+        $this->Questionnaire->query('SELECT * FROM Questionnaires WHERE token = :token');
         $this->Questionnaire->bind(':token', $token);
         $questionnaire = $this->Questionnaire->single();
         $this->set('questionnaire', $questionnaire);
 
             $this->Questionnaire = new Database();
-            $this->Questionnaire->query('SELECT * FROM surveys WHERE id = :survey_id');
+            $this->Questionnaire->query('SELECT * FROM Surveys WHERE id = :survey_id');
             $this->Questionnaire->bind(':survey_id', $questionnaire['survey_id']);
             $survey = $this->Questionnaire->single();
             $this->set('survey', $survey);
@@ -31,7 +31,7 @@ class QuestionnairesController extends Controller {
                 $this->set('msg', __('answers-submitted'));
             } else {
                 $this->Questionnaire = new Database();
-                $this->Questionnaire->query('SELECT * FROM questions WHERE survey_id = :survey_id');
+                $this->Questionnaire->query('SELECT * FROM Questions WHERE survey_id = :survey_id');
                 $this->Questionnaire->bind(':survey_id', $questionnaire['survey_id']);
                 $questions = $this->Questionnaire->resultSet();
 

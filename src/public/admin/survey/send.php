@@ -6,7 +6,7 @@ $survey_id = $_GET['id'];
 
 function getStudents($survey_id) {
   $db = new Database();
-  $db->query('SELECT * FROM students WHERE survey_id = :survey_id');
+  $db->query('SELECT * FROM Students WHERE survey_id = :survey_id');
   $db->bind(':survey_id', $survey_id);
   return $db->resultset();
 }
@@ -14,7 +14,7 @@ function getStudents($survey_id) {
 function sendQuestionnaires($survey_id, $students) {
   $db = new Database();
   $db->beginTransaction();
-  $db->query('INSERT INTO questionnaires (token, survey_id) VALUES (:token, :survey_id) ON DUPLICATE KEY UPDATE token=token');
+  $db->query('INSERT INTO Questionnaires (token, survey_id) VALUES (:token, :survey_id) ON DUPLICATE KEY UPDATE token=token');
   foreach ($students as $student) {
     $db->bind('token', $student['token']);
     $db->bind('survey_id', $survey_id);

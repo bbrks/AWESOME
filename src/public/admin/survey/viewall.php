@@ -2,13 +2,13 @@
 
 function getSurveys() {
   $db = new Database();
-  $db->query('SELECT * FROM surveys');
+  $db->query('SELECT * FROM Surveys');
   return $db->resultset();
 }
 
 function getParticipants($id, $completed = 0) {
   $db = new Database();
-  $db->query('SELECT * FROM questionnaires WHERE survey_id = :survey_id AND completed = :completed');
+  $db->query('SELECT * FROM Questionnaires WHERE survey_id = :survey_id AND completed = :completed');
   $db->bind(':survey_id', $id);
   $db->bind(':completed', $completed);
   return $db->resultset();

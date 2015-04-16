@@ -4,21 +4,21 @@ require_once('../header.php');
 
 function getSurvey($id) {
   $db = new Database();
-  $db->query('SELECT * FROM surveys WHERE id = :id');
+  $db->query('SELECT * FROM Surveys WHERE id = :id');
   $db->bind(':id', $id);
   return $db->single();
 }
 
 function getStudents($id) {
   $db = new Database();
-  $db->query('SELECT * FROM students WHERE survey_id = :survey_id');
+  $db->query('SELECT * FROM Students WHERE survey_id = :survey_id');
   $db->bind(':survey_id', $id);
   return $db->resultset();
 }
 
 function getModuleStaff($id, $module_code) {
   $db = new Database();
-  $db->query('SELECT * FROM staffmodules WHERE survey_id = :survey_id AND module_code = :module_code');
+  $db->query('SELECT * FROM StaffModules WHERE survey_id = :survey_id AND module_code = :module_code');
   $db->bind(':survey_id', $id);
   $db->bind(':module_code', $module_code);
   return $db->resultset();
@@ -26,7 +26,7 @@ function getModuleStaff($id, $module_code) {
 
 function getModules($id) {
   $db = new Database();
-  $db->query('SELECT * FROM modules WHERE survey_id = :survey_id');
+  $db->query('SELECT * FROM Modules WHERE survey_id = :survey_id');
   $db->bind(':survey_id', $id);
   return $db->resultset();
 }

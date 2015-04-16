@@ -30,8 +30,11 @@
   <form method="POST" action="">
   <?php
     foreach ($questions as $question) {
+      if ($question['module'] === "0") {
+        echo 'Repeated';
+      }
       echo '<div class="form-group">';
-      echo '<label for="answer['.$question['id'].']">'.htmlspecialchars($question['text_en']).'<br/>'.htmlspecialchars($question['text_cy']).'</label>';
+      echo '<label for="answer['.$question['id'].']">'.htmlspecialchars($question['text_'.CONFIG::LANG]).'</label>';
       echo '<input name="answer['.$question['id'].']" id="answer['.$question['id'].']"" type="'.$question['type'].'" class="form-control" />';
       echo '</div>';
     }
