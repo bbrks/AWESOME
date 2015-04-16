@@ -15,11 +15,11 @@ Clone the repo, copy config.sample.php to config.php and edit
 Use the following rewrite rule in place of the .htaccess rules
 
 ```
-  url.rewrite-if-not-file = (
-    "^/admin/?$" => "$0",
-    "^/admin/(.*)" => "/admin/$1.php",
-    "^/(.*)" => "/index.php?url=$1"
-  )
+url.rewrite-if-not-file = (
+  "^/admin/?$" => "$0",
+  "^/admin/([^?]*)(\?.*)?$" => "/admin/$1.php$2",
+  "^/(.*)$" => "/index.php?url=$1"
+)
 ```
 
 ## Devblog
