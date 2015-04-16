@@ -6,6 +6,21 @@ Dev branch: [![Dev branch Build Status](https://magnum.travis-ci.com/bbrks/AWESO
 
 AWESOME is a web-based module evaluation questionnaire generator for the monitoring and evaluation of teaching.
 
+## Installation
+
+Clone the repo, copy config.sample.php to config.php and edit
+
+### Lighttpd
+
+Use the following rewrite rule in place of the .htaccess rules
+
+```
+  url.rewrite-if-not-file = (
+    "^\/(admin)(.*)$" => "$0",
+    "^/(.*)" => "/index.php?url=$1"
+  )
+```
+
 ## Devblog
 http://diss.bbrks.me
 
