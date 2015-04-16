@@ -1,5 +1,7 @@
 <?php if (isset($survey)):
 
+global $lang;
+
   if (isset($_POST['submit']) && $questionnaire['completed'] == 0) {
 
     function insertAnswers($token, $survey_id, $answers) {
@@ -34,7 +36,7 @@
         echo 'Repeated';
       }
       echo '<div class="form-group">';
-      echo '<label for="answer['.$question['id'].']">'.htmlspecialchars($question['text_'.CONFIG::LANG]).'</label>';
+      echo '<label for="answer['.$question['id'].']">'.htmlspecialchars($question['text_'.$lang]).'</label>';
       echo '<input name="answer['.$question['id'].']" id="answer['.$question['id'].']"" type="'.$question['type'].'" class="form-control" />';
       echo '</div>';
     }

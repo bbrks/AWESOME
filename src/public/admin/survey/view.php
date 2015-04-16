@@ -36,7 +36,8 @@ $survey = getSurvey($_GET['id']);
 ?>
 
 <div class="page-header">
-<h2><?php echo htmlspecialchars($survey['title']); ?> <span class="small"><?php echo htmlspecialchars($survey['subtitle']); ?></span>
+<h2><?php echo htmlspecialchars($survey['title_en']); ?> <span class="small"><?php echo htmlspecialchars($survey['subtitle_en']); ?></span>
+<h2><?php echo htmlspecialchars($survey['title_cy']); ?> <span class="small"><?php echo htmlspecialchars($survey['subtitle_cy']); ?></span>
 <a href="delete?id=<?php echo $survey['id']; ?>" class="btn btn-danger pull-right">Delete Survey</a></h2>
 </div>
 

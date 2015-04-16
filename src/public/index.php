@@ -1,6 +1,6 @@
 <?php
 
-$url = $_GET['url'];
+$url = isset($_GET['url']) ? $_GET['url'] : null;
 
 if (preg_match('/^questionnaires\/view\/[a-z0-9]{16}(\?.*)?$/', $url) == 0) {
   die('Invalid URL.');

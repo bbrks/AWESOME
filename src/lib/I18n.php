@@ -1,12 +1,14 @@
 <?php
 
+$lang = isset($_GET['lang']) ? $_GET['lang'] : Config::DEFAULT_LANG;
+$i18n = new I18n($lang);
+
 /**
  * This class handles internationalisation
  */
 class I18n {
 
   private $directory;
-  private $lang = Config::LANG;
   private $langObj;
 
   /**
@@ -14,7 +16,7 @@ class I18n {
    * @param $lang
    * @param $isUnitTest
    */
-  public function __construct($lang = Config::LANG, $isUnitTest = false) {
+  public function __construct($lang, $isUnitTest = false) {
 
     // Hacky way of running unit test
     // TODO: Research better way of unit test include paths
@@ -49,8 +51,9 @@ class I18n {
   /**
    * Changes the language used
    */
-  public function setLang($lang) {
-    $this->lang = $lang;
+  public function setLang($lang_param) {
+    global $lang;
+    $lang = $lang_param;
     $this->readi18nJSON($lang);
   }
 
@@ -71,6 +74,6 @@ class I18n {
  * TODO: Look at new I18n object language selection
  */
 function __($id) {
-  $i18n = new I18n();
+  global $i18n;
   return $i18n->getLocalisedString($id);
 }

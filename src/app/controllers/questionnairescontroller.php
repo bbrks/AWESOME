@@ -4,6 +4,8 @@ class QuestionnairesController extends Controller {
 
     function view($token) {
 
+        global $lang;
+
         $this->set('token', $token);
 
         $this->Questionnaire = new Database();
@@ -18,8 +20,8 @@ class QuestionnairesController extends Controller {
         $survey = $this->Questionnaire->single();
         $this->set('survey', $survey);
 
-        $this->set('title', $survey['title']);
-        $this->set('subtitle', $survey['subtitle']);
+        $this->set('title', $survey['title_'.$lang]);
+        $this->set('subtitle', $survey['subtitle_'.$lang]);
 
         // If survey is completed, display an error
         if ($questionnaire['completed'] != 0) {

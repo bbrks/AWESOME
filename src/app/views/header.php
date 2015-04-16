@@ -47,7 +47,7 @@
     </div>
     <?php if (Config::DEBUG) { ?>
     <ul class="nav navbar-nav navbar-left">
-      <li><button type="button" class="btn btn-danger navbar-btn" title="Problems or Suggestions? Click here!" data-toggle="modal" data-target="#feedbackModal">Feedback</button></li>
+      <li><button type="button" class="btn btn-danger navbar-btn" title="Problems or Suggestions? Click here!" data-toggle="modal" data-target="#feedbackModal"><?php echo __('fb-feedback') ?></button></li>
     </ul>
     <?php } ?>
     <?php if (sizeof(Config::LANGUAGES) > 1) { ?>
@@ -59,8 +59,8 @@
           <span class="caret"></span>
         </a>
         <ul class="dropdown-menu" role="menu">
-          <?php foreach (Config::LANGUAGES as $lang) { ?>
-            <li><a href="#"><?php echo $lang ?></a></li>
+          <?php foreach (Config::LANGUAGES as $lang_menu) { ?>
+            <li><a href="?lang=<?php echo $lang_menu ?>"><?php echo $lang_menu ?></a></li>
           <?php } ?>
         </ul>
       </li>
@@ -74,10 +74,10 @@
 <?php if (Config::DEBUG) { ?>
 <div class="alert alert-info alert-dismissible" role="alert">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  <strong>AWESOME is currently in testing!</strong>
-  If you encounter any problems or want to leave feedback&hellip; hit the
-  <button type="button" class="btn btn-danger btn-xs" title="Problems or Suggestions? Click here!" data-toggle="modal" data-target="#feedbackModal">Feedback</button>
-  button above.</p>
+  <strong><?php echo __('app_title') . ' ' . __('fb-is-in-testing') ?></strong>
+  <?php echo __('fb-bugs-or-feedback') .'&hellip;'. __('fb-hit-the') ?>
+  <button type="button" class="btn btn-danger btn-xs" title="Problems or Suggestions? Click here!" data-toggle="modal" data-target="#feedbackModal"><?php echo __('fb-feedback') ?></button>
+  <?php echo __('fb-button-above') ?></p>
 </div>
 <?php } ?>
 

@@ -9,22 +9,22 @@ if (isset($_POST['submit'])) {
   $questions = array();
 
   for ($i=0; $i < count($post_questions["'id'"]); $i++) {
-    if ($post_questions["'module'"][$i] === "0") {
-      for ($j=0; $j < count($modules); $j++) {
-        var_dump($modules[$j]);
-        // $questions[$i]['id'] = $post_questions["'id'"][$i];
-        // $questions[$i]['module'] = $post_questions["'module'"][$i];
-        // $questions[$i]['text_en'] = $post_questions["'text_en'"][$i];
-        // $questions[$i]['text_cy'] = $post_questions["'text_cy'"][$i];
-        // $questions[$i]['type'] = $post_questions["'type'"][$i];
-      }
-    } else {
-      // $questions[$i]['id'] = $post_questions["'id'"][$i];
-      // $questions[$i]['module'] = $post_questions["'module'"][$i];
-      // $questions[$i]['text_en'] = $post_questions["'text_en'"][$i];
-      // $questions[$i]['text_cy'] = $post_questions["'text_cy'"][$i];
-      // $questions[$i]['type'] = $post_questions["'type'"][$i];
-    }
+    // if ($post_questions["'module'"][$i] === "0") {
+    //   for ($j=0; $j < count($modules); $j++) {
+    //     var_dump($modules[$j]);
+    //     // $questions[$i]['id'] = $post_questions["'id'"][$i];
+    //     // $questions[$i]['module'] = $post_questions["'module'"][$i];
+    //     // $questions[$i]['text_en'] = $post_questions["'text_en'"][$i];
+    //     // $questions[$i]['text_cy'] = $post_questions["'text_cy'"][$i];
+    //     // $questions[$i]['type'] = $post_questions["'type'"][$i];
+    //   }
+    // } else {
+      $questions[$i]['id'] = $post_questions["'id'"][$i];
+      $questions[$i]['module'] = $post_questions["'module'"][$i];
+      $questions[$i]['text_en'] = $post_questions["'text_en'"][$i];
+      $questions[$i]['text_cy'] = $post_questions["'text_cy'"][$i];
+      $questions[$i]['type'] = $post_questions["'type'"][$i];
+    // }
   }
 
   if (count($questions) != 0) {
@@ -147,9 +147,11 @@ function addQuestions($arr) {
       </tr>
     </thead>
     <tbody>
+      <?php $module_questions_count = 0; ?>
       <?php foreach ($modules as $module) { ?>
         <?php $questions_module = getQuestions($survey_id, $module['module_code'], false); ?>
         <?php foreach ($questions_module as $question) { ?>
+        <?php $module_questions_count++; ?>
         <tr class="question-table-row">
           <td><select class="form-control" name="questions['module'][]">
             <?php foreach ($modules as $module) { ?>
@@ -165,13 +167,14 @@ function addQuestions($arr) {
         </tr>
         <?php } ?>
       <?php } ?>
-      <?php if (sizeof($questions_module) > 0) { ?>
+      <?php if ($module_questions_count === 0) { ?>
         <tr class="question-table-row">
           <td><select class="form-control" name="questions['module'][]">
             <?php foreach ($modules as $module) { ?>
             <?php echo '<option value="'.htmlspecialchars($module['module_code']).'"'.$selected.'>'.htmlspecialchars($module['module_code']).' - '.htmlspecialchars($module['title']).'</option>'; ?>
             <?php } ?>
           </select></td>
+          <input name="questions['id'][]" type="hidden" value="" />
           <td><input class="form-control" name="questions['text_en'][]" type="text" value="" /></td>
           <td><input class="form-control" name="questions['text_cy'][]" type="text" value="" /></td>
           <td><select class="form-control" name="questions['type'][]" readonly><option value="text">Text</option></select></td>

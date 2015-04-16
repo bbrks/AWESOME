@@ -37,8 +37,8 @@ $surveys = getSurveys();
       $incomplete = count(getParticipants($survey['id'], 0));
     ?>
     <tr data-href="survey/view?id=<?php echo $survey['id']; ?>">
-      <td><?php echo htmlspecialchars($survey['title']); ?></td>
-      <td><?php echo htmlspecialchars($survey['subtitle']); ?></td>
+      <td><?php echo htmlspecialchars($survey['title_en']); ?><br /><?php echo htmlspecialchars($survey['title_cy']); ?></td>
+      <td><?php echo htmlspecialchars($survey['subtitle_en']); ?><br /><?php echo htmlspecialchars($survey['subtitle_cy']); ?></td>
       <td>
         <?php if (($completed + $incomplete) > 0) { ?>
         <div class="progress">

@@ -4,15 +4,17 @@ require_once('../header.php');
 
 if (isset($_POST['submit'])) {
 
-  $survey_title = $_POST['survey_name'];
-  $survey_subtitle = $_POST['survey_description'];
+  $survey_title_en = $_POST['survey_name_en'];
+  $survey_title_cy = $_POST['survey_name_cy'];
+  $survey_subtitle_en = $_POST['survey_description_en'];
+  $survey_subtitle_cy = $_POST['survey_description_cy'];
   $modules = $_POST['modules'];
   $staff = $_POST['staff'];
   $staff_modules = $_POST['staffmodules'];
   $students = $_POST['students'];
 
-  if ($survey_title != "") {
-    $id = addSurvey($survey_title, $survey_subtitle);
+  if ($survey_title_en != "") {
+    $id = addSurvey($survey_title_en, $survey_title_cy, $survey_subtitle_en, $survey_subtitle_cy);
   } else {
     $err = '<strong>Error:</strong> No survey name entered.';
   }
@@ -54,11 +56,13 @@ if (isset($_POST['submit'])) {
 
 }
 
-function addSurvey($survey_title, $survey_subtitle) {
+function addSurvey($survey_title_en, $survey_title_cy, $survey_subtitle_en, $survey_subtitle_cy) {
   $db = new Database();
-  $db->query('INSERT INTO Surveys (title, subtitle) VALUES (:title, :subtitle)');
-  $db->bind(':title', $survey_title);
-  $db->bind(':subtitle', $survey_subtitle);
+  $db->query('INSERT INTO Surveys (title_en, title_cy, subtitle_en, subtitle_cy) VALUES (:title_en, :title_cy, :subtitle_en, :subtitle_cy)');
+  $db->bind(':title_en', $survey_title_en);
+  $db->bind(':title_cy', $survey_title_cy);
+  $db->bind(':subtitle_en', $survey_subtitle_en);
+  $db->bind(':subtitle_cy', $survey_subtitle_cy);
   $db->execute();
   return $db->lastInsertId();
 }
@@ -217,16 +221,29 @@ function parseStudentCSV($csvdata) {
 
 <?php /* TODO: OO all of this in the dashboard rewrite */ ?>
 <form class="form-horizontal" role="form" method="post" action="">
+
+  <div class="hidden-xs col-sm-5 col-sm-offset-2">
+    <label>English (en)</label>
+  </div>
+  <div class="hidden-xs col-sm-5">
+    <label>Cymraeg (cy)</label>
+  </div>
   <div class="form-group">
-    <label for="survey_name" class="col-sm-2 control-label required">Survey Name</label>
-    <div class="col-sm-10">
-      <input type="text" id="survey_name" name="survey_name" class="form-control" placeholder="A title of the survey to be displayed on the questionnaire." required />
+    <label for="survey_name_en" class="col-sm-2 control-label required">Survey Name</label>
+    <div class="col-sm-5">
+      <input type="text" id="survey_name_en" name="survey_name_en" class="form-control" placeholder="A title of the survey to be displayed on the questionnaire." required />
+    </div>
+    <div class="col-sm-5">
+      <input type="text" id="survey_name_cy" name="survey_name_cy" class="form-control" placeholder="Mae teitl y arolwg cael eu harddangos ar yr holiadur." required />
     </div>
   </div>
   <div class="form-group">
-    <label for="survey_description" class="col-sm-2 control-label">Survey Description</label>
-    <div class="col-sm-10">
-      <input type="text" id="survey_description" name="survey_description" class="form-control" placeholder="A short description, or introduction to your survey to be displayed on the questionnaire." />
+    <label for="survey_description_en" class="col-sm-2 control-label">Survey Description</label>
+    <div class="col-sm-5">
+      <input type="text" id="survey_description_en" name="survey_description_en" class="form-control" placeholder="A short description, or introduction to your survey to be displayed on the questionnaire." />
+    </div>
+    <div class="col-sm-5">
+      <input type="text" id="survey_description_cy" name="survey_description_cy" class="form-control" placeholder="Disgrifiad byr, neu gyflwyniad i eich arolwg cael eu harddangos ar yr holiadur." />
     </div>
   </div>
   <hr />

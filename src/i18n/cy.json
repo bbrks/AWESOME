@@ -5,5 +5,10 @@
   "missing-questionnaire" : "Ni ellid dod o hyd yr holiadur gofynnwyd amdani.",
   "missing-questions" : "Ni allai unrhyw gwestiynau sy'n gysylltiedig â'r holiadur hwn i'w gael.",
   "already-completed" : "already-completed: TODO",
-  "answers-submitted" : "answers-submitted: TODO Diolch!"
+  "answers-submitted" : "answers-submitted: TODO Diolch!",
+  "fb-is-in-testing" : "ar hyn o bryd yn profi!",
+  "fb-bugs-or-feedback" : "Os ydych yn dod ar draws unrhyw broblemau neu eisiau gadael atborth",
+  "fb-hit-the" : "taro'r",
+  "fb-feedback" : "Adborth",
+  "fb-button-above" : "botwm uchod."
 }
