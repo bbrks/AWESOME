@@ -6,10 +6,15 @@
  * ATTENTION: Copy/rename this file to config.php before modifying!
  *
  * @author Ben Brooks (beb12@aber.ac.uk)
- * @version 1.1-alpha
+ * @version 1.1-beta
  */
 class Config {
 
+
+
+  //============================================================================
+  // Database
+  //============================================================================
   /**
    * Constants to store database credentials.
    * @const DB_USER Database username
@@ -22,19 +27,34 @@ class Config {
   const DB_PASS = '';
   const DB_HOST = 'localhost';
   const DB_NAME = 'awesome';
-  const TB_PREFIX = 'awe_';
 
-  const LANG = 'en';
+  // E.g. http://awesome.aber.ac.uk
+  const BASE_URL = '';
 
-  //TODO: Move into i18n json?
-  const APP_TITLE = 'AWESOME';
 
-  /*******************************************************************
-   ** DANGER: DO NOT MODIFY BELOW UNLESS YOU KNOW WHAT YOU'RE DOING **
-   *******************************************************************/
+
+  //============================================================================
+  // E-Mail
+  //============================================================================
+  const MAIL_DOMAIN = 'bbrks.me'; // The domain that gets appended to student ID
+  const MAIL_FROM_ADDR = 'awesome@aber.ac.uk'; // Mail appears to come from this
+
+
+
+  //============================================================================
+  // Internationalisation/Multilingual
+  //============================================================================
+  /**
+   * @const LANGUAGES Array of ISO 639-1 codes to be read in from i18n directory
+   * @const DEFAULT_LANG Default language to be used
+   */
+  const LANGUAGES = array('en', 'cy');
+  const DEFAULT_LANG = 'en';
+
+
 
   /**
-   * @const DEBUG Boolean to enable production-dangerous features, like display errors.
+   * @const DEBUG Boolean to enable debug features, like display errors.
    */
   const DEBUG = true;
 

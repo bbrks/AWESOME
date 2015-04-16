@@ -9,7 +9,6 @@ class Database {
   private $pass   = Config::DB_PASS;
   private $host   = Config::DB_HOST;
   private $dbname = Config::DB_NAME;
-  private $prefix = Config::TB_PREFIX;
 
   private $dbh;
   private $error;

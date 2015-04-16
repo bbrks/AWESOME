@@ -61,9 +61,9 @@ class View {
    */
   function title($title = null) {
     if ($title) {
-      echo $title.' - '.Config::APP_TITLE;
+      echo $title.' - '. __('app_title');
     } else {
-      echo Config::APP_TITLE;
+      echo __('app_title');
     }
   }
 

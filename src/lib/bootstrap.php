@@ -9,5 +9,3 @@ require_once(dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'lib' . DIRECTOR
 require_once(ROOT . DS . 'config' . DS . 'config.php');
 require_once(ROOT . DS . 'lib' . DS . 'I18n.php');
 require_once(ROOT . DS . 'lib' . DS . 'shared.php');
-
-var_dump($lang);
