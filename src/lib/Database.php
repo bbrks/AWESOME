@@ -11,7 +11,6 @@ class Database {
   private $dbname = Config::DB_NAME;
 
   private $dbh;
-  private $error;
 
   private $stmt;
 
@@ -26,7 +25,7 @@ class Database {
     try {
       $this->dbh = new PDO($dsn, $this->user, $this->pass, $options);
     } catch (PDOException $e) {
-      $this->error = $e->getMessage();
+      die($e->getMessage());
     }
   }
 
