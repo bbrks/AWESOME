@@ -95,7 +95,7 @@ $survey = getSurvey($_GET['id']);
               <td>
                 <?php
                   $staff = getModuleStaff($survey['id'], $module['module_code']);
-                  $result = [];
+                  $result = array();
                   foreach ($staff as $staff_member) {
                     $result[] = $staff_member['aber_id'];
                   }

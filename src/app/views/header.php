@@ -50,7 +50,7 @@
       <li><button type="button" class="btn btn-danger navbar-btn" title="Problems or Suggestions? Click here!" data-toggle="modal" data-target="#feedbackModal"><?php echo __('fb-feedback') ?></button></li>
     </ul>
     <?php } ?>
-    <?php if (sizeof(Config::LANGUAGES) > 1) { ?>
+    <?php if (sizeof(Config::$LANGUAGES) > 1) { ?>
     <ul class="nav navbar-nav navbar-right">
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -59,7 +59,7 @@
           <span class="caret"></span>
         </a>
         <ul class="dropdown-menu" role="menu">
-          <?php foreach (Config::LANGUAGES as $lang_menu) { ?>
+          <?php foreach (Config::$LANGUAGES as $lang_menu) { ?>
             <li><a href="?lang=<?php echo $lang_menu ?>"><?php echo $lang_menu ?></a></li>
           <?php } ?>
         </ul>
