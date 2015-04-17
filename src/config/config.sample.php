@@ -45,10 +45,10 @@ class Config {
   // Internationalisation/Multilingual
   //============================================================================
   /**
-   * @const LANGUAGES Array of ISO 639-1 codes to be read in from i18n directory
+   * @var $LANGUAGES Array of ISO 639-1 codes to be read in from i18n directory
    * @const DEFAULT_LANG Default language to be used
    */
-  const LANGUAGES = array('en', 'cy');
+  static $LANGUAGES = array('en', 'cy');
   const DEFAULT_LANG = 'en';
 
 
