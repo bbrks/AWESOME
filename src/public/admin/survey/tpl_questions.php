@@ -8,6 +8,8 @@ if (isset($_POST['submit'])) {
   $post_questions = $_POST['questions'];
   $questions = array();
 
+  deleteQuesitonsNotIn($post_questions);
+
   for ($i=0; $i < count($post_questions["'id'"]); $i++) {
     // if ($post_questions["'module'"][$i] === "0") {
     //   for ($j=0; $j < count($modules); $j++) {
@@ -58,6 +60,14 @@ function getQuestions($id, $module = null, $fillEmpty = true) {
 
   return $questions;
 
+}
+
+// Takes an array of questions, and deletes ones not present with the same survey_id
+function deleteQuesitonsNotIn($arr) {
+  $db = new Database();
+  $db->query('DELETE FROM Questions WHERE id NOT IN ( '. implode(", ", $arr["'id'"]) .' ) AND survey_id = :survey_id');
+  $db->bind(':survey_id', $_GET['id']);
+  $db->execute();
 }
 
 function addQuestions($arr) {
@@ -111,6 +121,7 @@ function addQuestions($arr) {
   </table>
 
   <h2>Repeated Questions <span class="small">(Repeated every module)</span></h2>
+  <p>To include a lecturer's name in the question, write <code>{$lecturer}</code> and it will be inserted automatically.</p>
   <table id="repeated-question-table" class="table">
     <thead>
       <tr>
