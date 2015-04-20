@@ -43,7 +43,7 @@ $survey = getSurvey($_GET['id']);
 
 <div role="tabpanel">
 
-  <ul class="nav nav-tabs" role="tablist">
+  <ul class="nav nav-tabs nav-tabs-sticky" role="tablist">
     <li role="presentation" class="active"><a href="#questions" aria-controls="questions" role="tab" data-toggle="tab">Questions</a></li>
     <li role="presentation"><a href="#students" aria-controls="students" role="tab" data-toggle="tab">Students</a></li>
     <li role="presentation"><a href="#modules" aria-controls="modules" role="tab" data-toggle="tab">Modules</a></li>
