@@ -27,3 +27,5 @@ function addTableRow(selector) {
 function removeTableRow(selector) {
   $(selector).closest('tr:not(:only-child)').remove();
 }
+
+$('.nav-tabs-sticky').stickyTabs({ backToTop: true });
