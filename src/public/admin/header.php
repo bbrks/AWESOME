@@ -1,5 +1,8 @@
 <?php
 
+require_once('auth.php');
+require_once('survey/functions.php');
+
 set_include_path(dirname(dirname(dirname(__FILE__))));
 
 require_once('config/config.php');

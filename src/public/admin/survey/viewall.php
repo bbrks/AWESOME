@@ -1,23 +1,3 @@
-<?php
-
-function getSurveys() {
-  $db = new Database();
-  $db->query('SELECT * FROM Surveys');
-  return $db->resultset();
-}
-
-function getParticipants($id, $completed = 0) {
-  $db = new Database();
-  $db->query('SELECT * FROM Questionnaires WHERE survey_id = :survey_id AND completed = :completed');
-  $db->bind(':survey_id', $id);
-  $db->bind(':completed', $completed);
-  return $db->resultset();
-}
-
-$surveys = getSurveys();
-
-?>
-
 <h2>All Surveys</h2>
 
 <table class="table table-striped table-hover">
@@ -32,7 +12,9 @@ $surveys = getSurveys();
     </tr>
   </thead>
   <tbody>
-    <?php foreach ($surveys as $survey) {
+    <?php
+    $surveys = getSurvey();
+    foreach ($surveys as $survey) {
       $completed = count(getParticipants($survey['id'], 1));
       $incomplete = count(getParticipants($survey['id'], 0));
     ?>
