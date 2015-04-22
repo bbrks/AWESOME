@@ -8,7 +8,7 @@
       <th>Responses</th>
       <th>Date</th>
       <th>Status</th>
-      <th width="1"><a href="survey/add" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Create Survey"><span class="glyphicon glyphicon-plus"></span></a></th>
+      <th width="1"><a href="survey/add.php" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Create Survey"><span class="glyphicon glyphicon-plus"></span></a></th>
     </tr>
   </thead>
   <tbody>
@@ -18,7 +18,7 @@
       $completed = count(getParticipants($survey['id'], 1));
       $incomplete = count(getParticipants($survey['id'], 0));
     ?>
-    <tr data-href="survey/view?id=<?php echo $survey['id']; ?>">
+    <tr data-href="survey/view.php?id=<?php echo $survey['id']; ?>">
       <td><?php echo htmlspecialchars($survey['title_en']); ?><br /><?php echo htmlspecialchars($survey['title_cy']); ?></td>
       <td><?php echo htmlspecialchars($survey['subtitle_en']); ?><br /><?php echo htmlspecialchars($survey['subtitle_cy']); ?></td>
       <td>
@@ -42,5 +42,5 @@
 </table>
 
 <ul class="list-unstyled">
-  <li><a href="survey/add" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Create Survey</a></li>
+  <li><a href="survey/add.php" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Create Survey</a></li>
 </ul>

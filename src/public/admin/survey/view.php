@@ -19,9 +19,9 @@ $modules = getModules($survey['id']);
   <div class="col-sm-6 text-right">
     <h3><span class="small"><?php echo htmlspecialchars($survey['datetime']); ?></span></h3>
     <?php if (!$survey['locked']) { ?>
-      <a href="send?id=<?php echo $survey['id']; ?>" class="btn btn-danger">Lock & Send Survey</a>
+      <a href="send.php?id=<?php echo $survey['id']; ?>" class="btn btn-danger">Lock & Send Survey</a>
     <?php } else { ?>
-      <a class="btn btn-primary" href="send?id=<?php echo $survey['id'] ?>"><span class="glyphicon glyphicon-repeat"></span> Resend</a>
+      <a class="btn btn-primary" href="send.php?id=<?php echo $survey['id'] ?>"><span class="glyphicon glyphicon-repeat"></span> Resend</a>
     <?php } ?>
     <!-- <a href="delete?id=<?php echo $survey['id']; ?>" class="btn btn-danger">Delete Survey</a> -->
   </div>
@@ -60,7 +60,7 @@ $modules = getModules($survey['id']);
     <div role="tabpanel" class="tab-pane" id="participants">
       <h2>Participants</h2>
       <?php if ($survey['locked']) { ?>
-        <p>To send out a reminder-email for incomplete surveys, hit the <a class="btn btn-primary btn-xs" href="send?id=<?php echo $survey['id'] ?>"><span class="glyphicon glyphicon-repeat"></span> Resend</a> button above.</p>
+        <p>To send out a reminder-email for incomplete surveys, hit the <a class="btn btn-primary btn-xs" href="send.php?id=<?php echo $survey['id'] ?>"><span class="glyphicon glyphicon-repeat"></span> Resend</a> button above.</p>
       <?php } ?>
       <table id="student-table" class="table">
         <thead>
