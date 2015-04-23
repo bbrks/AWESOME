@@ -49,7 +49,7 @@ if (isset($_POST['submit'])) {
 
   if ($id != null) {
     $msg = 'Survey Added';
-    header('Location: view.php?id='.$id);
+    echo '<meta http-equiv="refresh" content="0; url=view.php?id='.$id.' />';
   } else {
     $err = '<strong>Error:</strong> Survey could not be created.';
   }

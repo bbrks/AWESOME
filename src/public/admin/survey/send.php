@@ -70,6 +70,6 @@ $recipients = getStudents($survey_id);
 sendQuestionnaires($survey_id, $recipients);
 lockSurvey($survey_id);
 
-header('Location: view.php?id='.$survey_id.'&msg=Survey has been sent to '.count($recipients).' recipients.');
+echo '<meta http-equiv="refresh" content="0; url=view.php?id='.$survey_id.'&msg=Survey has been sent to '.count($recipients).' recipients." />';
 
 require_once('../footer.php'); ?>
