@@ -11,6 +11,7 @@ if (preg_match('/^[a-z0-9]{16}$/', $token) == 0) {
 
 $questionnaire = getQuestionnaire($token);
 $survey = getSurvey($questionnaire['survey_id']);
+$modules = getStudentModules($token, $questionnaire['survey_id']);
 
 $title = $survey['title_'.$lang];
 

@@ -35,13 +35,24 @@ global $lang;
   <form method="POST" action="">
   <?php
     foreach ($questions as $question) {
-      if ($question['module'] === "0") {
-        echo 'Repeated';
+      if ($question['module'] === null) {
+        echo '<div class="form-group">';
+        echo '<label for="answer['.$question['id'].']">'.htmlspecialchars($question['text_'.$lang]).'</label>';
+        echo '<input name="answer['.$question['id'].']" id="answer['.$question['id'].']"" type="'.$question['type'].'" class="form-control" />';
+        echo '</div>';
       }
-      echo '<div class="form-group">';
-      echo '<label for="answer['.$question['id'].']">'.htmlspecialchars($question['text_'.$lang]).'</label>';
-      echo '<input name="answer['.$question['id'].']" id="answer['.$question['id'].']"" type="'.$question['type'].'" class="form-control" />';
-      echo '</div>';
+    }
+
+    foreach ($modules as $module) {
+      echo '<h3>'.$module['module_code'].' - '.$module['title'].'</h3>';
+      foreach ($questions as $question) {
+        if ($question['module'] === "0" || $question['module'] == $module['module_code']) {
+          echo '<div class="form-group">';
+          echo '<label for="answer['.$question['id'].']">'.htmlspecialchars($question['text_'.$lang]).'</label>';
+          echo '<input name="answer['.$question['id'].']" id="answer['.$question['id'].']"" type="'.$question['type'].'" class="form-control" />';
+          echo '</div>';
+        }
+      }
     }
   ?>
   <input type="submit" name="submit" id="submit" class="btn btn-primary" value="<?php echo __('send-responses') ?>" />

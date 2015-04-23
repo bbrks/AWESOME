@@ -58,3 +58,11 @@ function getQuestionnaire($token) {
   $result = $db->single();
   return $result;
 }
+
+function getStudentModules($token, $survey_id) {
+  $db = new Database();
+  $db->query('SELECT StudentModules.module_code, Modules.title FROM StudentModules INNER JOIN Modules ON StudentModules.module_code=Modules.module_code AND StudentModules.survey_id=Modules.survey_id WHERE StudentModules.token = :token AND StudentModules.survey_id = :survey_id');
+  $db->bind(':token', $token);
+  $db->bind(':survey_id', $survey_id);
+  return $db->resultset();
+}
