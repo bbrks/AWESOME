@@ -21,10 +21,39 @@ function sendQuestionnaires($survey_id, $students) {
 
 function sendMail($survey_id, $aber_id, $token) {
   $survey = getSurvey($survey_id);
+
   $to = $aber_id.'@'.Config::MAIL_DOMAIN;
-  $subject = 'An AWESOME Questionnaire is waiting to be completed.';
-  $body = "A new AWESOME questionnaire is waiting to be completed.\r\nPlease visit the address below to complete.\r\n\r\n".Config::BASE_URL.'/questionnaires/view/'.$token;
   $headers = 'From: AWESOME <'.Config::MAIL_FROM_ADDR.'>';
+  $subject = $survey['title_en'].' | '.$survey['title_cy'];
+
+  $body  = "Your personalised questionnaire is waiting to be completed.";
+  $body .= "\r\n";
+  $body .= "Please visit the link below to complete.";
+  $body .= "\r\n";
+  $body .= "\r\n";
+  $body .= $survey['title_en'];
+  $body .= "\r\n";
+  $body .= $survey['subtitle_en'];
+  $body .= "\r\n";
+  $body .= "\r\n";
+  $body .= Config::BASE_URL.'?token='.$token.'&lang=en';
+  $body .= "\r\n";
+  $body .= "\r\n";
+  $body .= "-----------------------------------------";
+  $body .= "\r\n";
+  $body .= "\r\n";
+  $body .= "Eich holiadur personol yn aros i gael ei gwblhau.";
+  $body .= "\r\n";
+  $body .= "Ewch i'r ddolen isod i gwblhau.";
+  $body .= "\r\n";
+  $body .= "\r\n";
+  $body .= $survey['title_cy'];
+  $body .= "\r\n";
+  $body .= $survey['subtitle_cy'];
+  $body .= "\r\n";
+  $body .= "\r\n";
+  $body .= Config::BASE_URL.'?token='.$token.'&lang=cy';
+
   mail($to, $subject, $body, $headers);
 }
 
