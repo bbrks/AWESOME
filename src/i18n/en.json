@@ -6,6 +6,7 @@
   "missing-questions" : "No questions associated with this questionnaire could be found.",
   "already-completed" : "This questionnaire has already been completed! It cannot be retaken.",
   "answers-submitted" : "Your answers have been submitted. Thank you!",
+  "send-responses" : "Send Responses",
   "fb-is-in-testing" : "is currently in testing!",
   "fb-bugs-or-feedback" : "If you encounter any problems or want to leave feedback",
   "fb-hit-the" : "hit the",

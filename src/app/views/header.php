@@ -4,7 +4,7 @@
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title><?php isset($title) ? $this->title($title) : $this->title(); ?></title>
+  <title><?php isset($title) ? title($title) : title(); ?></title>
 
   <link rel="stylesheet" type="text/css" href="/assets/css/style.css" />
 
@@ -60,7 +60,7 @@
         </a>
         <ul class="dropdown-menu" role="menu">
           <?php foreach (Config::$LANGUAGES as $lang_menu) { ?>
-            <li><a href="?lang=<?php echo $lang_menu ?>"><?php echo $lang_menu ?></a></li>
+            <li><a href="<?php echo addOrUpdateUrlParam('lang', $lang_menu) ?>"><?php echo $lang_menu ?></a></li>
           <?php } ?>
         </ul>
       </li>

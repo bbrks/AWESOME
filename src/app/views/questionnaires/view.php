@@ -1,4 +1,6 @@
-<?php if (isset($survey)):
+<?php
+
+if (isset($survey)):
 
 global $lang;
 
@@ -7,8 +9,9 @@ global $lang;
     function insertAnswers($token, $survey_id, $answers) {
       $db = new Database();
       $db->beginTransaction();
-      $db->query('INSERT INTO Answers (question_id, answer) VALUES (:question_id, :answer)');
+      $db->query('INSERT INTO Answers (question_id, answer, survey_id) VALUES (:question_id, :answer, :survey_id)');
       foreach ($answers as $id => $answer) {
+        $db->bind(':survey_id', $survey_id);
         $db->bind(':question_id', $id);
         $db->bind(':answer', $answer);
         $db->execute();
@@ -24,8 +27,8 @@ global $lang;
   } ?>
 
 <div class="page-header">
-  <h1><?php echo htmlspecialchars($title); ?></h1>
-  <?php echo isset($subtitle) ? '<p>'.htmlspecialchars($subtitle).'</p>' : '' ; ?>
+  <h1><?php echo htmlspecialchars($survey['title_'.$lang]); ?></h1>
+  <?php echo isset($survey['subtitle_'.$lang]) ? '<p>'.htmlspecialchars($survey['subtitle_'.$lang]).'</p>' : '' ; ?>
 </div>
 
 <?php if (isset($questions)) { ?>
@@ -41,7 +44,7 @@ global $lang;
       echo '</div>';
     }
   ?>
-  <input type="submit" name="submit" id="submit" class="btn btn-primary" value="Send Responses" />
+  <input type="submit" name="submit" id="submit" class="btn btn-primary" value="<?php echo __('send-responses') ?>" />
   </form>
 <?php } ?>
 
