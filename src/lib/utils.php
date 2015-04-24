@@ -66,3 +66,20 @@ function getStudentModules($token, $survey_id) {
   $db->bind(':survey_id', $survey_id);
   return $db->resultset();
 }
+
+function getLecturers($module_code, $survey_id) {
+  $db = new Database();
+  $db->query('SELECT StaffModules.aber_id, Staff.name FROM StaffModules INNER JOIN Staff ON StaffModules.aber_id=Staff.aber_id WHERE StaffModules.module_code = :module_code AND StaffModules.survey_id = :survey_id');
+  $db->bind(':module_code', $module_code);
+  $db->bind(':survey_id', $survey_id);
+  return $db->resultset();
+}
+
+function replaceLecurer($question, $lecturer) {
+  global $lang;
+
+  $questionText = $question['text_'.$lang];
+  $questionText = str_replace('{$lecturer}', $lecturer['name'], $questionText);
+
+  return $questionText;
+}

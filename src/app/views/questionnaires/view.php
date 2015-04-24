@@ -34,6 +34,8 @@ global $lang;
 <?php if (isset($questions)) { ?>
   <form method="POST" action="">
   <?php
+
+    // Global Questions
     foreach ($questions as $question) {
       if ($question['module'] === null) {
         echo '<div class="form-group">';
@@ -50,23 +52,55 @@ global $lang;
       }
     }
 
+    // Repeated and Per-Module questions
     foreach ($modules as $module) {
+
+      // Get lecturers for current module (used for {$lecturer} replacement)
+      $lecturers = getLecturers($module['module_code'], $survey['id']);
+
       echo '<hr/><h3>'.$module['module_code'].' - '.$module['title'].'</h3>';
+
       foreach ($questions as $question) {
         if ($question['module'] === "0" || $question['module'] == $module['module_code']) {
-          echo '<div class="form-group">';
-          echo '<label for="answer['.$question['id'].$module['module_code'].']">'.htmlspecialchars($question['text_'.$lang]).'</label>';
-          switch ($question['type']) {
-            case 'textarea':
-              echo '<textarea name="answer['.$question['id'].']" id="answer['.$question['id'].']" class="form-control" rows="5"></textarea>';
-              break;
-            default:
-              echo '<input name="answer['.$question['id'].$module['module_code'].']" id="answer['.$question['id'].$module['module_code'].']" type="'.$question['type'].'" class="form-control" />';
-              break;
+
+          // If question text contains {$lecturer} and the module has lecturers, repeat the question and replace text
+          if (preg_match('/\{\$lecturer+\}/i', $question['text_'.$lang]) && count($lecturers) >= 1) {
+
+            foreach ($lecturers as $lecturer) {
+              echo '<div class="form-group">';
+              echo '<label for="answer['.$question['id'].$module['module_code'].$lecturer['aber_id'].']">'.htmlspecialchars(replaceLecurer($question, $lecturer)).'</label>';
+
+              switch ($question['type']) {
+                case 'textarea':
+                  echo '<textarea name="answer['.$question['id'].$module['module_code'].$lecturer['aber_id'].']" id="answer['.$question['id'].$module['module_code'].$lecturer['aber_id'].']" class="form-control" rows="5"></textarea>';
+                  break;
+                default:
+                  echo '<input name="answer['.$question['id'].$module['module_code'].$lecturer['aber_id'].']" id="answer['.$question['id'].$module['module_code'].$lecturer['aber_id'].']" type="'.$question['type'].'" class="form-control" />';
+                  break;
+              }
+
+              echo '</div>';
+            }
+
+          } else {
+            echo '<div class="form-group">';
+            echo '<label for="answer['.$question['id'].$module['module_code'].']">'.htmlspecialchars(str_replace('{$lecturer}', 'the lecturer', $question['text_'.$lang])).'</label>';
+
+            switch ($question['type']) {
+              case 'textarea':
+                echo '<textarea name="answer['.$question['id'].$module['module_code'].']" id="answer['.$question['id'].$module['module_code'].']" class="form-control" rows="5"></textarea>';
+                break;
+              default:
+                echo '<input name="answer['.$question['id'].$module['module_code'].']" id="answer['.$question['id'].$module['module_code'].']" type="'.$question['type'].'" class="form-control" />';
+                break;
+            }
+
+            echo '</div>';
           }
-          echo '</div>';
+
         }
       }
+
     }
   ?>
   <input type="submit" name="submit" id="submit" class="btn btn-primary" value="<?php echo __('send-responses') ?>" />
