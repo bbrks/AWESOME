@@ -20,10 +20,12 @@ function sendQuestionnaires($survey_id, $students) {
 }
 
 function sendMail($survey_id, $aber_id, $token) {
+  ini_set('SMTP', 'smtphost.aber.ac.uk');
+  ini_set('sendmail_from', Config::MAIL_FROM_ADDR);
+
   $survey = getSurvey($survey_id);
 
   $to = $aber_id.'@'.Config::MAIL_DOMAIN;
-  $headers = 'From: AWESOME <'.Config::MAIL_FROM_ADDR.'>';
   $subject = $survey['title_en'].' | '.$survey['title_cy'];
 
   $body  = "Your personalised questionnaire is waiting to be completed.";
@@ -54,7 +56,7 @@ function sendMail($survey_id, $aber_id, $token) {
   $body .= "\r\n";
   $body .= Config::BASE_URL.'?token='.$token.'&lang=cy';
 
-  mail($to, $subject, $body, $headers);
+  mail($to, $subject, $body);
 }
 
 function lockSurvey($id) {
