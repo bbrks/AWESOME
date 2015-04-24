@@ -38,7 +38,14 @@ global $lang;
       if ($question['module'] === null) {
         echo '<div class="form-group">';
         echo '<label for="answer['.$question['id'].']">'.htmlspecialchars($question['text_'.$lang]).'</label>';
-        echo '<input name="answer['.$question['id'].']" id="answer['.$question['id'].']"" type="'.$question['type'].'" class="form-control" />';
+        switch ($question['type']) {
+          case 'textarea':
+            echo '<textarea name="answer['.$question['id'].']" id="answer['.$question['id'].']" class="form-control"></textarea>';
+            break;
+          default:
+            echo '<input name="answer['.$question['id'].']" id="answer['.$question['id'].']" type="'.$question['type'].'" class="form-control" />';
+            break;
+        }
         echo '</div>';
       }
     }
@@ -49,7 +56,14 @@ global $lang;
         if ($question['module'] === "0" || $question['module'] == $module['module_code']) {
           echo '<div class="form-group">';
           echo '<label for="answer['.$question['id'].$module['module_code'].']">'.htmlspecialchars($question['text_'.$lang]).'</label>';
-          echo '<input name="answer['.$question['id'].$module['module_code'].']" id="answer['.$question['id'].$module['module_code'].']"" type="'.$question['type'].'" class="form-control" />';
+          switch ($question['type']) {
+            case 'textarea':
+              echo '<textarea name="answer['.$question['id'].']" id="answer['.$question['id'].']" class="form-control" rows="5"></textarea>';
+              break;
+            default:
+              echo '<input name="answer['.$question['id'].$module['module_code'].']" id="answer['.$question['id'].$module['module_code'].']" type="'.$question['type'].'" class="form-control" />';
+              break;
+          }
           echo '</div>';
         }
       }
