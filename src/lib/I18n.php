@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Get language parameter, or use default language if not set.
+ * Instantiate a global i18n object
+ */
 $lang = isset($_GET['lang']) ? $_GET['lang'] : Config::DEFAULT_LANG;
 $i18n = new I18n($lang);
 
@@ -60,18 +64,16 @@ class I18n {
   /**
    * This is the function to call when you wish to return an internationalised string.
    * @param $id
-   * @param $lang
    * @returns String
    */
   public function getLocalisedString($id) {
-    return $this->langObj[$id];
+    return isset($this->langObj[$id]) ? $this->langObj[$id] : $id;
   }
 
 }
 
 /**
- * Makes a global __() function and instantiates the i18n object upon use.
- * TODO: Look at new I18n object language selection
+ * Makes a global __() function
  */
 function __($id) {
   global $i18n;

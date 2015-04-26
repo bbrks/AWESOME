@@ -2,6 +2,8 @@
   "@ISO639-1" : "cy",
   "@lang" : "Cymru",
   "app_title" : "AWESOME",
+  "invalid-url" : "Mae'r URL a ddarperir yn gywir.",
+  "invalid-token" : "Mae'r tocyn a gyflenwir yn gywir. (Rhaid bod yn 16 oed alffaniwmerig torgoch)",
   "missing-questionnaire" : "Ni ellid dod o hyd yr holiadur gofynnwyd amdani.",
   "missing-questions" : "Ni allai unrhyw gwestiynau sy'n gysylltiedig â'r holiadur hwn i'w gael.",
   "already-completed" : "Mae'r holiadur eisoes wedi cael ei gwblhau! Ni ellir ei ailsefyll.",

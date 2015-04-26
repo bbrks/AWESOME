@@ -2,6 +2,8 @@
   "@ISO639-1" : "en",
   "@lang" : "English",
   "app_title" : "AWESOME",
+  "invalid-url" : "The URL provided is incorrect.",
+  "invalid-token" : "The supplied token is incorrect. (Must be 16 char alphanumeric)",
   "missing-questionnaire" : "The requested questionnaire could not be found.",
   "missing-questions" : "No questions associated with this questionnaire could be found.",
   "already-completed" : "This questionnaire has already been completed! It cannot be retaken.",
