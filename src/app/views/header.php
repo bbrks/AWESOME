@@ -24,7 +24,7 @@
           <p>AWESOME is currently in development and needs your help!<br />
           If you encounter any problems or want to leave feedback, please use this form.</p>
           <textarea name="feedbacktxt" class="form-control" rows="5" placeholder="Your feedback here&hellip;"></textarea>
-          <input type="hidden" name="token" value="<?php echo preg_replace('/^\/questionnaires\/view\//', '', $_SERVER['REQUEST_URI']); ?>" />
+          <input type="hidden" name="token" value="<?php echo $_GET['token'] ?>" />
         </div>
         <div class="modal-footer">
           <p class="pull-left">Issues may be followed up via E-Mail.</p>

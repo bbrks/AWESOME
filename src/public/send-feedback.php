@@ -11,21 +11,28 @@ $ref = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
 
 if (isset($_POST['feedbacktxt']) && isset($_POST['token'])) {
 
+  require('../lib/sendMail.php');
+
   $feedbacktxt = $_POST['feedbacktxt'];
   $token = $_POST['token'];
 
   $ua = $_SERVER['HTTP_USER_AGENT'];
   $time = time();
 
-  $msg = "Feedback:\r\n".$feedbacktxt."\r\n\r\nToken: ".$token."\r\nUser Agent: ".$ua."\r\nTimestamp: ".$time;
-  $headers = 'From: AWESOME Feedback Form <awesome@bbrks.me>';
+  $body    = "Feedback:\r\n".$feedbacktxt."\r\n\r\nToken: ".$token."\r\nUser Agent: ".$ua."\r\nTimestamp: ".$time;
+  $subject = '[AWESOME FEEDBACK]';
 
-  mail('ben@bbrks.me', '[AWESOME FEEDBACK]', $msg, $headers);
-
-  echo 'Thank you for your feedback. Redirecting in 3 seconds.';
+  $sendMail = sendMail('ben@bbrks.me', $subject, $body);
+  if($sendMail === true) {
+    echo 'Thank you for your feedback. Redirecting in 3 seconds.';
+  } else {
+    echo '<strong>Error:</strong> Feedback could not be sent!';
+    echo 'Mailer Error: ' . $sendMail;
+    die();
+  }
 
 } else {
-  echo '<strong>Error:</strong> No feedback was sent! Redirecting in 3 seconds.';
+  echo '<strong>Error:</strong> No feedback filled in! Redirecting in 3 seconds.';
 }
 
 echo '<meta http-equiv="refresh" content="3; url='.$ref.'" />';

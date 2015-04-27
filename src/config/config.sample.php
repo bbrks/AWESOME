@@ -37,14 +37,17 @@ class Config {
   //============================================================================
   const MAIL_DOMAIN = 'aber.ac.uk'; // The domain that gets appended to student ID
 
+  const MAIL_FROM_ADDR = ''; // Aber restricts this to username
+  const MAIL_FROM_NAME = 'AWESOME';
+
   //===============//
   // SMTP Settings //
   //===============//
   const SMTP_USERNAME = '';
   const SMTP_PASSWORD = '';
-  const SMTP_HOST   = 'smtp.office365.com';
-  const SMTP_PORT   = 587;
-  const SMTP_SECURE = 'tls';
+  const SMTP_HOST     = 'smtp.office365.com';
+  const SMTP_PORT     = 587;
+  const SMTP_SECURE   = 'tls';
 
 
 
