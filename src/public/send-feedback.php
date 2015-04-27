@@ -11,9 +11,6 @@ $ref = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
 
 if (isset($_POST['feedbacktxt']) && isset($_POST['token'])) {
 
-  ini_set('SMTP', 'smtphost.aber.ac.uk');
-  ini_set('sendmail_from', Config::MAIL_FROM_ADDR);
-
   $feedbacktxt = $_POST['feedbacktxt'];
   $token = $_POST['token'];
 
@@ -21,8 +18,9 @@ if (isset($_POST['feedbacktxt']) && isset($_POST['token'])) {
   $time = time();
 
   $msg = "Feedback:\r\n".$feedbacktxt."\r\n\r\nToken: ".$token."\r\nUser Agent: ".$ua."\r\nTimestamp: ".$time;
+  $headers = 'From: AWESOME Feedback Form <awesome@bbrks.me>';
 
-  mail('ben@bbrks.me', '[AWESOME FEEDBACK]', $msg);
+  mail('ben@bbrks.me', '[AWESOME FEEDBACK]', $msg, $headers);
 
   echo 'Thank you for your feedback. Redirecting in 3 seconds.';
 
