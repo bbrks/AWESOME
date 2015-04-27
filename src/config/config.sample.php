@@ -6,7 +6,7 @@
  * ATTENTION: Copy/rename this file to config.php before modifying!
  *
  * @author Ben Brooks (beb12@aber.ac.uk)
- * @version 1.1-beta
+ * @version 1.2
  */
 class Config {
 
@@ -21,7 +21,6 @@ class Config {
    * @const DB_PASS Database password
    * @const DB_HOST Database hostname[:port] (Default: 'localhost')
    * @const DB_NAME Database name (Default: 'awesome')
-   * @const DB_PREFIX Table prefix (Default: 'awe_')
    */
   const DB_USER = '';
   const DB_PASS = '';
@@ -36,8 +35,16 @@ class Config {
   //============================================================================
   // E-Mail
   //============================================================================
-  const MAIL_DOMAIN = 'bbrks.me'; // The domain that gets appended to student ID
-  const MAIL_FROM_ADDR = 'awesome@aber.ac.uk'; // Mail appears to come from this
+  const MAIL_DOMAIN = 'aber.ac.uk'; // The domain that gets appended to student ID
+
+  //===============//
+  // SMTP Settings //
+  //===============//
+  const SMTP_USERNAME = '';
+  const SMTP_PASSWORD = '';
+  const SMTP_HOST   = 'smtp.office365.com';
+  const SMTP_PORT   = 587;
+  const SMTP_SECURE = 'tls';
 
 
 
@@ -54,7 +61,7 @@ class Config {
 
 
   /**
-   * @const DEBUG Boolean to enable debug features, like display errors.
+   * @const DEBUG Boolean to enable debug and testing features, like display errors.
    */
   const DEBUG = true;
 
