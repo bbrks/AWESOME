@@ -61,7 +61,7 @@ function getQuestionnaire($token) {
 
 function getStudentModules($token, $survey_id) {
   $db = new Database();
-  $db->query('SELECT StudentModules.module_code, Modules.title FROM StudentModules INNER JOIN Modules ON StudentModules.module_code=Modules.module_code AND StudentModules.survey_id=Modules.survey_id WHERE StudentModules.token = :token AND StudentModules.survey_id = :survey_id');
+  $db->query('SELECT StudentModules.module_code, Modules.title FROM StudentModules INNER JOIN Modules ON StudentModules.module_code=Modules.module_code AND StudentModules.survey_id=Modules.survey_id WHERE StudentModules.token = :token AND StudentModules.survey_id = :survey_id AND Modules.survey_id = :survey_id');
   $db->bind(':token', $token);
   $db->bind(':survey_id', $survey_id);
   return $db->resultset();
@@ -69,7 +69,7 @@ function getStudentModules($token, $survey_id) {
 
 function getLecturers($module_code, $survey_id) {
   $db = new Database();
-  $db->query('SELECT StaffModules.aber_id, Staff.name FROM StaffModules INNER JOIN Staff ON StaffModules.aber_id=Staff.aber_id WHERE StaffModules.module_code = :module_code AND StaffModules.survey_id = :survey_id');
+  $db->query('SELECT StaffModules.aber_id, Staff.name FROM StaffModules INNER JOIN Staff ON StaffModules.aber_id=Staff.aber_id WHERE StaffModules.module_code = :module_code AND StaffModules.survey_id = :survey_id AND Staff.survey_id = :survey_id');
   $db->bind(':module_code', $module_code);
   $db->bind(':survey_id', $survey_id);
   return $db->resultset();
