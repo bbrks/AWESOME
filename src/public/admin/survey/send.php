@@ -15,15 +15,14 @@ function sendQuestionnaires($survey_id, $students) {
     $db->bind('token', $student['token']);
     $db->bind('survey_id', $survey_id);
     $db->execute();
-    sendMail($survey_id, $student['aber_id'], $student['token']);
+    prepMail($survey_id, $student['aber_id'], $student['token']);
   }
 }
 
-function sendMail($survey_id, $aber_id, $token) {
+function prepMail($survey_id, $aber_id, $token) {
   $survey = getSurvey($survey_id);
 
-  $to = $aber_id.'@'.Config::MAIL_DOMAIN;
-  $headers = 'From: AWESOME <'.Config::MAIL_FROM_ADDR.'>';
+  $toAddr = $aber_id.'@'.Config::MAIL_DOMAIN;
   $subject = $survey['title_en'].' | '.$survey['title_cy'];
 
   $body  = "Your personalised questionnaire is waiting to be completed.";
@@ -54,7 +53,7 @@ function sendMail($survey_id, $aber_id, $token) {
   $body .= "\r\n";
   $body .= Config::BASE_URL.'?token='.$token.'&lang=cy';
 
-  mail($to, $subject, $body, $headers);
+  sendMail($toAddr, $subject, $body);
 }
 
 function lockSurvey($id) {
