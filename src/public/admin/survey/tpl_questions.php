@@ -107,9 +107,12 @@ if (isset($_POST['submit'])) {
                 <tr class="question-table-row">
                   <input name="questions['id'][]" type="hidden" value="<?php echo htmlspecialchars($question['id']); ?>" />
                   <input name="questions['module'][]" type="hidden" value="" />
-                  <td><input class="form-control" name="questions['text_en'][]" type="text" value="<?php echo htmlspecialchars($question['text_en']); ?>" /></td>
-                  <td><input class="form-control" name="questions['text_cy'][]" type="text" value="<?php echo htmlspecialchars($question['text_cy']); ?>" /></td>
-                  <td><select class="form-control" name="questions['type'][]" readonly><option value="text">Text</option></select></td>
+                  <td><input class="form-control" name="questions['text_en'][]" type="text" value="<?php echo htmlspecialchars($question['text_en']); ?>" <?php echo ($survey['locked']) ? 'disabled' : ''; ?> /></td>
+                  <td><input class="form-control" name="questions['text_cy'][]" type="text" value="<?php echo htmlspecialchars($question['text_cy']); ?>" <?php echo ($survey['locked']) ? 'disabled' : ''; ?> /></td>
+                  <td><select class="form-control" name="questions['type'][]" <?php echo ($survey['locked']) ? 'disabled' : ''; ?>>
+                    <option value="text" <?php echo ($question['type'] === 'text') ? 'selected' : '' ; ?>>Text</option>
+                    <option value="textarea" <?php echo ($question['type'] === 'textarea') ? 'selected' : '' ; ?>>Text Area</option>
+                  </select></td>
                   <?php if (!$survey['locked']) { ?>
                     <td><a onclick="removeTableRow(this)" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete Question"><span class="glyphicon glyphicon-trash"></span></a></td>
                   <?php } ?>
@@ -121,7 +124,10 @@ if (isset($_POST['submit'])) {
                   <input name="questions['module'][]" type="hidden" value="" />
                   <td><input class="form-control" name="questions['text_en'][]" type="text" value="" /></td>
                   <td><input class="form-control" name="questions['text_cy'][]" type="text" value="" /></td>
-                  <td><select class="form-control" name="questions['type'][]" readonly><option value="text">Text</option></select></td>
+                  <td><select class="form-control" name="questions['type'][]">
+                    <option value="text">Text</option>
+                    <option value="textarea">Text Area</option>
+                  </select></td>
                   <?php if (!$survey['locked']) { ?>
                     <td><a onclick="removeTableRow(this)" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete Question"><span class="glyphicon glyphicon-trash"></span></a></td>
                   <?php } ?>
@@ -162,9 +168,12 @@ if (isset($_POST['submit'])) {
                 <tr class="question-table-row">
                   <input name="questions['id'][]" type="hidden" value="<?php echo htmlspecialchars($question['id']); ?>" />
                   <input name="questions['module'][]" type="hidden" value="0" />
-                  <td><input class="form-control" name="questions['text_en'][]" type="text" value="<?php echo htmlspecialchars($question['text_en']); ?>" /></td>
-                  <td><input class="form-control" name="questions['text_cy'][]" type="text" value="<?php echo htmlspecialchars($question['text_cy']); ?>" /></td>
-                  <td><select class="form-control" name="questions['type'][]" readonly><option value="text">Text</option></select></td>
+                  <td><input class="form-control" name="questions['text_en'][]" type="text" value="<?php echo htmlspecialchars($question['text_en']); ?>" <?php echo ($survey['locked']) ? 'disabled' : ''; ?> /></td>
+                  <td><input class="form-control" name="questions['text_cy'][]" type="text" value="<?php echo htmlspecialchars($question['text_cy']); ?>" <?php echo ($survey['locked']) ? 'disabled' : ''; ?> /></td>
+                  <td><select class="form-control" name="questions['type'][]" <?php echo ($survey['locked']) ? 'disabled' : ''; ?>>
+                    <option value="text" <?php echo ($question['type'] === 'text') ? 'selected' : '' ; ?>>Text</option>
+                    <option value="textarea" <?php echo ($question['type'] === 'textarea') ? 'selected' : '' ; ?>>Text Area</option>
+                  </select></td>
                   <?php if (!$survey['locked']) { ?>
                     <td><a onclick="removeTableRow(this)" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete Question"><span class="glyphicon glyphicon-trash"></span></a></td>
                   <?php } ?>
@@ -176,7 +185,10 @@ if (isset($_POST['submit'])) {
                   <input name="questions['module'][]" type="hidden" value="0" />
                   <td><input class="form-control" name="questions['text_en'][]" type="text" value="" /></td>
                   <td><input class="form-control" name="questions['text_cy'][]" type="text" value="" /></td>
-                  <td><select class="form-control" name="questions['type'][]" readonly><option value="text">Text</option></select></td>
+                  <td><select class="form-control" name="questions['type'][]">
+                    <option value="text">Text</option>
+                    <option value="textarea">Text Area</option>
+                  </select></td>
                   <?php if (!$survey['locked']) { ?>
                     <td><a onclick="removeTableRow(this)" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete Question"><span class="glyphicon glyphicon-trash"></span></a></td>
                   <?php } ?>
@@ -198,6 +210,7 @@ if (isset($_POST['submit'])) {
       </div>
       <div id="collapseModuleQuestions" class="panel-collapse collapse" role="tabpanel" aria-labelledby="moduleQuestions">
         <div class="panel-body">
+          <p><code>{$lecturer}</code> will be automatically replaced with the module lecturer's names.</p>
           <table id="module-question-table" class="table">
             <thead>
               <tr>
@@ -217,16 +230,19 @@ if (isset($_POST['submit'])) {
                 <?php foreach ($questions_module as $question) { ?>
                   <?php $module_questions_count++; ?>
                   <tr class="question-table-row">
-                    <td><select class="form-control" name="questions['module'][]">
+                    <td><select class="form-control" name="questions['module'][]" <?php echo ($survey['locked']) ? 'disabled' : ''; ?>>
                       <?php foreach ($modules as $module) { ?>
                         <?php $selected = ($module['module_code'] == $question['module']) ? ' selected' : ''; ?>
                         <?php echo '<option value="'.htmlspecialchars($module['module_code']).'"'.$selected.'>'.htmlspecialchars($module['module_code']).' - '.htmlspecialchars($module['title']).'</option>'; ?>
                       <?php } ?>
                     </select></td>
                     <input name="questions['id'][]" type="hidden" value="<?php echo htmlspecialchars($question['id']); ?>" />
-                    <td><input class="form-control" name="questions['text_en'][]" type="text" value="<?php echo htmlspecialchars($question['text_en']); ?>" /></td>
-                    <td><input class="form-control" name="questions['text_cy'][]" type="text" value="<?php echo htmlspecialchars($question['text_cy']); ?>" /></td>
-                    <td><select class="form-control" name="questions['type'][]" readonly><option value="text">Text</option></select></td>
+                    <td><input class="form-control" name="questions['text_en'][]" type="text" value="<?php echo htmlspecialchars($question['text_en']); ?>" <?php echo ($survey['locked']) ? 'disabled' : ''; ?> /></td>
+                    <td><input class="form-control" name="questions['text_cy'][]" type="text" value="<?php echo htmlspecialchars($question['text_cy']); ?>" <?php echo ($survey['locked']) ? 'disabled' : ''; ?> /></td>
+                    <td><select class="form-control" name="questions['type'][]" <?php echo ($survey['locked']) ? 'disabled' : ''; ?>>
+                      <option value="text" <?php echo ($question['type'] === 'text') ? 'selected' : '' ; ?>>Text</option>
+                      <option value="textarea" <?php echo ($question['type'] === 'textarea') ? 'selected' : '' ; ?>>Text Area</option>
+                    </select></td>
                     <?php if (!$survey['locked']) { ?>
                       <td><a onclick="removeTableRow(this)" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete Question"><span class="glyphicon glyphicon-trash"></span></a></td>
                     <?php } ?>
@@ -243,7 +259,10 @@ if (isset($_POST['submit'])) {
                   <input name="questions['id'][]" type="hidden" value="" />
                   <td><input class="form-control" name="questions['text_en'][]" type="text" value="" /></td>
                   <td><input class="form-control" name="questions['text_cy'][]" type="text" value="" /></td>
-                  <td><select class="form-control" name="questions['type'][]" readonly><option value="text">Text</option></select></td>
+                  <td><select class="form-control" name="questions['type'][]">
+                    <option value="text">Text</option>
+                    <option value="textarea">Text Area</option>
+                  </select></td>
                   <?php if (!$survey['locked']) { ?>
                     <td><a onclick="removeTableRow(this)" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete Question"><span class="glyphicon glyphicon-trash"></span></a></td>
                   <?php } ?>
