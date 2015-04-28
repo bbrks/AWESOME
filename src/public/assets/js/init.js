@@ -16,7 +16,7 @@ $(function () {
  */
 function addTableRow(selector) {
   var row = $(selector+' tbody tr').first().clone();
-  row.find('input').val('');
+  row.find('input[name!="questions[\'module\'][]"]').val('');
   $(selector).find('tbody').append(row);
 }
 
