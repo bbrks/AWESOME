@@ -40,6 +40,9 @@ function prepMail($survey_id, $students) {
     $body .= Config::BASE_URL.'?token='.$student['token'].'&lang=en';
     $body .= "\r\n";
     $body .= "\r\n";
+    $body .= "Please note that this survey can only be completed on the Aber network or through the Aber VPN.";
+    $body .= "\r\n";
+    $body .= "\r\n";
     $body .= "-----------------------------------------";
     $body .= "\r\n";
     $body .= "\r\n";
@@ -54,6 +57,9 @@ function prepMail($survey_id, $students) {
     $body .= "\r\n";
     $body .= "\r\n";
     $body .= Config::BASE_URL.'?token='.$student['token'].'&lang=cy';
+    $body .= "\r\n";
+    $body .= "\r\n";
+    $body .= "Sylwer y gall yr arolwg hwn ond yn cael ei gwblhau ar y rhwydwaith Aber neu drwy'r Aber VPN.";
 
     sendMail($toAddr, $subject, $body);
 
