@@ -5,15 +5,15 @@
  */
 function sendMail($toAddr, $subject, $body) {
 
-  require('../config/config.php');
-  require('../lib/class.phpmailer.php');
-  require('../lib/class.smtp.php');
+  set_include_path(dirname(dirname(__FILE__)));
+
+  require_once('config/config.php');
+  require_once('lib/class.phpmailer.php');
+  require_once('lib/class.smtp.php');
 
   $mail = new PHPMailer;
 
-  if (Config::DEBUG) {
-    $mail->SMTPDebug = 3; // Verbose debugging output
-  }
+  // $mail->SMTPDebug = 3; // Verbose debugging output
 
   $mail->isSMTP();
   $mail->Host = Config::SMTP_HOST;
