@@ -27,8 +27,10 @@ global $lang;
   } ?>
 
 <div class="page-header">
-  <h1><?php echo htmlspecialchars($survey['title_'.$lang]); ?></h1>
-  <?php echo isset($survey['subtitle_'.$lang]) ? '<p>'.htmlspecialchars($survey['subtitle_'.$lang]).'</p>' : '' ; ?>
+  <h1>
+    <?php echo htmlspecialchars($survey['title_'.$lang]); ?>
+    <?php echo isset($survey['subtitle_'.$lang]) ? '<br /><span class="small">'.htmlspecialchars($survey['subtitle_'.$lang]).'</span>' : '' ; ?>
+  </h1>
 </div>
 
 <?php if (isset($questions)) { ?>

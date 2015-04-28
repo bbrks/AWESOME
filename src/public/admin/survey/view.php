@@ -13,8 +13,8 @@ $modules = getModules($survey['id']);
 
 <div class="page-header row">
   <div class="col-sm-6">
-    <h2><?php echo htmlspecialchars($survey['title_en']); ?> <span class="small"><?php echo htmlspecialchars($survey['subtitle_en']); ?></span>
-    <h2><?php echo htmlspecialchars($survey['title_cy']); ?> <span class="small"><?php echo htmlspecialchars($survey['subtitle_cy']); ?></span>
+    <h2><?php echo htmlspecialchars($survey['title_en']); ?><br/><span class="small"><?php echo htmlspecialchars($survey['subtitle_en']); ?></span>
+    <h2><?php echo htmlspecialchars($survey['title_cy']); ?><br/><span class="small"><?php echo htmlspecialchars($survey['subtitle_cy']); ?></span>
   </div>
   <div class="col-sm-6 text-right">
     <h3><span class="small"><?php echo htmlspecialchars($survey['datetime']); ?></span></h3>
