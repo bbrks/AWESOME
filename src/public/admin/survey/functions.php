@@ -35,9 +35,9 @@ function getParticipants($id, $completed = null) {
 function getStudents($id, $completed = null) {
   $db = new Database();
   if ($completed === null) {
-    $db->query('SELECT * FROM Students WHERE survey_id = :survey_id; ');
+    $db->query('SELECT * FROM Students WHERE survey_id = :survey_id ORDER BY aber_id;');
   } else {
-    $db->query('SELECT Students.token, Students.aber_id, Students.survey_id, Questionnaires.completed FROM Students INNER JOIN Questionnaires ON Students.token=Questionnaires.token WHERE Students.survey_id = :survey_id AND Questionnaires.completed = :completed; ');
+    $db->query('SELECT Students.token, Students.aber_id, Students.survey_id, Questionnaires.completed FROM Students INNER JOIN Questionnaires ON Students.token=Questionnaires.token WHERE Students.survey_id = :survey_id AND Questionnaires.completed = :completed  ORDER BY aber_id;');
     $db->bind(':completed', $completed);
   }
   $db->bind(':survey_id', $id);
