@@ -9,10 +9,14 @@
   "already-completed" : "This questionnaire has already been completed! It cannot be retaken.",
   "answers-submitted" : "Your answers have been submitted. Thank you!",
   "send-responses" : "Send Responses",
-  "question-range-scale" : "Where 1 represents the lowest, and 5 the highest.",
   "fb-is-in-testing" : "is currently in testing!",
   "fb-bugs-or-feedback" : "If you encounter any problems or want to leave feedback",
   "fb-hit-the" : "hit the",
   "fb-feedback" : "Feedback",
-  "fb-button-above" : "button above."
+  "fb-button-above" : "button above.",
+  "strongly-disagree" : "Strongly Disagree",
+  "disagree" : "Disagree",
+  "neutral" : "Neutral",
+  "agree" : "Agree",
+  "strongly-agree" : "Strongly Agree"
 }

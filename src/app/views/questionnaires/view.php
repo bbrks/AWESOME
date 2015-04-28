@@ -44,24 +44,28 @@ global $lang;
         echo '<label for="answer['.$question['id'].']">'.htmlspecialchars($question['text_'.$lang]).'</label>';
         switch ($question['type']) {
           case 'range': ?>
-          <div class="form-group">
-            <label class="radio-inline">
-              <input type="radio" name="answer[<?php echo $question['id'] ?>]" id="answer[<?php echo $question['id'] ?>]" value="1"> 1
-            </label>
-            <label class="radio-inline">
-              <input type="radio" name="answer[<?php echo $question['id'] ?>]" id="answer[<?php echo $question['id'] ?>]" value="2"> 2
-            </label>
-            <label class="radio-inline">
-              <input type="radio" name="answer[<?php echo $question['id'] ?>]" id="answer[<?php echo $question['id'] ?>]" value="3"> 3
-            </label>
-            <label class="radio-inline">
-              <input type="radio" name="answer[<?php echo $question['id'] ?>]" id="answer[<?php echo $question['id'] ?>]" value="4"> 4
-            </label>
-            <label class="radio-inline">
-              <input type="radio" name="answer[<?php echo $question['id'] ?>]" id="answer[<?php echo $question['id'] ?>]" value="5"> 5
-            </label>
-          </div>
-          <span id="helpBlock" class="help-block"><?php echo __('question-range-scale'); ?></span>
+            <div class="form-group" style="margin-left:35px">
+              <label class="radio-inline">
+                <input type="radio" name="answer[<?php echo $question['id'] ?>]" id="answer[<?php echo $question['id'] ?>]" value="1">
+                <?php echo __('strongly-disagree'); ?>
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="answer[<?php echo $question['id'] ?>]" id="answer[<?php echo $question['id'] ?>]" value="2">
+                <?php echo __('disagree'); ?>
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="answer[<?php echo $question['id'] ?>]" id="answer[<?php echo $question['id'] ?>]" value="3">
+                <?php echo __('neutral'); ?>
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="answer[<?php echo $question['id'] ?>]" id="answer[<?php echo $question['id'] ?>]" value="4">
+                <?php echo __('agree'); ?>
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="answer[<?php echo $question['id'] ?>]" id="answer[<?php echo $question['id'] ?>]" value="5">
+                <?php echo __('strongly-agree'); ?>
+              </label>
+            </div>
             <?php break;
           case 'textarea':
             echo '<textarea name="answer['.$question['id'].']" id="answer['.$question['id'].']" class="form-control"></textarea>';
@@ -93,6 +97,30 @@ global $lang;
               echo '<label for="answer['.$question['id'].$module['module_code'].$lecturer['aber_id'].']">'.htmlspecialchars(replaceLecurer($question, $lecturer)).'</label>';
 
               switch ($question['type']) {
+                case 'range': ?>
+                  <div class="form-group" style="margin-left:35px">
+                    <label class="radio-inline">
+                      <input type="radio" name="answer[<?php echo $question['id'].$module['module_code'].$lecturer['aber_id'] ?>]" id="answer[<?php echo $question['id'].$module['module_code'].$lecturer['aber_id'] ?>]" value="1">
+                      <?php echo __('strongly-disagree'); ?>
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="answer[<?php echo $question['id'].$module['module_code'].$lecturer['aber_id'] ?>]" id="answer[<?php echo $question['id'].$module['module_code'].$lecturer['aber_id'] ?>]" value="2">
+                      <?php echo __('disagree'); ?>
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="answer[<?php echo $question['id'].$module['module_code'].$lecturer['aber_id'] ?>]" id="answer[<?php echo $question['id'].$module['module_code'].$lecturer['aber_id'] ?>]" value="3">
+                      <?php echo __('neutral'); ?>
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="answer[<?php echo $question['id'].$module['module_code'].$lecturer['aber_id'] ?>]" id="answer[<?php echo $question['id'].$module['module_code'].$lecturer['aber_id'] ?>]" value="4">
+                      <?php echo __('agree'); ?>
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="answer[<?php echo $question['id'].$module['module_code'].$lecturer['aber_id'] ?>]" id="answer[<?php echo $question['id'].$module['module_code'].$lecturer['aber_id'] ?>]" value="5">
+                      <?php echo __('strongly-agree'); ?>
+                    </label>
+                  </div>
+                  <?php break;
                 case 'textarea':
                   echo '<textarea name="answer['.$question['id'].$module['module_code'].$lecturer['aber_id'].']" id="answer['.$question['id'].$module['module_code'].$lecturer['aber_id'].']" class="form-control" rows="5"></textarea>';
                   break;
@@ -109,6 +137,30 @@ global $lang;
             echo '<label for="answer['.$question['id'].$module['module_code'].']">'.htmlspecialchars(str_replace('{$lecturer}', 'the lecturer', $question['text_'.$lang])).'</label>';
 
             switch ($question['type']) {
+              case 'range': ?>
+                <div class="form-group" style="margin-left:35px">
+                  <label class="radio-inline">
+                    <input type="radio" name="answer[<?php echo $question['id'].$module['module_code'] ?>]" id="answer[<?php echo $question['id'].$module['module_code'] ?>]" value="1">
+                    <?php echo __('strongly-disagree'); ?>
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="answer[<?php echo $question['id'].$module['module_code'] ?>]" id="answer[<?php echo $question['id'].$module['module_code'] ?>]" value="2">
+                    <?php echo __('disagree'); ?>
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="answer[<?php echo $question['id'].$module['module_code'] ?>]" id="answer[<?php echo $question['id'].$module['module_code'] ?>]" value="3">
+                    <?php echo __('neutral'); ?>
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="answer[<?php echo $question['id'].$module['module_code'] ?>]" id="answer[<?php echo $question['id'].$module['module_code'] ?>]" value="4">
+                    <?php echo __('agree'); ?>
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="answer[<?php echo $question['id'].$module['module_code'] ?>]" id="answer[<?php echo $question['id'].$module['module_code'] ?>]" value="5">
+                    <?php echo __('strongly-agree'); ?>
+                  </label>
+                </div>
+                <?php break;
               case 'textarea':
                 echo '<textarea name="answer['.$question['id'].$module['module_code'].']" id="answer['.$question['id'].$module['module_code'].']" class="form-control" rows="5"></textarea>';
                 break;

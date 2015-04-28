@@ -9,10 +9,15 @@
   "already-completed" : "Mae'r holiadur eisoes wedi cael ei gwblhau! Ni ellir ei ailsefyll.",
   "answers-submitted" : "Mae eich atebion wedi cael eu cyflwyno. Diolch yn fawr!",
   "send-responses" : "anfon ymatebion",
-  "question-range-scale" : "Lle mae 1 yn cynrychioli yr isaf, a 5 yr uchaf.",
+  "question-range-scale" : "1 - Strongly Disagree<br/>2 - Disagree<br/>3 - Neutral<br/>4 - Agree<br/>5 - Strongly Agree<br/>",
   "fb-is-in-testing" : "ar hyn o bryd yn cael eu brofi!",
   "fb-bugs-or-feedback" : "Os ydych yn dod ar draws unrhyw broblemau neu eisiau gadael adborth",
   "fb-hit-the" : "taro'r",
   "fb-feedback" : "Adborth",
-  "fb-button-above" : "botwm uchod."
+  "fb-button-above" : "botwm uchod.",
+  "strongly-disagree" : "Anghytuno'n gryf",
+  "disagree" : "Anghytuno",
+  "neutral" : "Niwtral",
+  "agree" : "Cytuno",
+  "strongly-agree" : "Cytuno'n Gryf"
 }
