@@ -43,11 +43,31 @@ global $lang;
         echo '<div class="form-group">';
         echo '<label for="answer['.$question['id'].']">'.htmlspecialchars($question['text_'.$lang]).'</label>';
         switch ($question['type']) {
+          case 'range': ?>
+          <div class="form-group">
+            <label class="radio-inline">
+              <input type="radio" name="answer[<?php echo $question['id'] ?>]" id="answer[<?php echo $question['id'] ?>]" value="1"> 1
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="answer[<?php echo $question['id'] ?>]" id="answer[<?php echo $question['id'] ?>]" value="2"> 2
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="answer[<?php echo $question['id'] ?>]" id="answer[<?php echo $question['id'] ?>]" value="3"> 3
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="answer[<?php echo $question['id'] ?>]" id="answer[<?php echo $question['id'] ?>]" value="4"> 4
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="answer[<?php echo $question['id'] ?>]" id="answer[<?php echo $question['id'] ?>]" value="5"> 5
+            </label>
+          </div>
+          <span id="helpBlock" class="help-block"><?php echo __('question-range-scale'); ?></span>
+            <?php break;
           case 'textarea':
             echo '<textarea name="answer['.$question['id'].']" id="answer['.$question['id'].']" class="form-control"></textarea>';
             break;
           default:
-            echo '<input name="answer['.$question['id'].']" id="answer['.$question['id'].']" type="'.$question['type'].'" class="form-control" />';
+            echo '<input name="answer['.$question['id'].']" id="answer['.$question['id'].']" type="text" class="form-control" />';
             break;
         }
         echo '</div>';
