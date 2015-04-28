@@ -6,7 +6,7 @@ $aber-orange: #e77329;
 @import "bootstrap";
 
 body {
-  padding-top: 70px; // Add padding to body because we have a fixed navbar
+  padding: 70px 0 20px; // Add padding to body because we have a fixed navbar
 }
 
 .navbar > .container .brand-awesome {
@@ -40,4 +40,24 @@ tr[data-href] {
   color: white;
   background-color: #337ab7;
   border-color: #2e6da4;
+}
+
+.module.well {
+
+  h3 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e3e3e3;
+  }
+
+  .question {
+    margin-bottom: 20px;
+    &:first-child {
+      margin-top: 0;
+    }
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
 }

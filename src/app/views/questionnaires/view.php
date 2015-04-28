@@ -35,16 +35,17 @@ global $lang;
 
 <?php if (isset($questions)) { ?>
   <form method="POST" action="">
+  <div class="module well">
   <?php
 
     // Global Questions
     foreach ($questions as $question) {
       if ($question['module'] === null) {
-        echo '<div class="form-group">';
+        echo '<div class="question form-group">';
         echo '<label for="answer['.$question['id'].']">'.htmlspecialchars($question['text_'.$lang]).'</label>';
         switch ($question['type']) {
           case 'range': ?>
-            <div class="form-group" style="margin-left:35px">
+            <div>
               <label class="radio-inline">
                 <input type="radio" name="answer[<?php echo $question['id'] ?>]" id="answer[<?php echo $question['id'] ?>]" value="1">
                 <?php echo __('strongly-disagree'); ?>
@@ -76,7 +77,11 @@ global $lang;
         }
         echo '</div>';
       }
-    }
+    } ?>
+
+    </div>
+
+    <?php
 
     // Repeated and Per-Module questions
     foreach ($modules as $module) {
@@ -84,7 +89,7 @@ global $lang;
       // Get lecturers for current module (used for {$lecturer} replacement)
       $lecturers = getLecturers($module['module_code'], $survey['id']);
 
-      echo '<hr/><h3>'.$module['module_code'].' - '.$module['title'].'</h3>';
+      echo '<div class="module well"><h3>'.$module['module_code'].' - '.$module['title'].'</h3>';
 
       foreach ($questions as $question) {
         if ($question['module'] === "0" || $question['module'] == $module['module_code']) {
@@ -93,12 +98,12 @@ global $lang;
           if (preg_match('/\{\$lecturer+\}/i', $question['text_'.$lang]) && count($lecturers) >= 1) {
 
             foreach ($lecturers as $lecturer) {
-              echo '<div class="form-group">';
+              echo '<div class="question form-group">';
               echo '<label for="answer['.$question['id'].$module['module_code'].$lecturer['aber_id'].']">'.htmlspecialchars(replaceLecurer($question, $lecturer)).'</label>';
 
               switch ($question['type']) {
                 case 'range': ?>
-                  <div class="form-group" style="margin-left:35px">
+                  <div>
                     <label class="radio-inline">
                       <input type="radio" name="answer[<?php echo $question['id'].$module['module_code'].$lecturer['aber_id'] ?>]" id="answer[<?php echo $question['id'].$module['module_code'].$lecturer['aber_id'] ?>]" value="1">
                       <?php echo __('strongly-disagree'); ?>
@@ -133,12 +138,12 @@ global $lang;
             }
 
           } else {
-            echo '<div class="form-group">';
+            echo '<div class="question form-group">';
             echo '<label for="answer['.$question['id'].$module['module_code'].']">'.htmlspecialchars(str_replace('{$lecturer}', 'the lecturer', $question['text_'.$lang])).'</label>';
 
             switch ($question['type']) {
               case 'range': ?>
-                <div class="form-group" style="margin-left:35px">
+                <div>
                   <label class="radio-inline">
                     <input type="radio" name="answer[<?php echo $question['id'].$module['module_code'] ?>]" id="answer[<?php echo $question['id'].$module['module_code'] ?>]" value="1">
                     <?php echo __('strongly-disagree'); ?>
@@ -174,7 +179,7 @@ global $lang;
 
         }
       }
-
+      echo '</div>';
     }
   ?>
   <input type="submit" name="submit" id="submit" class="btn btn-primary" value="<?php echo __('send-responses') ?>" />
