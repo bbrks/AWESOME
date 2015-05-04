@@ -162,7 +162,7 @@ function displayAnswers($question, $module = null, $lecturer = null) {
     default:
       echo '<ul>';
       foreach ($answers as $answer) {
-        echo '<li>'.htmlspecialchars($answer['answer']).'</li>';
+        echo ($answer['answer'] != '') ? '<li>'.htmlspecialchars($answer['answer']).'</li>' : '';
       }
       echo '</ul>';
       break;
