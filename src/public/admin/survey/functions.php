@@ -149,16 +149,16 @@ function displayResults($survey_id) {
 // Handles the display of answers to a particular question
 function displayAnswers($question, $module = null, $lecturer = null) {
 
-  $module_code = ($module != null) ? $module['module_code'] : '';
-  $lecturer_id = ($lecturer != null) ? $lecturer['aber_id'] : '';
+  $module_code = ($module != null) ? $module['module_code'] : '' ;
+  $lecturer_id = ($lecturer != null) ? $lecturer['aber_id'] : '' ;
 
   $question_id = $question['id'].$module_code.$lecturer_id;
   $answers = getAnswers($question_id);
 
   switch ($question['type']) {
-    // case 'range':
-    //   echo '<div class="google-chart" data-chart-type="likert" data-question-id="'.$question_id.'"></div>';
-    //   break;
+    case 'range':
+      echo '<div class="google-chart" data-chart-type="likert" data-question-id="'.$question_id.'"></div>';
+      break;
     default:
       echo '<ul>';
       foreach ($answers as $answer) {

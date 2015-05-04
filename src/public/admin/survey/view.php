@@ -130,4 +130,48 @@ $modules = getModules($survey['id']);
 
 </div>
 
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+
+google.load('visualization', '1', {packages: ['corechart', 'bar']});
+google.setOnLoadCallback(drawCharts);
+
+function drawCharts() {
+  elems = document.getElementsByClassName('google-chart');
+  for (var i = elems.length - 1; i >= 0; i--) {
+
+    switch (elems[i].dataset.chartType) {
+      case 'likert':
+        drawLikert(elems[i]);
+        break;
+      default:
+        break;
+    }
+
+  };
+}
+
+function drawLikert(elem) {
+
+  var jsonData = $.ajax({
+    url: "getJsonResult.php?qid="+elem.dataset.questionId,
+    dataType: "json",
+    async: false
+  }).responseText;
+
+  var data = new google.visualization.DataTable(jsonData);
+
+  var options = {
+    legend: 'top',
+    chartArea: {width: '66%'},
+    isStacked: true,
+    backgroundColor: 'none',
+    colors: ['#c60826','#f2a485','#ccc','#92c6dd','#1372ad'],
+  };
+  var chart = new google.visualization.BarChart(elem);
+  chart.draw(data, options);
+}
+
+</script>
+
 <?php require_once('../footer.php'); ?>
