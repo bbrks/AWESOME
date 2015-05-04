@@ -15,7 +15,7 @@ function getQuestions($id, $module = null) {
 }
 
 // Takes an array of questions, and deletes ones not present with the same survey_id
-function deleteQuesitonsNotIn($arr) {
+function deleteQuestionsNotIn($arr) {
   $db = new Database();
   $db->query('DELETE FROM Questions WHERE id NOT IN ( '. implode(", ", $arr["'id'"]) .' ) AND survey_id = :survey_id');
   $db->bind(':survey_id', $_GET['id']);
@@ -50,6 +50,8 @@ if (isset($_POST['submit'])) {
 
     $post_questions = $_POST['questions'];
     $questions = array();
+
+    deleteQuestionsNotIn($post_questions);
 
     for ($i=0; $i < count($post_questions["'id'"]); $i++) {
       $questions[$i]['id'] = $post_questions["'id'"][$i];
