@@ -114,7 +114,7 @@ if (isset($_POST['submit'])) {
                   <td><select class="form-control" name="questions['type'][]" <?php echo ($survey['locked']) ? 'disabled' : ''; ?>>
                     <option value="text" <?php echo ($question['type'] === 'text') ? 'selected' : '' ; ?>>Text</option>
                     <option value="textarea" <?php echo ($question['type'] === 'textarea') ? 'selected' : '' ; ?>>Text Area</option>
-                    <option value="range" <?php echo ($question['type'] === 'range') ? 'selected' : '' ; ?>>Likert Scale (1..5)</option>
+                    <option value="range" <?php echo ($question['type'] === 'range') ? 'selected' : '' ; ?>>Likert Scale</option>
                   </select></td>
                   <?php if (!$survey['locked']) { ?>
                     <td><a onclick="removeTableRow(this)" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete Question"><span class="glyphicon glyphicon-trash"></span></a></td>
@@ -130,7 +130,7 @@ if (isset($_POST['submit'])) {
                   <td><select class="form-control" name="questions['type'][]">
                     <option value="text">Text</option>
                     <option value="textarea">Text Area</option>
-                    <option value="range">Likert Scale (1..5)</option>
+                    <option value="range">Likert Scale</option>
                   </select></td>
                   <?php if (!$survey['locked']) { ?>
                     <td><a onclick="removeTableRow(this)" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete Question"><span class="glyphicon glyphicon-trash"></span></a></td>
@@ -177,7 +177,7 @@ if (isset($_POST['submit'])) {
                   <td><select class="form-control" name="questions['type'][]" <?php echo ($survey['locked']) ? 'disabled' : ''; ?>>
                     <option value="text" <?php echo ($question['type'] === 'text') ? 'selected' : '' ; ?>>Text</option>
                     <option value="textarea" <?php echo ($question['type'] === 'textarea') ? 'selected' : '' ; ?>>Text Area</option>
-                    <option value="range" <?php echo ($question['type'] === 'range') ? 'selected' : '' ; ?>>Likert Scale (1..5)</option>
+                    <option value="range" <?php echo ($question['type'] === 'range') ? 'selected' : '' ; ?>>Likert Scale</option>
                   </select></td>
                   <?php if (!$survey['locked']) { ?>
                     <td><a onclick="removeTableRow(this)" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete Question"><span class="glyphicon glyphicon-trash"></span></a></td>
@@ -193,7 +193,7 @@ if (isset($_POST['submit'])) {
                   <td><select class="form-control" name="questions['type'][]">
                     <option value="text">Text</option>
                     <option value="textarea">Text Area</option>
-                    <option value="range">Likert Scale (1..5)</option>
+                    <option value="range">Likert Scale</option>
                   </select></td>
                   <?php if (!$survey['locked']) { ?>
                     <td><a onclick="removeTableRow(this)" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete Question"><span class="glyphicon glyphicon-trash"></span></a></td>
@@ -248,7 +248,7 @@ if (isset($_POST['submit'])) {
                     <td><select class="form-control" name="questions['type'][]" <?php echo ($survey['locked']) ? 'disabled' : ''; ?>>
                       <option value="text" <?php echo ($question['type'] === 'text') ? 'selected' : '' ; ?>>Text</option>
                       <option value="textarea" <?php echo ($question['type'] === 'textarea') ? 'selected' : '' ; ?>>Text Area</option>
-                      <option value="range" <?php echo ($question['type'] === 'range') ? 'selected' : '' ; ?>>Likert Scale (1..5)</option>
+                      <option value="range" <?php echo ($question['type'] === 'range') ? 'selected' : '' ; ?>>Likert Scale</option>
                     </select></td>
                     <?php if (!$survey['locked']) { ?>
                       <td><a onclick="removeTableRow(this)" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete Question"><span class="glyphicon glyphicon-trash"></span></a></td>
@@ -269,7 +269,7 @@ if (isset($_POST['submit'])) {
                   <td><select class="form-control" name="questions['type'][]">
                     <option value="text">Text</option>
                     <option value="textarea">Text Area</option>
-                    <option value="range">Likert Scale (1..5)</option>
+                    <option value="range">Likert Scale</option>
                   </select></td>
                   <?php if (!$survey['locked']) { ?>
                     <td><a onclick="removeTableRow(this)" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete Question"><span class="glyphicon glyphicon-trash"></span></a></td>
