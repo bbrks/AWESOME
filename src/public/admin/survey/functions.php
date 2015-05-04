@@ -59,9 +59,113 @@ function getModules($id) {
   return $db->resultset();
 }
 
-// function getResults($id) {
-//   $db = new Database();
-//   $db->query('SELECT * FROM Answers WHERE survey_id = :survey_id');
-//   $db->bind(':survey_id', $id);
-//   return $db->resultset();
-// }
+function getResults($id) {
+  $db = new Database();
+  $db->query('SELECT * FROM Answers WHERE survey_id = :survey_id');
+  $db->bind(':survey_id', $id);
+  return $db->resultset();
+}
+
+function getAnswers($question_id) {
+  $db = new Database();
+  $db->query('SELECT * FROM Answers WHERE question_id = :question_id');
+  $db->bind(':question_id', $question_id);
+  return $db->resultset();
+}
+
+function getLecturers($module_code, $survey_id) {
+  $db = new Database();
+  $db->query('SELECT StaffModules.aber_id, Staff.name FROM StaffModules INNER JOIN Staff ON StaffModules.aber_id=Staff.aber_id WHERE StaffModules.module_code = :module_code AND StaffModules.survey_id = :survey_id AND Staff.survey_id = :survey_id');
+  $db->bind(':module_code', $module_code);
+  $db->bind(':survey_id', $survey_id);
+  return $db->resultset();
+}
+
+function replaceLecurer($question, $lecturer) {
+  $lang = "en";
+
+  $questionText = $question['text_'.$lang];
+  $questionText = str_replace('{$lecturer}', $lecturer['name'], $questionText);
+
+  return $questionText;
+}
+
+// Handles the looping to display modules, their questions and answers
+function displayResults($survey_id) {
+
+  $modules = getModules($survey_id);
+
+  // Global Questions
+  $questions_global = getQuestions($survey_id, null);
+  if (count($questions_global) != 0) {
+    echo '<div class="module well">';
+    echo '<h3>Global Questions</h3>';
+
+    foreach ($questions_global as $question) {
+      echo '<div class="question">';
+      echo '<h5>' . $question['text_en'] . ' | ' . $question['text_cy'] . '</h5>';
+      echo displayAnswers($question);
+      echo '</div>';
+    }
+
+    echo '</div>';
+  }
+
+  // Per-Module and Repeated Questions
+  foreach ($modules as $module) {
+
+    $lecturers = getLecturers($module['module_code'], $survey_id);
+    $questions = array_merge(getQuestions($survey_id, '0'), getQuestions($survey_id, $module['module_code']));
+
+    if (count($questions) != 0) {
+      echo '<div class="module well">';
+      echo '<h3>'.$module['module_code'].' - '.$module['title'].'</h3>';
+
+      foreach ($questions as $question) {
+
+        if (preg_match('/\{\$lecturer+\}/i', $question['text_en']) || preg_match('/\{\$lecturer+\}/i', $question['text_cy']) && count($lecturers) >= 1) {
+          foreach ($lecturers as $lecturer) {
+            echo '<div class="question">';
+            echo '<h5>' . htmlspecialchars(str_replace('{$lecturer}', $lecturer['name'], $question['text_en'])) . ' | ' . htmlspecialchars(str_replace('{$lecturer}', $lecturer['name'], $question['text_cy'])) . '</h5>';
+            echo displayAnswers($question, $module, $lecturer);
+            echo '</div>';
+          }
+        } else {
+          echo '<div class="question">';
+            echo '<h5>' . htmlspecialchars(str_replace('{$lecturer}', 'the lecturer', $question['text_en'])) . ' | ' . htmlspecialchars(str_replace('{$lecturer}', 'the lecturer', $question['text_cy'])) . '</h5>';
+          echo displayAnswers($question, $module);
+          echo '</div>';
+        }
+
+      }
+
+      echo '</div>';
+    }
+
+  }
+
+}
+
+// Handles the display of answers to a particular question
+function displayAnswers($question, $module = null, $lecturer = null) {
+
+  $module_code = ($module != null) ? $module['module_code'] : '';
+  $lecturer_id = ($lecturer != null) ? $lecturer['aber_id'] : '';
+
+  $question_id = $question['id'].$module_code.$lecturer_id;
+  $answers = getAnswers($question_id);
+
+  switch ($question['type']) {
+    // case 'range':
+    //   echo '<div class="google-chart" data-chart-type="likert" data-question-id="'.$question_id.'"></div>';
+    //   break;
+    default:
+      echo '<ul>';
+      foreach ($answers as $answer) {
+        echo '<li>'.htmlspecialchars($answer['answer']).'</li>';
+      }
+      echo '</ul>';
+      break;
+  }
+
+}

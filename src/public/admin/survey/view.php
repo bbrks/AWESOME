@@ -5,10 +5,6 @@ require_once('../header.php');
 $survey = getSurvey($_GET['id']);
 $modules = getModules($survey['id']);
 
-// if ($survey['locked']) {
-//   $results = getResults($survey['id']);
-// }
-
 ?>
 
 <div class="page-header row">
@@ -127,7 +123,7 @@ $modules = getModules($survey['id']);
 
     <div role="tabpanel" class="tab-pane" id="results">
       <h2>Results</h2>
-      <?php  ?>
+      <?php displayResults($survey['id']); ?>
     </div>
 
   </div>
