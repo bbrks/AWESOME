@@ -15,9 +15,9 @@ $modules = getModules($survey['id']);
   <div class="col-sm-6 text-right">
     <h3><span class="small"><?php echo htmlspecialchars($survey['datetime']); ?></span></h3>
     <?php if (!$survey['locked']) { ?>
-      <a href="send.php?id=<?php echo $survey['id']; ?>" class="btn btn-danger">Lock & Send Survey</a>
+      <a href="send.php?id=<?php echo $survey['id']; ?>" class="btn btn-danger">Lock &amp; Send Survey</a>
     <?php } else { ?>
-      <a class="btn btn-primary" href="send.php?id=<?php echo $survey['id'] ?>"><span class="glyphicon glyphicon-repeat"></span> Resend</a>
+      <a class="btn btn-primary" href="send.php?id=<?php echo $survey['id'] ?>&resend=1"><span class="glyphicon glyphicon-repeat"></span> Resend</a>
     <?php } ?>
     <!-- <a href="delete?id=<?php echo $survey['id']; ?>" class="btn btn-danger">Delete Survey</a> -->
   </div>
@@ -43,7 +43,7 @@ $modules = getModules($survey['id']);
     <li role="presentation" class="active"><a href="#questions" aria-controls="questions" role="tab" data-toggle="tab">Questions</a></li>
     <li role="presentation"><a href="#participants" aria-controls="participants" role="tab" data-toggle="tab">Participants</a></li>
     <li role="presentation"><a href="#modules" aria-controls="modules" role="tab" data-toggle="tab">Modules</a></li>
-    <li role="presentation" class="highlight pull-right"><a href="#results" aria-controls="results" role="tab" data-toggle="tab">Results</a></li>
+    <li class="highlight pull-right"><a href="results.php?id=<?php echo $survey['id'] ?>">Results</a></li>
   </ul>
 
   <div class="tab-content">
@@ -56,7 +56,7 @@ $modules = getModules($survey['id']);
     <div role="tabpanel" class="tab-pane" id="participants">
       <h2>Participants</h2>
       <?php if ($survey['locked']) { ?>
-        <p>To send out a reminder-email for incomplete surveys, hit the <a class="btn btn-primary btn-xs" href="send.php?id=<?php echo $survey['id'] ?>"><span class="glyphicon glyphicon-repeat"></span> Resend</a> button above.</p>
+        <p>To send out a reminder-email for incomplete surveys, hit the <a class="btn btn-primary btn-xs" href="send.php?id=<?php echo $survey['id'] ?>&resend=1"><span class="glyphicon glyphicon-repeat"></span> Resend</a> button above.</p>
       <?php } ?>
       <table id="student-table" class="table">
         <thead>
@@ -121,57 +121,8 @@ $modules = getModules($survey['id']);
       </table>
     </div>
 
-    <div role="tabpanel" class="tab-pane" id="results">
-      <h2>Results</h2>
-      <?php displayResults($survey['id']); ?>
-    </div>
-
   </div>
 
 </div>
-
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script type="text/javascript">
-
-google.load('visualization', '1', {packages: ['corechart', 'bar']});
-google.setOnLoadCallback(drawCharts);
-
-function drawCharts() {
-  elems = document.getElementsByClassName('google-chart');
-  for (var i = elems.length - 1; i >= 0; i--) {
-
-    switch (elems[i].dataset.chartType) {
-      case 'likert':
-        drawLikert(elems[i]);
-        break;
-      default:
-        break;
-    }
-
-  };
-}
-
-function drawLikert(elem) {
-
-  var jsonData = $.ajax({
-    url: "getJsonResult.php?qid="+elem.dataset.questionId,
-    dataType: "json",
-    async: false
-  }).responseText;
-
-  var data = new google.visualization.DataTable(jsonData);
-
-  var options = {
-    legend: 'top',
-    chartArea: {width: '66%'},
-    isStacked: true,
-    backgroundColor: 'none',
-    colors: ['#c60826','#f2a485','#ccc','#92c6dd','#1372ad'],
-  };
-  var chart = new google.visualization.BarChart(elem);
-  chart.draw(data, options);
-}
-
-</script>
 
 <?php require_once('../footer.php'); ?>

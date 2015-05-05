@@ -29,3 +29,5 @@ function removeTableRow(selector) {
 }
 
 $('.nav-tabs-sticky').stickyTabs({ backToTop: true });
+
+$('.module').has('.answers').css('display', 'block');

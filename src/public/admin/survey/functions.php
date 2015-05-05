@@ -98,7 +98,7 @@ function displayResults($survey_id) {
   // Global Questions
   $questions_global = getQuestions($survey_id, null);
   if (count($questions_global) != 0) {
-    echo '<div class="module well">';
+    echo '<div class="module well" style="display:none">';
     echo '<h3>Global Questions</h3>';
 
     foreach ($questions_global as $question) {
@@ -118,7 +118,7 @@ function displayResults($survey_id) {
     $questions = array_merge(getQuestions($survey_id, '0'), getQuestions($survey_id, $module['module_code']));
 
     if (count($questions) != 0) {
-      echo '<div class="module well">';
+      echo '<div class="module well" style="display:none">';
       echo '<h3>'.$module['module_code'].' - '.$module['title'].'</h3>';
 
       foreach ($questions as $question) {
@@ -157,14 +157,15 @@ function displayAnswers($question, $module = null, $lecturer = null) {
 
   switch ($question['type']) {
     case 'range':
+      $ans = (count($answers) >= 1) ? ' answers' : '' ;
       echo '<div class="google-chart" data-chart-type="likert" data-question-id="'.$question_id.'"></div>';
       break;
     default:
-      echo '<ul>';
+      echo (count($answers) >= 1) ? '<ul class="answers">' : '';
       foreach ($answers as $answer) {
         echo ($answer['answer'] != '') ? '<li>'.htmlspecialchars($answer['answer']).'</li>' : '';
       }
-      echo '</ul>';
+      echo (count($answers) >= 1) ? '</ul>' : '';
       break;
   }
 
