@@ -3,12 +3,6 @@
 require_once('../header.php');
 require('../../../lib/sendMail.php');
 
-if (isset($_GET['id'])) {
-  $survey_id = $_GET['id'];
-} else {
-  die('Cannot send a survey without an ID.');
-}
-
 function generateQuestionnaires($survey_id, $students) {
   $db = new Database();
   $db->query('INSERT INTO Questionnaires (token, survey_id) VALUES (:token, :survey_id) ON DUPLICATE KEY UPDATE token=token');
@@ -24,8 +18,10 @@ function prepMail($survey_id, $students) {
 
   foreach ($students as $student) {
 
+    $reminderText = (isset($_GET['resend'])) ? '[REMINDER|NODYN ATGOFFA] ' : '' ;
+
     $toAddr = $student['aber_id'].'@'.Config::MAIL_DOMAIN;
-    $subject = $survey['title_en'].' | '.$survey['title_cy'];
+    $subject = $reminderText.$survey['title_en'].' | '.$survey['title_cy'];
 
     $body  = "Your personalised questionnaire is waiting to be completed.";
     $body .= "\r\n";
@@ -74,11 +70,21 @@ function lockSurvey($id) {
   $db->execute();
 }
 
-$recipients = getStudents($survey_id);
+if (isset($_GET['id'])) {
+  $survey_id = $_GET['id'];
+} else {
+  die('Cannot send a survey without an ID.');
+}
 
-generateQuestionnaires($survey_id, $recipients);
-prepMail($survey_id, $recipients);
-lockSurvey($survey_id);
+if (isset($_GET['resend'])) {
+  $recipients = getStudents($survey_id, false);
+  prepMail($survey_id, $recipients);
+} else {
+  $recipients = getStudents($survey_id);
+  generateQuestionnaires($survey_id, $recipients);
+  prepMail($survey_id, $recipients);
+  lockSurvey($survey_id);
+}
 
 echo '<meta http-equiv="refresh" content="0; url=view.php?id='.$survey_id.'&msg=Survey has been sent to '.count($recipients).' recipients." />';
 
