@@ -5660,4 +5660,11 @@ tr[data-href] {
   .module.well .question:last-child {
     margin-bottom: 0; }
 
+.google-chart {
+  max-width: 600px;
+  margin: 0 auto; }
+
+[data-chart-type="likert"] {
+  height: 100px; }
+
 /*# sourceMappingURL=style.css.map */

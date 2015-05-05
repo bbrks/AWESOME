@@ -30,4 +30,4 @@ function removeTableRow(selector) {
 
 $('.nav-tabs-sticky').stickyTabs({ backToTop: true });
 
-$('.module').has('.answers').css('display', 'block');
+$('.module:not(:has(.answers))').css('display', 'none');

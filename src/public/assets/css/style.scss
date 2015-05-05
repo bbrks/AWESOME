@@ -61,3 +61,12 @@ tr[data-href] {
   }
 
 }
+
+.google-chart {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+[data-chart-type="likert"] {
+  height: 100px;
+}

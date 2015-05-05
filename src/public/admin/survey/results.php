@@ -97,8 +97,8 @@ function drawLikert(elem) {
   var data = new google.visualization.DataTable(jsonData);
 
   var options = {
-    legend: 'top',
-    chartArea: {width: '66%'},
+    legend: 'bottom',
+    chartArea: {width: '100%'},
     isStacked: true,
     backgroundColor: 'none',
     colors: ['#c60826','#f2a485','#ccc','#92c6dd','#1372ad'],
