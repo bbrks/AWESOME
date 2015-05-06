@@ -17,3 +17,6 @@ phpunit.xml
 # Ignore .htpasswd files for obvious reasons
 # .htaccess files are used for rewrites, so we'll keep them
 .htpasswd
+
+# PHPStorm
+.idea
