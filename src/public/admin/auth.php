@@ -6,7 +6,7 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
     echo 'The AWESOME Admin Dashboard requires a login.';
     exit;
 } else {
-    if ((!$_SERVER['PHP_AUTH_USER'] == "awesome1") && (!$_SERVER['PHP_AUTH_PW'] == "letmein5")) {
+    if ((!$_SERVER['PHP_AUTH_USER'] == "AWESOMEadmin") && (!$_SERVER['PHP_AUTH_PW'] == "AWESOMEadminpassword")) {
       die('Incorrect credentials entered.');
     }
 }
