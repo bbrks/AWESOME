@@ -10,6 +10,10 @@ AWESOME is a web-based module evaluation questionnaire generator for the monitor
 
 Clone the repo, copy config.sample.php to config.php and edit
 
+### Apache
+
+Make sure .htaccess rules are allowed and mod_rewrite is enabled.
+
 ### Lighttpd
 
 Use the following rewrite rule in place of the .htaccess rules
@@ -21,6 +25,10 @@ url.rewrite-if-not-file = (
   "^/([^?]*)(\?(.*))?$" => "/index.php?url=$1&$3"
 )
 ```
+
+### Database
+
+Run the SQL dump in `src/db` to populate table structure.
 
 ## Devblog
 http://diss.bbrks.me
