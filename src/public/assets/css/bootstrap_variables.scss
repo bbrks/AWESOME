@@ -1,0 +1,15 @@
+$navbar-default-color:             $aber-purple;
+$navbar-default-bg:                $aber-yellow;
+$navbar-default-border:            $aber-orange;
+
+// Navbar links
+$navbar-default-link-color:                $navbar-default-color;
+$navbar-default-link-hover-color:          darken($navbar-default-link-color, 10%);
+$navbar-default-link-hover-bg:             transparent;
+$navbar-default-link-active-color:         #fff;
+$navbar-default-link-active-bg:            $aber-purple;
+$navbar-default-link-disabled-color:       #ccc;
+$navbar-default-link-disabled-bg:          transparent;
+
+$grid-float-breakpoint:     0;
+$grid-float-breakpoint-max: ($grid-float-breakpoint - 1);

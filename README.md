@@ -1,52 +1,48 @@
-AWESOME
-=======
+# <img src="http://i.imgur.com/h51t4bA.png" alt="AWESOME - Aberystwyth Web Evaluation Surveys Of Module Experiences" height="88px" />
+
+[![Build Status](https://magnum.travis-ci.com/bbrks/AWESOME.svg?token=xqotcpsHvJmZdKpQBoyp)](https://magnum.travis-ci.com/bbrks/AWESOME)
+
+---
 
 AWESOME is a web-based module evaluation questionnaire generator for the monitoring and evaluation of teaching.
 
-        Copyright 2014
-        Keiron O'Shea,
-        Hannah Dee,
-        Ben Brooks
- 
-## Contents
-
-
-- [Getting started](#getting-started)
-- [Installation](#installation)
-- [Reporting bugs and feature requests](#reporting-bugs-and-feature-requests)
-- [Copyright and License](#copyright-and-license)
-
-## Getting started
-
-There are two ways you can get your hands on AWESOME:
-
-- [Download it directly, here](https://github.com/bbrks/AWESOME/archive/master.zip).
-- Clone the repository using Git: ```git clone https://github.com/bbrks/AWESOME```.
-
 ## Installation
 
-- If you have downloaded directly, unzip the contents of the repository using any software you like, or using the following command.
+Clone the repo, copy config.sample.php to config.php and edit
 
-```uzip AWESOME.zip -d path/to/whatever/directory/you/want```
+### Apache
 
-- Navigate to the directory and copy the contents of the src folder to wherever you require AWESOME to be located.
+Make sure .htaccess rules are allowed and mod_rewrite is enabled.
 
-- Log into MySQL and ```CREATE DATABASE awesome```
+### Lighttpd
 
-- Import the ```sqldump.sql``` file using the following command.
+Use the following rewrite rule in place of the .htaccess rules
 
-```mysql -u username -p awesome < sqldump.sql```
+```
+url.rewrite-if-not-file = (
+  "^/admin/?$" => "$0",
+  "^/admin/([^?]*)(\?.*)?$" => "/admin/$1.php$2",
+  "^/([^?]*)(\?(.*))?$" => "/index.php?url=$1&$3"
+)
+```
 
-- Rename ```db.php.sample``` to ```db.php```.
+### Database
 
-- Edit ```db.php``` to correctly match both your ```$url``` **(important)** and the new ```$db``` details.
+Run the SQL dump in `src/db` to populate table structure.
 
-- Done!
+## Devblog
+http://diss.bbrks.me
 
-## Reporting bugs and feature requests
+[<img src="http://dev.bbrks.me/feedimg/image.php?url=diss.bbrks.me/feed&scale=2" height="65px" />](http://diss.bbrks.me)
 
-If you have a bug or feature request [please feel free to open a new issue](https://github.com/bbrks/AWESOME/issues/new).
+## Authors
+
+- Hannah Dee
+- Keiron O'Shea
+- Ben Brooks
 
 ## Copyright and License
 
-Code released under [the GNU Affero General Public License, Version 3](https://github.com/bbrks/AWESOME/blob/master/LICENSE).
+Code and documentation copyright 2014-2015.
+
+Code released under [the MIT license](https://github.com/bbrks/AWESOME/blob/master/LICENSE).
