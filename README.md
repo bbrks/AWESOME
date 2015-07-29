@@ -40,6 +40,7 @@ http://diss.bbrks.me
 - Hannah Dee
 - Keiron O'Shea
 - Ben Brooks
+- Joseph Carter
 
 ## Copyright and License
 
